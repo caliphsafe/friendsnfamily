@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family</title>
+  <meta name="description" content="Friends + Family online thrift store. Shop by vendor, explore events, and more." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- Sticky top brand header (fnf.png stays at top on all platforms) -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Friends + Family Home">
+      <img src="img/fnf.png" alt="friends + family" />
+    </a>
+  </header>
+
+  <main class="page">
+    <section class="panels" aria-label="Homepage panels">
+      <!-- LEFT: Guest Check (built from 3 images: header.png + nav.png + body.png) -->
+      <div class="panel guest" aria-label="Guest check panel">
+        <div class="guest-stack">
+          <!-- Part 1: header.png (830 x 223) -->
+          <img class="guest-img" src="img/header.png" alt="" />
+
+          <!-- Part 2: nav.png (830 x 17) with clickable image links over it -->
+          <div class="guest-nav-wrap" aria-label="Site navigation">
+            <img class="guest-img" src="img/nav.png" alt="" />
+
+            <!-- Overlay nav content (icons separated by split.png) -->
+            <nav class="nav-overlay" aria-label="Primary navigation">
+              <a href="index.html" class="nav-item" aria-label="Home">
+                <img src="img/home.png" alt="Home" />
+              </a>
+              <img class="nav-split" src="img/split.png" alt="" />
+
+              <a href="shop.html" class="nav-item" aria-label="Shop">
+                <img src="img/shop.png" alt="Shop" />
+              </a>
+              <img class="nav-split" src="img/split.png" alt="" />
+
+              <a href="events.html" class="nav-item" aria-label="Events">
+                <img src="img/event.png" alt="Events" />
+              </a>
+              <img class="nav-split" src="img/split.png" alt="" />
+
+              <a href="about.html" class="nav-item" aria-label="About">
+                <img src="img/about.png" alt="About" />
+              </a>
+              <img class="nav-split" src="img/split.png" alt="" />
+
+              <a href="faqs.html" class="nav-item" aria-label="FAQs">
+                <img src="img/faqs.png" alt="FAQs" />
+              </a>
+              <img class="nav-split" src="img/split.png" alt="" />
+
+              <a href="contact.html" class="nav-item" aria-label="Contact">
+                <img src="img/contact.png" alt="Contact" />
+              </a>
+            </nav>
+          </div>
+
+          <!-- Part 3: body.png (830 x 1089) -->
+          <img class="guest-img" src="img/body.png" alt="" />
+        </div>
+      </div>
+
+      <!-- RIGHT: Thank You / Vendors Panel (stores_bg.png 830 x 1329) -->
+      <div class="panel thanks" aria-label="Thank you panel with vendor links">
+        <div class="thanks-wrap">
+          <img class="thanks-bg" src="img/stores_bg.png" alt="" />
+
+          <!-- Transparent clickable vendor rows.
+               Move/duplicate these and adjust top/height % to align between lines. -->
+          <div class="vendor-links" aria-label="Vendor links">
+            <!-- Example rows (placeholders) -->
+            <a class="vendor-row" href="vendor-1.html" style="top: 14.5%; height: 5.2%;" aria-label="Vendor 1">
+              <span class="sr-only">Vendor 1</span>
+            </a>
+            <a class="vendor-row" href="vendor-2.html" style="top: 21.0%; height: 5.2%;" aria-label="Vendor 2">
+              <span class="sr-only">Vendor 2</span>
+            </a>
+            <a class="vendor-row" href="vendor-3.html" style="top: 27.5%; height: 5.2%;" aria-label="Vendor 3">
+              <span class="sr-only">Vendor 3</span>
+            </a>
+            <a class="vendor-row" href="vendor-4.html" style="top: 34.0%; height: 5.2%;" aria-label="Vendor 4">
+              <span class="sr-only">Vendor 4</span>
+            </a>
+            <a class="vendor-row" href="vendor-5.html" style="top: 40.5%; height: 5.2%;" aria-label="Vendor 5">
+              <span class="sr-only">Vendor 5</span>
+            </a>
+            <a class="vendor-row" href="vendor-6.html" style="top: 47.0%; height: 5.2%;" aria-label="Vendor 6">
+              <span class="sr-only">Vendor 6</span>
+            </a>
+            <a class="vendor-row" href="vendor-7.html" style="top: 53.5%; height: 5.2%;" aria-label="Vendor 7">
+              <span class="sr-only">Vendor 7</span>
+            </a>
+            <a class="vendor-row" href="vendor-8.html" style="top: 60.0%; height: 5.2%;" aria-label="Vendor 8">
+              <span class="sr-only">Vendor 8</span>
+            </a>
+            <a class="vendor-row" href="vendor-9.html" style="top: 66.5%; height: 5.2%;" aria-label="Vendor 9">
+              <span class="sr-only">Vendor 9</span>
+            </a>
+            <a class="vendor-row" href="vendor-10.html" style="top: 73.0%; height: 5.2%;" aria-label="Vendor 10">
+              <span class="sr-only">Vendor 10</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>© <span id="year"></span> Friends + Family. All rights reserved.</p>
+        <p class="footer-links">
+          <a href="shop.html">Shop</a>
+          <span class="dot">•</span>
+          <a href="events.html">Events</a>
+          <span class="dot">•</span>
+          <a href="contact.html">Contact</a>
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
