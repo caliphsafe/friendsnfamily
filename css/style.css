@@ -1,0 +1,241 @@
+/* ========== Base / Reset ========== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #1a1a1a;
+
+  /* Wall-like background with subtle texture (CSS only) */
+  background-color: #f6f7ef;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(0,0,0,0.025), transparent 35%),
+    radial-gradient(circle at 75% 40%, rgba(0,0,0,0.02), transparent 40%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.012),
+      rgba(0,0,0,0.012) 1px,
+      rgba(255,255,255,0) 5px,
+      rgba(255,255,255,0) 14px
+    );
+}
+
+/* Improve tap targets on mobile */
+a { -webkit-tap-highlight-color: transparent; }
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* ========== Sticky Header ========== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(246, 247, 239, 0.85);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.brand {
+  display: flex;
+  justify-content: center;
+  padding: 18px 14px;
+  text-decoration: none;
+}
+
+.brand img {
+  max-width: 520px;
+  width: min(520px, 92vw);
+  height: auto;
+  display: block;
+}
+
+/* ========== Layout ========== */
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panels {
+  width: min(1800px, 96vw);
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 0 10px;
+}
+
+/* Each panel behaves like a responsive 830px-wide card */
+.panel {
+  width: min(830px, 96vw);
+  display: flex;
+  justify-content: center;
+}
+
+/* Optional subtle drop shadow like paper on wall */
+.panel .guest-stack,
+.panel .thanks-wrap {
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
+}
+
+/* ========== Guest Check (Left) ========== */
+.guest-stack {
+  width: 100%;
+}
+
+/* Make image stack responsive but preserve proportions */
+.guest-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* nav overlay container sits on top of nav.png */
+.guest-nav-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* Nav overlay is centered on top of nav.png strip */
+.nav-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.nav-item img {
+  height: 14px; /* tune to fit your nav strip */
+  width: auto;
+  display: block;
+  opacity: 0.95;
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.nav-split {
+  height: 12px;
+  width: auto;
+  display: block;
+  opacity: 0.8;
+}
+
+.nav-item:hover img {
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid rgba(0,0,0,0.35);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* ========== Thank You / Vendors (Right) ========== */
+.thanks-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.thanks-bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Vendor link rows are transparent clickable strips */
+.vendor-links {
+  position: absolute;
+  inset: 0;
+}
+
+.vendor-row {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  border-radius: 10px;
+
+  /* invisible but still interactive */
+  background: rgba(0,0,0,0);
+  text-decoration: none;
+
+  /* hover cue (subtle) */
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+
+.vendor-row:hover {
+  background: rgba(0,0,0,0.04);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.vendor-row:focus-visible {
+  outline: 2px solid rgba(0,0,0,0.35);
+  outline-offset: 4px;
+}
+
+/* ========== Footer ========== */
+.site-footer {
+  width: min(1800px, 96vw);
+  padding: 26px 0 40px;
+}
+
+.footer-inner {
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.footer-inner p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-links a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+}
+
+.footer-links a:hover {
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.footer-links .dot {
+  padding: 0 8px;
+  opacity: 0.65;
+}
+
+/* ========== Responsive ========== */
+/* Stack panels on mobile: guest check above thank you */
+@media (max-width: 1100px) {
+  .panels {
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    padding-top: 18px;
+  }
+}
