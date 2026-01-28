@@ -122,12 +122,13 @@ body{
 }
 
 /* =========================================
-   NAV (DESKTOP UNCHANGED)
+   NAV (CLEAN, SINGLE SOURCE OF TRUTH)
+   nav.png is 830 x 17, lock overlay to that strip
 ========================================= */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
-  aspect-ratio: 830 / 17;
+  aspect-ratio: 830 / 17;  /* ensures strip height is real */
 }
 
 .nav-bg{
@@ -137,6 +138,7 @@ body{
   object-fit: cover;
 }
 
+/* center rail */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -146,15 +148,18 @@ body{
   padding: 0 var(--side-pad);
 }
 
+/* key: safe zone is a ratio of the guest check width, PLUS hard cap */
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
 }
 
+/* icons */
 .nav-item{
   display: inline-flex;
   align-items: center;
@@ -163,6 +168,9 @@ body{
   flex: 0 1 auto;
 }
 
+/* IMPORTANT:
+   Use clamp(px, %, px) so mobile visibly changes.
+   % keeps it tied to strip height, px ensures it actually shrinks. */
 .nav-item img{
   height: clamp(7px, 55%, 12px);
   width: auto;
@@ -178,41 +186,26 @@ body{
   flex: 0 0 auto;
 }
 
-/* =========================================
-   MOBILE NAV FIX (ONLY CHANGE)
-   - no transform scaling (prevents “desktop ruined” in responsive views)
-   - ensures all buttons shrink evenly so CONTACT doesn't clip
-========================================= */
+/* extra mobile tightening so it matches your “printed receipt” look */
 @media (max-width: 768px){
-
-  /* keep same safe-zone width, but fit contents */
-  .nav-overlay{
-    justify-content: center;   /* lets equal slots work */
-    gap: 0;                    /* avoid extra width pushing CONTACT out */
-  }
-
-  /* equal slots for each nav button (splits remain fixed width) */
-  .nav-item{
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  /* all nav icons become the SAME size and shrink-to-fit */
   .nav-item img{
-    height: 8px;               /* uniform size */
-    width: 100%;               /* fit within its slot */
-    max-width: 100%;
-    object-fit: contain;
-    opacity: 0.95;
+    height: clamp(6px, 48%, 10px);
   }
-
-  /* splits scale down slightly */
   .nav-split{
-    height: 6px;
-    width: auto;
-    flex: 0 0 auto;
-    object-fit: contain;
-    opacity: 0.85;
+    height: clamp(5px, 36%, 8px);
+  }
+}
+
+/* if a very small phone, scale the whole row down a touch */
+@media (max-width: 430px){
+  .nav-overlay{
+    transform: scale(0.92);
+    transform-origin: center;
+  }
+}
+@media (max-width: 360px){
+  .nav-overlay{
+    transform: scale(0.86);
   }
 }
 
