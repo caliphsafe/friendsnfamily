@@ -57,6 +57,7 @@ body{
   display: flex;
   justify-content: center;
   padding: var(--header-pad-y) 14px;
+  text-decoration: none;
 }
 
 .brand img{
@@ -92,10 +93,16 @@ body{
   }
 }
 
+.panel{
+  display: flex;
+  justify-content: center;
+}
+
 .panel-inner{
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
   aspect-ratio: 830 / 1329;
   width: min(var(--panel-w), 96vw);
+  height: auto;
 }
 
 /* Desktop fit-to-window */
@@ -107,6 +114,7 @@ body{
   }
 }
 
+.guest-stack{ width: 100%; }
 .guest-img{
   width: 100%;
   height: auto;
@@ -114,7 +122,7 @@ body{
 }
 
 /* =========================================
-   NAV — DESKTOP (UNCHANGED)
+   NAV (DESKTOP UNCHANGED)
 ========================================= */
 .guest-nav-wrap{
   position: relative;
@@ -152,12 +160,14 @@ body{
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  flex: 0 1 auto;
 }
 
 .nav-item img{
   height: clamp(7px, 55%, 12px);
   width: auto;
   display: block;
+  opacity: 0.95;
 }
 
 .nav-split{
@@ -165,43 +175,33 @@ body{
   width: auto;
   display: block;
   opacity: 0.85;
+  flex: 0 0 auto;
 }
 
 /* =========================================
-   ✅ MOBILE ONLY: DOUBLE HEIGHT + 3x2 GRID
+   MOBILE NAV FIX (ONLY CHANGE)
 ========================================= */
 @media (max-width: 768px){
 
-  /* Double nav strip height */
-  .guest-nav-wrap{
-    aspect-ratio: 830 / 34; /* was 17 → now 34 */
-  }
-
-  /* Convert nav to grid */
+  /* scale row slightly so it fits clean */
   .nav-overlay{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 4px;
-
-    align-items: center;
-    justify-items: center;
+    transform: scale(0.92);
+    transform-origin: center;
   }
 
-  /* Hide split images on mobile */
-  .nav-split{
-    display: none;
-  }
-
-  /* Equal-sized buttons */
-  .nav-item{
-    width: 100%;
-    height: 100%;
-  }
-
+  /* force ALL nav icons same size */
   .nav-item img{
-    height: 60%;   /* consistent size */
+    height: 8px;
     width: auto;
+    max-width: none;
+    object-fit: contain;
+  }
+
+  /* force splits same visual scale */
+  .nav-split{
+    height: 6px;
+    width: auto;
+    max-width: none;
     object-fit: contain;
   }
 }
@@ -209,8 +209,22 @@ body{
 /* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
+.vendor-links{ position: absolute; inset: 0; }
 
-/* ========== iOS Glass Footer ========== */
+.vendor-row{
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.vendor-row:hover{
+  background: rgba(0,0,0,0.04);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* ========== iOS Glass Footer + bigger text ========== */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
@@ -223,6 +237,9 @@ body{
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
   border-top: 1px solid rgba(0,0,0,0.08);
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,0.6) inset,
+    0 -8px 24px rgba(0,0,0,0.04);
 }
 
 @media (min-width: 1101px){
@@ -231,4 +248,38 @@ body{
     left: 0;
     bottom: 0;
   }
+}
+
+.footer-inner{
+  width: min(calc(1800px * var(--ui-scale)), 96vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  opacity: 0.92;
+  padding: 6px 12px;
+}
+
+.footer-inner p{
+  margin: 0;
+  font-size: calc(20px * var(--ui-scale));
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.footer-links a{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  font-weight: 600;
+}
+
+.footer-links a:hover{
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.footer-links .dot{
+  padding: 0 8px;
+  opacity: 0.65;
 }
