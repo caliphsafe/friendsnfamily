@@ -5,10 +5,13 @@
   --panel-h-base: 1329px;
 
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
-  --panel-h: calc(var(--panel-h-base) * var(--ui-scale));
 
-  /* Your safe nav zone: 562px centered (scaled) */
+  /* Hard px cap (still useful on desktop) */
   --nav-rail-max: calc(562px * var(--ui-scale));
+
+  /* PROPORTIONAL safe zone relative to 830px art:
+     562 / 830 = 0.6771 (67.7%) */
+  --nav-safe-percent: 67.7%;
 
   --gap: 40px;
   --side-pad: 18px;
@@ -24,9 +27,9 @@ html, body{ height: 100%; }
 
 body{
   margin: 0;
+  background: var(--bg);
   color: #1a1a1a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background-color: var(--bg);
   overflow-x: hidden;
 }
 
@@ -35,7 +38,7 @@ body{
   body{ overflow: hidden; }
 }
 
-/* ========== iOS Glass Header ========== */
+/* iOS glass header */
 .site-header{
   position: sticky;
   top: 0;
@@ -65,7 +68,6 @@ body{
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* ========== Layout ========== */
 .page{
   width: 100%;
   display: flex;
@@ -86,16 +88,14 @@ body{
   .panels{
     flex-direction: column;
     align-items: center;
-    gap: calc(26px * var(--ui-scale));
     width: 96vw;
-    padding-top: 18px;
+    gap: calc(26px * var(--ui-scale));
   }
 }
 
 .panel{
   display: flex;
   justify-content: center;
-  align-items: flex-start;
 }
 
 .panel-inner{
@@ -114,7 +114,6 @@ body{
   }
 }
 
-/* Images fill their sections */
 .guest-stack{ width: 100%; }
 .guest-img{
   width: 100%;
@@ -122,19 +121,13 @@ body{
   display: block;
 }
 
-/* =========================================
-   NAV FIX: nav is sized relative to nav.png
-   nav.png = 830 x 17, so this wrap must keep that ratio.
-========================================= */
+/* NAV STRIP: keep exact nav image ratio so overlay can’t drift */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
-  /* Force the nav strip area to keep the nav.png proportion,
-     so the overlay sizing is ALWAYS correct on mobile */
   aspect-ratio: 830 / 17;
 }
 
-/* Make sure nav.png fills that constrained strip */
 .nav-bg{
   width: 100%;
   height: 100%;
@@ -142,7 +135,7 @@ body{
   display: block;
 }
 
-/* Centered rail that never exceeds 562px (scaled) */
+/* Center container */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -152,9 +145,13 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* The actual nav overlay is hard-clamped to the rail width */
+/* KEY FIX:
+   width is capped by BOTH:
+   1) safe percent of guest check width (67.7%)
+   2) 562px cap (scaled)
+*/
 .nav-overlay{
-  width: min(100%, var(--nav-rail-max));
+  width: min(var(--nav-safe-percent), var(--nav-rail-max), 100%);
   height: 100%;
 
   display: flex;
@@ -164,7 +161,7 @@ body{
   overflow: hidden;
 }
 
-/* Icons scale based on strip height, not viewport */
+/* Make icons smaller relative to the strip height so they sit like desktop */
 .nav-item{
   display: inline-flex;
   align-items: center;
@@ -174,84 +171,45 @@ body{
 }
 
 .nav-item img{
-  height: 72%;       /* <= key fix: tied to nav strip height */
+  height: 60%;   /* smaller than before */
   width: auto;
-  max-width: 100%;
   display: block;
   opacity: 0.95;
-  transition: transform 120ms ease, opacity 120ms ease;
 }
 
 .nav-split{
-  height: 58%;
+  height: 48%;
   width: auto;
   display: block;
   opacity: 0.8;
   flex: 0 0 auto;
 }
 
-.nav-item:hover img{
-  transform: translateY(-1px);
-  opacity: 1;
-}
-
-.nav-item:focus-visible{
-  outline: 2px solid rgba(0,0,0,0.35);
-  outline-offset: 4px;
-  border-radius: 6px;
-}
-
-/* Extra safety: on very small phones, scale the whole nav row down a touch */
+/* Final mobile safety clamp */
 @media (max-width: 430px){
-  .nav-overlay{
-    transform: scale(0.88);
-    transform-origin: center;
-  }
+  .nav-overlay{ transform: scale(0.92); transform-origin: center; }
 }
 @media (max-width: 360px){
-  .nav-overlay{
-    transform: scale(0.82);
-  }
+  .nav-overlay{ transform: scale(0.86); }
 }
 
-/* ========== Thank You panel vendor overlay ========== */
-.thanks-wrap{
-  position: relative;
-  width: 100%;
-}
-
-.thanks-bg{
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.vendor-links{
-  position: absolute;
-  inset: 0;
-}
-
+/* Thank you */
+.thanks-wrap{ position: relative; width: 100%; }
+.thanks-bg{ width: 100%; height: auto; display: block; }
+.vendor-links{ position: absolute; inset: 0; }
 .vendor-row{
   position: absolute;
   left: 10%;
   width: 80%;
   border-radius: 10px;
-  background: rgba(0,0,0,0);
-  text-decoration: none;
-  transition: background 120ms ease, box-shadow 120ms ease;
+  background: transparent;
 }
-
 .vendor-row:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-.vendor-row:focus-visible{
-  outline: 2px solid rgba(0,0,0,0.35);
-  outline-offset: 4px;
-}
-
-/* ========== iOS Glass Footer (bigger text) ========== */
+/* iOS glass footer + bigger text */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
@@ -269,7 +227,6 @@ body{
     0 -8px 24px rgba(0,0,0,0.04);
 }
 
-/* Keep footer pinned on desktop so no scroll */
 @media (min-width: 1101px){
   .site-footer{
     position: fixed;
@@ -291,7 +248,7 @@ body{
 
 .footer-inner p{
   margin: 0;
-  font-size: calc(18px * var(--ui-scale));
+  font-size: calc(20px * var(--ui-scale));
   line-height: 1.35;
   letter-spacing: 0.02em;
 }
@@ -300,7 +257,7 @@ body{
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .footer-links a:hover{
