@@ -171,10 +171,21 @@ body{
 }
 
 .nav-item img{
-  height: 60%;   /* smaller than before */
+  height: 52%;   /* smaller than before */
   width: auto;
   display: block;
   opacity: 0.95;
+}
+
+/* Mobile: shrink nav icons further to match printed receipt scale */
+@media (max-width: 768px){
+  .nav-item img{
+    height: 44%;
+  }
+
+  .nav-split{
+    height: 36%;
+  }
 }
 
 .nav-split{
