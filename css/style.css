@@ -6,10 +6,10 @@
 
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
 
-  /* Desktop safe cap */
+  /* Hard px cap */
   --nav-rail-max: calc(562px * var(--ui-scale));
 
-  /* Safe zone ratio: 562 / 830 */
+  /* Safe zone ratio: 562 / 830 = 0.6771 */
   --nav-safe-ratio: 0.6771;
 
   --gap: 40px;
@@ -122,14 +122,13 @@ body{
 }
 
 /* =========================================
-   NAV (DESKTOP 1 ROW, MOBILE 2 ROWS)
+   NAV (CLEAN, SINGLE SOURCE OF TRUTH)
+   nav.png is 830 x 17, lock overlay to that strip
 ========================================= */
-
-/* KEEP original nav strip height */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
-  aspect-ratio: 830 / 17;
+  aspect-ratio: 830 / 17;  /* ensures strip height is real */
 }
 
 .nav-bg{
@@ -139,6 +138,7 @@ body{
   object-fit: cover;
 }
 
+/* center rail */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -148,83 +148,64 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* Desktop safe width */
+/* key: safe zone is a ratio of the guest check width, PLUS hard cap */
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
 
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  gap: clamp(2px, 0.4vw, 8px);
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-/* Desktop nav items */
+/* icons */
 .nav-item{
-  flex: 0 0 auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  flex: 0 1 auto;
 }
 
+/* IMPORTANT:
+   Use clamp(px, %, px) so mobile visibly changes.
+   % keeps it tied to strip height, px ensures it actually shrinks. */
 .nav-item img{
-  height: 60%;
+  height: clamp(7px, 55%, 12px);
   width: auto;
-  object-fit: contain;
   display: block;
+  opacity: 0.95;
 }
 
 .nav-split{
-  height: 45%;
+  height: clamp(6px, 42%, 10px);
   width: auto;
-  object-fit: contain;
+  display: block;
   opacity: 0.85;
+  flex: 0 0 auto;
 }
 
-/* ==========================
-   MOBILE FIX (HORIZONTAL EXPANSION)
-========================== */
+/* extra mobile tightening so it matches your “printed receipt” look */
 @media (max-width: 768px){
-
-  /* Widen usable nav area horizontally */
-  .nav-overlay{
-    width: 100%;              /* KEY FIX */
-    max-width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    align-items: center;
-    justify-items: center;
-    gap: 4px 10px;
-  }
-
-  /* Hide split bars on mobile */
-  .nav-split{
-    display: none;
-  }
-
-  /* Equal-sized buttons */
-  .nav-item{
-    width: 100%;
-    height: 100%;
-  }
-
   .nav-item img{
-    height: 55%;
-    width: auto;
+    height: clamp(6px, 48%, 10px);
+  }
+  .nav-split{
+    height: clamp(5px, 36%, 8px);
   }
 }
 
-/* Extra-small phones */
+/* if a very small phone, scale the whole row down a touch */
 @media (max-width: 430px){
   .nav-overlay{
-    transform: scale(0.95);
+    transform: scale(0.92);
+    transform-origin: center;
   }
 }
 @media (max-width: 360px){
   .nav-overlay{
-    transform: scale(0.90);
+    transform: scale(0.86);
   }
 }
 
@@ -238,6 +219,7 @@ body{
   left: 10%;
   width: 80%;
   border-radius: 10px;
+  background: transparent;
 }
 
 .vendor-row:hover{
@@ -245,7 +227,7 @@ body{
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ========== iOS Glass Footer ========== */
+/* ========== iOS Glass Footer + bigger text ========== */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
@@ -258,6 +240,9 @@ body{
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
   border-top: 1px solid rgba(0,0,0,0.08);
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,0.6) inset,
+    0 -8px 24px rgba(0,0,0,0.04);
 }
 
 @media (min-width: 1101px){
@@ -274,10 +259,30 @@ body{
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  text-align: center;
+  opacity: 0.92;
+  padding: 6px 12px;
 }
 
 .footer-inner p{
   margin: 0;
   font-size: calc(20px * var(--ui-scale));
   line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.footer-links a{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  font-weight: 600;
+}
+
+.footer-links a:hover{
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.footer-links .dot{
+  padding: 0 8px;
+  opacity: 0.65;
 }
