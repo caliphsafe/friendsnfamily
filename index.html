@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <!-- Sticky top brand header (fnf.png stays at top on all platforms) -->
+  <!-- Sticky top brand header -->
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="Friends + Family Home">
       <img src="img/fnf.png" alt="friends + family" />
@@ -18,17 +18,18 @@
 
   <main class="page">
     <section class="panels" aria-label="Homepage panels">
-      <!-- LEFT: Guest Check (header.png + nav.png + body.png) -->
+
+      <!-- LEFT: Guest Check -->
       <div class="panel guest" aria-label="Guest check panel">
         <div class="panel-inner guest-stack">
-          <!-- Part 1: header.png -->
+
+          <!-- header.png (830 x 223) -->
           <img class="guest-img" src="img/header.png" alt="" />
 
-          <!-- Part 2: nav.png with constrained overlay -->
+          <!-- nav.png (830 x 17) + constrained overlay -->
           <div class="guest-nav-wrap" aria-label="Site navigation">
-            <img class="guest-img" src="img/nav.png" alt="" />
+            <img class="guest-img nav-bg" src="img/nav.png" alt="" />
 
-            <!-- The nav rail is ALWAYS centered and NEVER wider than 562px (scaled) -->
             <div class="nav-rail">
               <nav class="nav-overlay" aria-label="Primary navigation">
                 <a href="index.html" class="nav-item" aria-label="Home">
@@ -68,19 +69,17 @@
             </div>
           </div>
 
-          <!-- Part 3: body.png -->
+          <!-- body.png (830 x 1089) -->
           <img class="guest-img" src="img/body.png" alt="" />
         </div>
       </div>
 
-      <!-- RIGHT: Thank You / Vendors Panel (stores_bg.png) -->
+      <!-- RIGHT: Thank You / Vendors -->
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
         <div class="panel-inner thanks-wrap">
           <img class="thanks-bg" src="img/stores_bg.png" alt="" />
 
-          <!-- Transparent clickable vendor rows -->
           <div class="vendor-links" aria-label="Vendor links">
-            <!-- Adjust top/height to match the lines on stores_bg.png -->
             <a class="vendor-row" href="vendor-1.html" style="top: 14.5%; height: 5.2%;" aria-label="Vendor 1"></a>
             <a class="vendor-row" href="vendor-2.html" style="top: 21.0%; height: 5.2%;" aria-label="Vendor 2"></a>
             <a class="vendor-row" href="vendor-3.html" style="top: 27.5%; height: 5.2%;" aria-label="Vendor 3"></a>
@@ -94,6 +93,7 @@
           </div>
         </div>
       </div>
+
     </section>
 
     <footer class="site-footer">
