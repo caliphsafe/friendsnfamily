@@ -1,70 +1,54 @@
-/* =========================
-   Global controls
-========================= */
 :root{
-  /* 80% of previous size */
   --ui-scale: 0.8;
 
-  /* Original artwork sizes */
   --panel-w-base: 830px;
   --panel-h-base: 1329px;
 
-  /* Scaled targets */
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
   --panel-h: calc(var(--panel-h-base) * var(--ui-scale));
 
-  /* Nav safe zone (450px centered, scaled) */
-  --nav-rail-max: calc(450px * var(--ui-scale));
+  /* Your safe nav zone: 562px centered (scaled) */
+  --nav-rail-max: calc(562px * var(--ui-scale));
 
-  /* Layout spacing */
   --gap: 40px;
   --side-pad: 18px;
 
-  /* Header/Footer sizing */
   --header-pad-y: 14px;
-  --footer-h: 58px; /* compact footer to support no-scroll desktop */
+  --footer-h: 64px;
 
-  /* Background */
   --bg: #f6f7ef;
 }
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
 
 body{
   margin: 0;
   color: #1a1a1a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
-  background-color: #f6f7ef;
-
+  background-color: var(--bg);
   overflow-x: hidden;
 }
 
-
-/* Desktop no-scroll home page */
+/* Desktop: no scroll */
 @media (min-width: 1101px){
   body{ overflow: hidden; }
 }
 
-/* ========== Header ========== */
+/* ========== iOS Glass Header ========== */
 .site-header{
   position: sticky;
   top: 0;
   z-index: 1000;
 
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255,255,255,0.55);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   box-shadow:
     0 1px 0 rgba(255,255,255,0.6) inset,
     0 8px 24px rgba(0,0,0,0.04);
-}
-
-.brand img{
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
 .brand{
@@ -78,9 +62,10 @@ body{
   width: min(calc(520px * var(--ui-scale)), 92vw);
   height: auto;
   display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* ========== Page Layout ========== */
+/* ========== Layout ========== */
 .page{
   width: 100%;
   display: flex;
@@ -88,14 +73,6 @@ body{
   align-items: center;
 }
 
-/* On desktop, make main content fit viewport height */
-@media (min-width: 1101px){
-  .page{
-    height: calc(100vh - (var(--header-pad-y) * 2) - 1px);
-  }
-}
-
-/* Panels container */
 .panels{
   width: min(calc(1800px * var(--ui-scale)), 96vw);
   display: flex;
@@ -105,7 +82,6 @@ body{
   padding: 18px 0 10px;
 }
 
-/* Stack on mobile */
 @media (max-width: 1100px){
   .panels{
     flex-direction: column;
@@ -116,44 +92,29 @@ body{
   }
 }
 
-/* Each panel */
 .panel{
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* Paper shadow */
 .panel-inner{
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
-}
-
-/* ========== Fit-to-window sizing (desktop) ========== */
-/* The inner panel keeps the exact artwork ratio and scales to available height */
-.panel-inner{
   aspect-ratio: 830 / 1329;
-  width: min(var(--panel-w), 48vw);
+  width: min(var(--panel-w), 96vw);
   height: auto;
 }
 
-/* On desktop, cap the height so there is no scroll (accounts for footer) */
+/* Desktop fit-to-window */
 @media (min-width: 1101px){
   .panel-inner{
-    height: calc(100vh - 120px - var(--footer-h)); /* header-ish + footer */
-    width: auto; /* let aspect-ratio determine width from height */
+    height: calc(100vh - 140px - var(--footer-h));
+    width: auto;
     max-width: min(var(--panel-w), 48vw);
   }
 }
 
-/* Mobile should be full width and scroll naturally */
-@media (max-width: 1100px){
-  .panel-inner{
-    width: min(var(--panel-w), 96vw);
-    height: auto;
-  }
-}
-
-/* Guest check stack images */
+/* Images fill their sections */
 .guest-stack{ width: 100%; }
 .guest-img{
   width: 100%;
@@ -161,26 +122,38 @@ body{
   display: block;
 }
 
-/* ========== Nav constraints (the important part) ========== */
+/* =========================================
+   NAV FIX: nav is sized relative to nav.png
+   nav.png = 830 x 17, so this wrap must keep that ratio.
+========================================= */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
+  /* Force the nav strip area to keep the nav.png proportion,
+     so the overlay sizing is ALWAYS correct on mobile */
+  aspect-ratio: 830 / 17;
 }
 
-/* rail is centered and hard-limited to 450px (scaled) */
+/* Make sure nav.png fills that constrained strip */
+.nav-bg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Centered rail that never exceeds 562px (scaled) */
 .nav-rail{
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* hard clamp */
   padding: 0 var(--side-pad);
 }
 
+/* The actual nav overlay is hard-clamped to the rail width */
 .nav-overlay{
-  /* This is the actual clickable area */
   width: min(100%, var(--nav-rail-max));
   height: 100%;
 
@@ -188,50 +161,60 @@ body{
   align-items: center;
   justify-content: space-between;
 
-  /* remove overflow risk */
   overflow: hidden;
 }
 
-/* Make items shrink if needed */
+/* Icons scale based on strip height, not viewport */
 .nav-item{
-  flex: 0 1 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  flex: 0 1 auto;
 }
 
-/* Icons auto-scale to fit the strip and the 450px rail */
 .nav-item img{
-  display: block;
-  height: clamp(10px, 1.1vh, calc(14px * var(--ui-scale)));
+  height: 72%;       /* <= key fix: tied to nav strip height */
   width: auto;
   max-width: 100%;
+  display: block;
   opacity: 0.95;
   transition: transform 120ms ease, opacity 120ms ease;
 }
 
-/* Split image also scales */
 .nav-split{
-  flex: 0 0 auto;
-  display: block;
-  height: clamp(9px, 1.0vh, calc(12px * var(--ui-scale)));
+  height: 58%;
   width: auto;
+  display: block;
   opacity: 0.8;
+  flex: 0 0 auto;
 }
 
-/* Hover/focus */
 .nav-item:hover img{
   transform: translateY(-1px);
   opacity: 1;
 }
+
 .nav-item:focus-visible{
   outline: 2px solid rgba(0,0,0,0.35);
   outline-offset: 4px;
   border-radius: 6px;
 }
 
-/* ========== Thank You vendor overlay ========== */
+/* Extra safety: on very small phones, scale the whole nav row down a touch */
+@media (max-width: 430px){
+  .nav-overlay{
+    transform: scale(0.88);
+    transform-origin: center;
+  }
+}
+@media (max-width: 360px){
+  .nav-overlay{
+    transform: scale(0.82);
+  }
+}
+
+/* ========== Thank You panel vendor overlay ========== */
 .thanks-wrap{
   position: relative;
   width: 100%;
@@ -248,7 +231,6 @@ body{
   inset: 0;
 }
 
-/* Invisible click strips between lines */
 .vendor-row{
   position: absolute;
   left: 10%;
@@ -269,7 +251,7 @@ body{
   outline-offset: 4px;
 }
 
-/* ========== Footer ========== */
+/* ========== iOS Glass Footer (bigger text) ========== */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
@@ -277,7 +259,7 @@ body{
   align-items: center;
   justify-content: center;
 
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255,255,255,0.55);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
@@ -287,18 +269,12 @@ body{
     0 -8px 24px rgba(0,0,0,0.04);
 }
 
-
-/* On desktop keep footer visible without scroll */
+/* Keep footer pinned on desktop so no scroll */
 @media (min-width: 1101px){
   .site-footer{
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     bottom: 0;
-    background: rgba(246, 247, 239, 0.82);
-    backdrop-filter: blur(6px);
-    border-top: 1px solid rgba(0,0,0,0.08);
-    width: 100vw;
   }
 }
 
@@ -309,7 +285,7 @@ body{
   align-items: center;
   gap: 4px;
   text-align: center;
-  opacity: 0.9;
+  opacity: 0.92;
   padding: 6px 12px;
 }
 
@@ -320,12 +296,11 @@ body{
   letter-spacing: 0.02em;
 }
 
-
 .footer-links a{
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(0,0,0,0.25);
-font-weight: 500;
+  font-weight: 500;
 }
 
 .footer-links a:hover{
