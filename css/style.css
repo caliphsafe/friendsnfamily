@@ -6,10 +6,10 @@
 
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
 
-  /* Hard px cap */
+  /* Desktop safe cap */
   --nav-rail-max: calc(562px * var(--ui-scale));
 
-  /* Safe zone ratio: 562 / 830 = 0.6771 */
+  /* Safe zone ratio: 562 / 830 */
   --nav-safe-ratio: 0.6771;
 
   --gap: 40px;
@@ -122,10 +122,10 @@ body{
 }
 
 /* =========================================
-   NAV (DESKTOP = 1 ROW, MOBILE = 2 ROWS)
+   NAV (DESKTOP 1 ROW, MOBILE 2 ROWS)
 ========================================= */
 
-/* Desktop nav strip ratio (nav.png is 830 x 17) */
+/* KEEP original nav strip height */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
@@ -139,7 +139,6 @@ body{
   object-fit: cover;
 }
 
-/* Center container */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -149,7 +148,7 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* Safe zone width (ratio + hard cap) */
+/* Desktop safe width */
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
@@ -159,12 +158,9 @@ body{
   justify-content: center;
 
   gap: clamp(2px, 0.4vw, 8px);
-
-  overflow: visible;
-  min-width: 0;
 }
 
-/* Desktop single-row sizing */
+/* Desktop nav items */
 .nav-item{
   flex: 0 0 auto;
   display: flex;
@@ -183,59 +179,47 @@ body{
   height: 45%;
   width: auto;
   object-fit: contain;
-  display: block;
   opacity: 0.85;
-  flex: 0 0 auto;
 }
 
 /* ==========================
-   MOBILE: 2-ROW NAV (3 x 2)
-   - double nav height
-   - hide split images
-   - grid for 6 buttons
+   MOBILE FIX (HORIZONTAL EXPANSION)
 ========================== */
 @media (max-width: 768px){
 
-  /* Make the nav strip twice as tall ONLY on mobile */
-  .guest-nav-wrap{
-    aspect-ratio: 830 / 34; /* double height */
-  }
-
-  /* Hide split.png on mobile so grid works clean */
-  .nav-split{
-    display: none;
-  }
-
-  /* Convert the overlay into a 3x2 grid */
+  /* Widen usable nav area horizontally */
   .nav-overlay{
+    width: 100%;              /* KEY FIX */
+    max-width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
     justify-items: center;
-
-    /* tighter spacing */
     gap: 4px 10px;
   }
 
-  /* Make each item fill its grid cell */
+  /* Hide split bars on mobile */
+  .nav-split{
+    display: none;
+  }
+
+  /* Equal-sized buttons */
   .nav-item{
     width: 100%;
     height: 100%;
   }
 
-  /* Make all icons the SAME size and smaller */
   .nav-item img{
-    height: 58%;
+    height: 55%;
     width: auto;
   }
 }
 
-/* Extra-small phones: slight overall shrink */
+/* Extra-small phones */
 @media (max-width: 430px){
   .nav-overlay{
     transform: scale(0.95);
-    transform-origin: center;
   }
 }
 @media (max-width: 360px){
@@ -254,7 +238,6 @@ body{
   left: 10%;
   width: 80%;
   border-radius: 10px;
-  background: transparent;
 }
 
 .vendor-row:hover{
@@ -262,7 +245,7 @@ body{
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ========== iOS Glass Footer + bigger text ========== */
+/* ========== iOS Glass Footer ========== */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
@@ -275,9 +258,6 @@ body{
   -webkit-backdrop-filter: blur(18px) saturate(180%);
 
   border-top: 1px solid rgba(0,0,0,0.08);
-  box-shadow:
-    0 -1px 0 rgba(255,255,255,0.6) inset,
-    0 -8px 24px rgba(0,0,0,0.04);
 }
 
 @media (min-width: 1101px){
@@ -294,30 +274,10 @@ body{
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  text-align: center;
-  opacity: 0.92;
-  padding: 6px 12px;
 }
 
 .footer-inner p{
   margin: 0;
   font-size: calc(20px * var(--ui-scale));
   line-height: 1.35;
-  letter-spacing: 0.02em;
-}
-
-.footer-links a{
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 600;
-}
-
-.footer-links a:hover{
-  border-bottom-color: rgba(0,0,0,0.55);
-}
-
-.footer-links .dot{
-  padding: 0 8px;
-  opacity: 0.65;
 }
