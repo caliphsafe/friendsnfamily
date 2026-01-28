@@ -122,13 +122,14 @@ body{
 }
 
 /* =========================================
-   NAV (CLEAN, SINGLE SOURCE OF TRUTH)
-   nav.png is 830 x 17, lock overlay to that strip
+   NAV (FIT-TO-SAFE-ZONE, NO CLIPPING)
 ========================================= */
+
+/* NAV STRIP: lock to nav.png ratio so overlay stays aligned */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
-  aspect-ratio: 830 / 17;  /* ensures strip height is real */
+  aspect-ratio: 830 / 17;
 }
 
 .nav-bg{
@@ -138,7 +139,7 @@ body{
   object-fit: cover;
 }
 
-/* center rail */
+/* Center container */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -148,55 +149,74 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* key: safe zone is a ratio of the guest check width, PLUS hard cap */
+/* Safe zone width (ratio + hard cap) */
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
+
+  /* THIS is what fixes the cutoff */
+  justify-content: center;
+  gap: clamp(2px, 0.4vw, 8px);
+
+  /* Do NOT clip horizontally */
+  overflow: visible;
+
+  /* Allow children to shrink */
+  min-width: 0;
 }
 
-/* icons */
+/* Each nav item must be shrinkable */
 .nav-item{
-  display: inline-flex;
+  flex: 1 1 0;          /* share space evenly */
+  min-width: 0;         /* critical for shrinking in flex */
+  display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  flex: 0 1 auto;
 }
 
-/* IMPORTANT:
-   Use clamp(px, %, px) so mobile visibly changes.
-   % keeps it tied to strip height, px ensures it actually shrinks. */
+/* The icons must scale down to fit */
 .nav-item img{
-  height: clamp(7px, 55%, 12px);
-  width: auto;
+  height: 60%;          /* relative to strip height */
+  width: 100%;
+  max-width: 100%;
+  object-fit: contain;  /* never crop */
   display: block;
   opacity: 0.95;
 }
 
+/* Splits shrink too */
 .nav-split{
-  height: clamp(6px, 42%, 10px);
+  flex: 0 1 auto;
+  min-width: 0;
+  height: 45%;
   width: auto;
+  max-width: clamp(6px, 1.4vw, 18px);
+  object-fit: contain;
   display: block;
   opacity: 0.85;
-  flex: 0 0 auto;
 }
 
-/* extra mobile tightening so it matches your “printed receipt” look */
+/* Mobile: make icons smaller + tighten gaps so ALL links show */
 @media (max-width: 768px){
-  .nav-item img{
-    height: clamp(6px, 48%, 10px);
+  .nav-overlay{
+    gap: 2px;
   }
+
+  .nav-item img{
+    height: 52%;
+  }
+
   .nav-split{
-    height: clamp(5px, 36%, 8px);
+    height: 38%;
+    max-width: 10px;
   }
 }
 
-/* if a very small phone, scale the whole row down a touch */
+/* Extra-small phones: scale the whole nav row slightly */
 @media (max-width: 430px){
   .nav-overlay{
     transform: scale(0.92);
