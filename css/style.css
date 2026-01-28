@@ -13,8 +13,8 @@
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
   --panel-h: calc(var(--panel-h-base) * var(--ui-scale));
 
-  /* Nav safe zone (562px centered, scaled) */
-  --nav-rail-max: calc(562px * var(--ui-scale));
+  /* Nav safe zone (490px centered, scaled) */
+  --nav-rail-max: calc(490px * var(--ui-scale));
 
   /* Layout spacing */
   --gap: 40px;
@@ -168,7 +168,7 @@ body{
   width: 100%;
 }
 
-/* rail is centered and hard-limited to 562px (scaled) */
+/* rail is centered and hard-limited to 490px (scaled) */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -202,7 +202,7 @@ body{
   text-decoration: none;
 }
 
-/* Icons auto-scale to fit the strip and the 562px rail */
+/* Icons auto-scale to fit the strip and the 490px rail */
 .nav-item img{
   display: block;
   height: clamp(10px, 1.1vh, calc(14px * var(--ui-scale)));
