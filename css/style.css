@@ -168,24 +168,21 @@ body{
   min-width: 0;
 }
 
-/* Each nav item must be shrinkable */
+/* All nav items visually equal size */
 .nav-item{
-  flex: 1 1 0;          /* share space evenly */
-  min-width: 0;         /* critical for shrinking in flex */
+  flex: 0 0 auto;          /* do NOT stretch */
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
 }
 
-/* The icons must scale down to fit */
+/* Normalize by height only */
 .nav-item img{
-  height: 60%;          /* relative to strip height */
-  width: 100%;
-  max-width: 100%;
-  object-fit: contain;  /* never crop */
+  height: clamp(7px, 55%, 12px);
+  width: auto;             /* critical */
+  max-width: none;         /* critical */
+  object-fit: contain;
   display: block;
-  opacity: 0.95;
 }
 
 /* Splits shrink too */
