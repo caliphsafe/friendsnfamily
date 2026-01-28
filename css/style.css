@@ -170,22 +170,32 @@ body{
   flex: 0 1 auto;
 }
 
-.nav-item img{
-  height: 52%;   /* smaller than before */
-  width: auto;
-  display: block;
-  opacity: 0.95;
+/* Ensure nav strip has real height (critical for % heights) */
+.guest-nav-wrap{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 830 / 17;
 }
 
-/* Mobile: shrink nav icons further to match printed receipt scale */
-@media (max-width: 768px){
-  .nav-item img{
-    height: 44%;
-  }
+.nav-bg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-  .nav-split{
-    height: 36%;
-  }
+/* Overlay must fill the strip */
+.nav-rail{ position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; }
+.nav-overlay{ height: 100%; }
+
+/* Desktop-ish icon sizing */
+.nav-item img{ height: 52%; width:auto; display:block; }
+.nav-split{ height: 40%; width:auto; display:block; }
+
+/* Mobile tighter */
+@media (max-width: 768px){
+  .nav-item img{ height: 42%; }
+  .nav-split{ height: 32%; }
 }
 
 .nav-split{
