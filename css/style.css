@@ -122,10 +122,10 @@ body{
 }
 
 /* =========================================
-   NAV (FIT-TO-SAFE-ZONE, NO CLIPPING)
+   NAV (DESKTOP = 1 ROW, MOBILE = 2 ROWS)
 ========================================= */
 
-/* NAV STRIP: lock to nav.png ratio so overlay stays aligned */
+/* Desktop nav strip ratio (nav.png is 830 x 17) */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
@@ -156,73 +156,91 @@ body{
 
   display: flex;
   align-items: center;
-
-  /* THIS is what fixes the cutoff */
   justify-content: center;
+
   gap: clamp(2px, 0.4vw, 8px);
 
-  /* Do NOT clip horizontally */
   overflow: visible;
-
-  /* Allow children to shrink */
   min-width: 0;
 }
 
-/* All nav items visually equal size */
+/* Desktop single-row sizing */
 .nav-item{
-  flex: 0 0 auto;          /* do NOT stretch */
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Normalize by height only */
 .nav-item img{
-  height: clamp(7px, 55%, 12px);
-  width: auto;             /* critical */
-  max-width: none;         /* critical */
+  height: 60%;
+  width: auto;
   object-fit: contain;
   display: block;
 }
 
-/* Splits shrink too */
 .nav-split{
-  flex: 0 1 auto;
-  min-width: 0;
   height: 45%;
   width: auto;
-  max-width: clamp(6px, 1.4vw, 18px);
   object-fit: contain;
   display: block;
   opacity: 0.85;
+  flex: 0 0 auto;
 }
 
-/* Mobile: make icons smaller + tighten gaps so ALL links show */
+/* ==========================
+   MOBILE: 2-ROW NAV (3 x 2)
+   - double nav height
+   - hide split images
+   - grid for 6 buttons
+========================== */
 @media (max-width: 768px){
-  .nav-overlay{
-    gap: 2px;
+
+  /* Make the nav strip twice as tall ONLY on mobile */
+  .guest-nav-wrap{
+    aspect-ratio: 830 / 34; /* double height */
   }
 
-  .nav-item img{
-    height: 52%;
-  }
-
+  /* Hide split.png on mobile so grid works clean */
   .nav-split{
-    height: 38%;
-    max-width: 10px;
+    display: none;
+  }
+
+  /* Convert the overlay into a 3x2 grid */
+  .nav-overlay{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    align-items: center;
+    justify-items: center;
+
+    /* tighter spacing */
+    gap: 4px 10px;
+  }
+
+  /* Make each item fill its grid cell */
+  .nav-item{
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Make all icons the SAME size and smaller */
+  .nav-item img{
+    height: 58%;
+    width: auto;
   }
 }
 
-/* Extra-small phones: scale the whole nav row slightly */
+/* Extra-small phones: slight overall shrink */
 @media (max-width: 430px){
   .nav-overlay{
-    transform: scale(0.92);
+    transform: scale(0.95);
     transform-origin: center;
   }
 }
 @media (max-width: 360px){
   .nav-overlay{
-    transform: scale(0.86);
+    transform: scale(0.90);
   }
 }
 
