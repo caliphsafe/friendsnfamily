@@ -180,29 +180,39 @@ body{
 
 /* =========================================
    MOBILE NAV FIX (ONLY CHANGE)
+   - no transform scaling (prevents “desktop ruined” in responsive views)
+   - ensures all buttons shrink evenly so CONTACT doesn't clip
 ========================================= */
 @media (max-width: 768px){
 
-  /* scale row slightly so it fits clean */
+  /* keep same safe-zone width, but fit contents */
   .nav-overlay{
-    transform: scale(0.92);
-    transform-origin: center;
+    justify-content: center;   /* lets equal slots work */
+    gap: 0;                    /* avoid extra width pushing CONTACT out */
   }
 
-  /* force ALL nav icons same size */
+  /* equal slots for each nav button (splits remain fixed width) */
+  .nav-item{
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* all nav icons become the SAME size and shrink-to-fit */
   .nav-item img{
-    height: 8px;
-    width: auto;
-    max-width: none;
+    height: 8px;               /* uniform size */
+    width: 100%;               /* fit within its slot */
+    max-width: 100%;
     object-fit: contain;
+    opacity: 0.95;
   }
 
-  /* force splits same visual scale */
+  /* splits scale down slightly */
   .nav-split{
     height: 6px;
     width: auto;
-    max-width: none;
+    flex: 0 0 auto;
     object-fit: contain;
+    opacity: 0.85;
   }
 }
 
