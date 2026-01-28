@@ -6,12 +6,11 @@
 
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
 
-  /* Hard px cap (still useful on desktop) */
+  /* Hard px cap */
   --nav-rail-max: calc(562px * var(--ui-scale));
 
-  /* PROPORTIONAL safe zone relative to 830px art:
-     562 / 830 = 0.6771 (67.7%) */
-  --nav-safe-percent: 67.7%;
+  /* Safe zone ratio: 562 / 830 = 0.6771 */
+  --nav-safe-ratio: 0.6771;
 
   --gap: 40px;
   --side-pad: 18px;
@@ -38,7 +37,7 @@ body{
   body{ overflow: hidden; }
 }
 
-/* iOS glass header */
+/* ========== iOS Glass Header ========== */
 .site-header{
   position: sticky;
   top: 0;
@@ -68,6 +67,7 @@ body{
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
+/* ========== Layout ========== */
 .page{
   width: 100%;
   display: flex;
@@ -121,21 +121,24 @@ body{
   display: block;
 }
 
-/* NAV STRIP: keep exact nav image ratio so overlay can’t drift */
+/* =========================================
+   NAV (CLEAN, SINGLE SOURCE OF TRUTH)
+   nav.png is 830 x 17, lock overlay to that strip
+========================================= */
 .guest-nav-wrap{
   position: relative;
   width: 100%;
-  aspect-ratio: 830 / 17;
+  aspect-ratio: 830 / 17;  /* ensures strip height is real */
 }
 
 .nav-bg{
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
 }
 
-/* Center container */
+/* center rail */
 .nav-rail{
   position: absolute;
   inset: 0;
@@ -145,23 +148,18 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* KEY FIX:
-   width is capped by BOTH:
-   1) safe percent of guest check width (67.7%)
-   2) 562px cap (scaled)
-*/
+/* key: safe zone is a ratio of the guest check width, PLUS hard cap */
 .nav-overlay{
-  width: min(var(--nav-safe-percent), var(--nav-rail-max), 100%);
   height: 100%;
+  width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   overflow: hidden;
 }
 
-/* Make icons smaller relative to the strip height so they sit like desktop */
+/* icons */
 .nav-item{
   display: inline-flex;
   align-items: center;
@@ -170,54 +168,52 @@ body{
   flex: 0 1 auto;
 }
 
-/* Ensure nav strip has real height (critical for % heights) */
-.guest-nav-wrap{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 830 / 17;
-}
-
-.nav-bg{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* IMPORTANT:
+   Use clamp(px, %, px) so mobile visibly changes.
+   % keeps it tied to strip height, px ensures it actually shrinks. */
+.nav-item img{
+  height: clamp(7px, 55%, 12px);
+  width: auto;
   display: block;
-}
-
-/* Overlay must fill the strip */
-.nav-rail{ position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; }
-.nav-overlay{ height: 100%; }
-
-/* Desktop-ish icon sizing */
-.nav-item img{ height: 52%; width:auto; display:block; }
-.nav-split{ height: 40%; width:auto; display:block; }
-
-/* Mobile tighter */
-@media (max-width: 768px){
-  .nav-item img{ height: 42%; }
-  .nav-split{ height: 32%; }
+  opacity: 0.95;
 }
 
 .nav-split{
-  height: 48%;
+  height: clamp(6px, 42%, 10px);
   width: auto;
   display: block;
-  opacity: 0.8;
+  opacity: 0.85;
   flex: 0 0 auto;
 }
 
-/* Final mobile safety clamp */
-@media (max-width: 430px){
-  .nav-overlay{ transform: scale(0.92); transform-origin: center; }
-}
-@media (max-width: 360px){
-  .nav-overlay{ transform: scale(0.86); }
+/* extra mobile tightening so it matches your “printed receipt” look */
+@media (max-width: 768px){
+  .nav-item img{
+    height: clamp(6px, 48%, 10px);
+  }
+  .nav-split{
+    height: clamp(5px, 36%, 8px);
+  }
 }
 
-/* Thank you */
+/* if a very small phone, scale the whole row down a touch */
+@media (max-width: 430px){
+  .nav-overlay{
+    transform: scale(0.92);
+    transform-origin: center;
+  }
+}
+@media (max-width: 360px){
+  .nav-overlay{
+    transform: scale(0.86);
+  }
+}
+
+/* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
 .vendor-links{ position: absolute; inset: 0; }
+
 .vendor-row{
   position: absolute;
   left: 10%;
@@ -225,12 +221,13 @@ body{
   border-radius: 10px;
   background: transparent;
 }
+
 .vendor-row:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* iOS glass footer + bigger text */
+/* ========== iOS Glass Footer + bigger text ========== */
 .site-footer{
   width: 100vw;
   height: var(--footer-h);
