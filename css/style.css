@@ -13,7 +13,7 @@
   --nav-safe-ratio: 0.6771;
 
   --gap: 40px;
-  --side-pad: 10px;
+  --side-pad: 7px;
 
   --header-pad-y: 14px;
   --footer-h: 64px;
@@ -27,7 +27,7 @@ html, body{ height: 100%; }
 body{
   margin: 0;
   background: var(--bg);
-  color: #1a1a1a;
+  color: #ffffff;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
 }
