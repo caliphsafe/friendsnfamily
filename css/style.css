@@ -61,7 +61,7 @@ body{
 }
 
 .brand img{
-  width: min(calc(520px * var(--ui-scale)), 92vw);
+  width: min(calc(400px * var(--ui-scale)), 92vw);
   height: auto;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
