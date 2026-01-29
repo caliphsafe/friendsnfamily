@@ -122,10 +122,10 @@ body{
 }
 
 /* =========================================
-   NAV (UPDATED: FITS AT 100% + MOBILE)
-   - Items get equal “slots”
-   - Images scale down inside slots
-   - No cropping of CONTACT
+   NAV (UPDATED: SAME VISUAL SIZE WORDS)
+   - Equal slots keep scaling correct
+   - Images normalized by HEIGHT (not width)
+   - max-width prevents CONTACT from clipping
 ========================================= */
 .guest-nav-wrap{
   position: relative;
@@ -157,12 +157,11 @@ body{
   align-items: center;
   justify-content: space-between;
 
-  /* keep it inside the safe zone visually */
   overflow: hidden;
   min-width: 0;
 }
 
-/* Give each nav word an equal flexible slot */
+/* Equal-width slots */
 .nav-item{
   flex: 1 1 0;
   min-width: 0;
@@ -174,17 +173,17 @@ body{
   text-decoration: none;
 }
 
-/* Scale each word image to its slot (prevents CONTACT cropping) */
+/* ✅ Normalize all word images by height */
 .nav-item img{
-  width: 100%;
-  height: auto;
-  max-height: 60%;
+  height: 60%;        /* same visual height across all labels */
+  width: auto;        /* preserves aspect ratio */
+  max-width: 100%;    /* prevents wide words (CONTACT) from clipping */
   object-fit: contain;
   display: block;
   opacity: 0.95;
 }
 
-/* Splits stay small and consistent */
+/* Splits */
 .nav-split{
   flex: 0 0 auto;
   height: 42%;
@@ -193,10 +192,10 @@ body{
   opacity: 0.85;
 }
 
-/* Mobile: slightly tighter so everything stays legible */
+/* Mobile: slightly smaller but still uniform */
 @media (max-width: 768px){
   .nav-item img{
-    max-height: 54%;
+    height: 54%;
   }
   .nav-split{
     height: 36%;
