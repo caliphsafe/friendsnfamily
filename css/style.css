@@ -13,7 +13,7 @@
   --nav-safe-ratio: 0.6771;
 
   --gap: 40px;
-  --side-pad: 18px;
+  --side-pad: 10px; /* reduced from 18px */
 
   --header-pad-y: 14px;
   --footer-h: 64px;
@@ -122,7 +122,7 @@ body{
 }
 
 /* =========================================
-   NAV (SCALING-SAFE + ALL LINKS ALWAYS FIT)
+   NAV — SIMPLIFIED FOR UNIFORM 89×14 ICONS
 ========================================= */
 .guest-nav-wrap{
   position: relative;
@@ -146,7 +146,6 @@ body{
   padding: 0 var(--side-pad);
 }
 
-/* safe zone width is ratio + hard cap (unchanged) */
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
@@ -155,69 +154,48 @@ body{
   justify-content: space-between;
   overflow: hidden;
 
-  /* small controlled breathing room without pushing outside */
-  gap: clamp(0px, 0.25vw, 6px);
-  min-width: 0;
+  /* tighter spacing now that icons are uniform */
+  gap: clamp(4px, 0.6vw, 14px);
 }
 
-/* IMPORTANT: each nav item gets equal lane width so row always fits */
 .nav-item{
-  flex: 1 1 0;
-  min-width: 0;
-
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  flex: 0 0 auto;
 }
 
-/* Each icon scales down to its lane (prevents HOME/SHOP/FAQS from “bullying” the row) */
+/* icons now same intrinsic size → scale by strip height */
 .nav-item img{
-  height: clamp(7px, 55%, 12px);
+  height: 78%;        /* bigger than before */
   width: auto;
-  max-width: 100%;
-  object-fit: contain;
   display: block;
+  object-fit: contain;
   opacity: 0.95;
 }
 
-/* separators: fixed, tiny, never steal lane width */
+/* separators */
 .nav-split{
-  flex: 0 0 auto;
-  height: clamp(6px, 42%, 10px);
+  height: 60%;
   width: auto;
-  max-width: clamp(6px, 1.2vw, 14px);
-  object-fit: contain;
   display: block;
   opacity: 0.85;
+  flex: 0 0 auto;
 }
 
-/* Mobile tightening ONLY (does not affect desktop) */
+/* Mobile — slightly tighter but SAME sizing logic */
 @media (max-width: 768px){
   .nav-overlay{
-    gap: 2px;
+    gap: 6px;
   }
 
   .nav-item img{
-    height: clamp(6px, 48%, 10px);
+    height: 72%;
   }
 
   .nav-split{
-    height: clamp(5px, 36%, 8px);
-    max-width: 10px;
-  }
-}
-
-/* Small phones: micro scale, but still lane-based so nothing crops */
-@media (max-width: 430px){
-  .nav-overlay{
-    transform: scale(0.96);
-    transform-origin: center;
-  }
-}
-@media (max-width: 360px){
-  .nav-overlay{
-    transform: scale(0.92);
+    height: 55%;
   }
 }
 
