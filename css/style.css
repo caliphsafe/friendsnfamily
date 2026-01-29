@@ -27,7 +27,7 @@ html, body{ height: 100%; }
 body{
   margin: 0;
   background: var(--bg);
-  color: #ffffff;
+  color: #1a1a1a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
 }
