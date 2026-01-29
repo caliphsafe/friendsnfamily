@@ -224,17 +224,52 @@ body{
 /* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
-.vendor-links{ position: absolute; inset: 0; }
 
-.vendor-row{
+/* ================================
+   NEW VENDOR OVERLAY (ONLY CHANGE)
+   - Uses PNG name images as links
+   - Tight line-based spacing
+   - No overlap, scales with the card
+================================== */
+.vendor-links{
   position: absolute;
-  left: 10%;
-  width: 80%;
-  border-radius: 10px;
-  background: transparent;
+  inset: 0;
+  pointer-events: none; /* only the links inside should click */
 }
 
-.vendor-row:hover{
+.vendor-list{
+  position: absolute;
+
+  /* your requested margins, converted to % so it scales with the image */
+  left: 20.12%; /* 167 / 830 */
+  top: 12.12%;  /* 161 / 1329 */
+
+  width: 65%;
+  display: grid;
+  grid-auto-rows: clamp(22px, 2.25vw, 28px); /* match ruled lines */
+  row-gap: 0px; /* keep tight like the photo */
+
+  pointer-events: auto;
+}
+
+.vendor-list a{
+  display: flex;
+  align-items: flex-end; /* sit on the line */
+  border-radius: 10px;
+  background: transparent;
+  text-decoration: none;
+}
+
+.vendor-list a img{
+  height: 82%;      /* handwriting size within the ruled-line row */
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* optional hover */
+.vendor-list a:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
@@ -264,51 +299,6 @@ body{
     bottom: 0;
   }
 }
-
-/* THANK YOU overlay column (no overlap, scales cleanly) */
-.thanks-wrap{ position: relative; width: 100%; }
-.thanks-bg{ width: 100%; height: auto; display: block; }
-
-.vendor-links{
-  position: absolute;
-  inset: 0;
-  pointer-events: none; /* only the links inside should click */
-}
-
-.vendor-list{
-  position: absolute;
-
-  /* your requested margins, converted to % so it scales with the image */
-  left: 20.12%;
-  top: 12.12%;
-
-  width: 65%; /* gives a wide clickable column */
-  display: flex;
-  flex-direction: column;
-
-  /* THIS is the main dial to match the ruled lines */
-  gap: clamp(6px, 1.2vw, 14px);
-
-  pointer-events: auto;
-}
-
-.vendor-list a{
-  display: block;
-  height: clamp(18px, 2.2vw, 28px); /* each link gets its own lane */
-  line-height: 1;
-  text-decoration: none;
-
-  /* keep clicks easy */
-  border-radius: 10px;
-  background: transparent;
-}
-
-/* optional hover */
-.vendor-list a:hover{
-  background: rgba(0,0,0,0.04);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
-}
-
 
 .footer-inner{
   width: min(calc(1800px * var(--ui-scale)), 96vw);
