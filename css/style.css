@@ -1,5 +1,5 @@
 :root{
-  --ui-scale: 1;
+  --ui-scale: 0.8;
 
   --panel-w-base: 830px;
   --panel-h-base: 1329px;
@@ -122,7 +122,10 @@ body{
 }
 
 /* =========================================
-   NAV (RESTARTED, READABLE)
+   NAV (UPDATED: FITS AT 100% + MOBILE)
+   - Items get equal “slots”
+   - Images scale down inside slots
+   - No cropping of CONTACT
 ========================================= */
 .guest-nav-wrap{
   position: relative;
@@ -149,57 +152,57 @@ body{
 .nav-overlay{
   height: 100%;
   width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden; /* keep the receipt “rail” behavior */
+
+  /* keep it inside the safe zone visually */
+  overflow: hidden;
+  min-width: 0;
 }
 
+/* Give each nav word an equal flexible slot */
 .nav-item{
-  display: inline-flex;
+  flex: 1 1 0;
+  min-width: 0;
+
+  display: flex;
   align-items: center;
   justify-content: center;
+
   text-decoration: none;
-  flex: 0 1 auto;
 }
 
-/* Desktop: size from strip height but with sane mins (no tiny 7px) */
+/* Scale each word image to its slot (prevents CONTACT cropping) */
 .nav-item img{
-  height: clamp(10px, 62%, 16px);
-  width: auto;
+  width: 100%;
+  height: auto;
+  max-height: 60%;
+  object-fit: contain;
   display: block;
   opacity: 0.95;
 }
 
+/* Splits stay small and consistent */
 .nav-split{
-  height: clamp(8px, 48%, 13px);
+  flex: 0 0 auto;
+  height: 42%;
   width: auto;
   display: block;
   opacity: 0.85;
-  flex: 0 0 auto;
 }
 
-/* Mobile: readable + guaranteed fit (CONTACT won’t clip) */
+/* Mobile: slightly tighter so everything stays legible */
 @media (max-width: 768px){
-  /* equal slots for each label so nothing gets chopped */
-  .nav-item{
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  /* icons scale INSIDE their slot */
   .nav-item img{
-    height: clamp(12px, 70%, 18px); /* readable on phones */
-    width: 100%;
-    max-width: 100%;
-    object-fit: contain;
+    max-height: 54%;
   }
-
   .nav-split{
-    height: clamp(9px, 52%, 14px);
-    width: auto;
+    height: 36%;
   }
 }
+/* ========================================= */
 
 /* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
