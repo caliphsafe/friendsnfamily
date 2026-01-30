@@ -226,10 +226,10 @@ body{
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
 /* ================================
-   NEW VENDOR OVERLAY (ONLY CHANGE)
-   - Uses PNG name images as links
-   - Tight line-based spacing
-   - No overlap, scales with the card
+   NEW VENDOR OVERLAY (UPDATED)
+   - Supports your current HTML: .vendor-links > a.vendor-row > img
+   - Scales PNGs down so they fit the panel + ruled lines
+   - Keeps everything scaling-safe
 ================================== */
 .vendor-links{
   position: absolute;
@@ -237,39 +237,36 @@ body{
   pointer-events: none; /* only the links inside should click */
 }
 
-.vendor-list{
+.vendor-row{
   position: absolute;
 
   /* your requested margins, converted to % so it scales with the image */
   left: 20.12%; /* 167 / 830 */
   top: 12.12%;  /* 161 / 1329 */
 
-  width: 65%;
-  display: grid;
-  grid-auto-rows: clamp(22px, 2.25vw, 28px); /* match ruled lines */
-  row-gap: 0px; /* keep tight like the photo */
+  width: 60%;
+  height: clamp(22px, 2.25vw, 28px); /* match ruled lines */
+  display: flex;
+  align-items: flex-end; /* sit on the line */
+
+  border-radius: 10px;
+  background: transparent;
+  text-decoration: none;
 
   pointer-events: auto;
 }
 
-.vendor-list a{
-  display: flex;
-  align-items: flex-end; /* sit on the line */
-  border-radius: 10px;
-  background: transparent;
-  text-decoration: none;
-}
-
-.vendor-list a img{
-  height: 82%;      /* handwriting size within the ruled-line row */
+/* scale each handwritten PNG into its row lane */
+.vendor-row img{
+  display: block;
+  height: 82%;
   width: auto;
   max-width: 100%;
   object-fit: contain;
-  display: block;
 }
 
 /* optional hover */
-.vendor-list a:hover{
+.vendor-row:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
