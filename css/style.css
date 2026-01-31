@@ -19,6 +19,15 @@
   --footer-h: 64px;
 
   --bg: #f6f7ef;
+
+  /* ===== Vendor overlay dials ===== */
+  --vendor-left: 20.12%;    /* 167 / 830 */
+  --vendor-top: 10.12%;     /* base top (desktop) */
+  --vendor-bottom: 12%;     /* reserved space at bottom of card */
+  --vendor-count: 19;       /* number of vendor rows */
+
+  /* Desktop row height stays exactly like you had it */
+  --vendor-row-h: clamp(18px, 1.7vw, 22px);
 }
 
 *{ box-sizing: border-box; }
@@ -194,9 +203,7 @@ body{
 
 /* Mobile tightening ONLY (does not affect desktop) */
 @media (max-width: 768px){
-  .nav-overlay{
-    gap: 2px;
-  }
+  .nav-overlay{ gap: 2px; }
 
   .nav-item img{
     height: clamp(6px, 48%, 10px);
@@ -216,9 +223,7 @@ body{
   }
 }
 @media (max-width: 360px){
-  .nav-overlay{
-    transform: scale(0.92);
-  }
+  .nav-overlay{ transform: scale(0.92); }
 }
 
 /* ========== Thank you ========== */
@@ -226,46 +231,32 @@ body{
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
 /* ================================
-   VENDOR OVERLAY (NO OVERLAP)
-   Matches HTML:
+   VENDOR OVERLAY (DESKTOP BASE)
+   Requires HTML:
    .vendor-links > .vendor-list > a.vendor-row > img
 ================================== */
-
-/* Overlay layer */
 .vendor-links{
   position: absolute;
   inset: 0;
-  pointer-events: none; /* only children clickable */
+  pointer-events: none;
 }
 
-/* Position + spacing container */
 .vendor-list{
   position: absolute;
-
-  /* Base “margins” converted to percentages so it scales with the panel */
-  left: 20.12%;                 /* 167 / 830 */
-  top: 10.12%;                  /* 161 / 1329 */
-
-  /* Add extra top margin if you want (dial this) */
-  transform: translateY(clamp(0px, 0.8vw, 10px));
-
+  left: var(--vendor-left);
+  top: var(--vendor-top);
   width: 65%;
 
   display: grid;
-
-  /* This guarantees each vendor gets its own row (prevents stacking) */
-  grid-auto-rows: clamp(18px, 1.7vw, 22px);
-
-  /* Controls the “line spacing” feel */
+  grid-auto-rows: var(--vendor-row-h);
   row-gap: 0;
 
   pointer-events: auto;
 }
 
-/* Each vendor row = one lane */
 .vendor-row{
   display: flex;
-  align-items: flex-end; /* sits on the line */
+  align-items: flex-end;
   width: 100%;
   text-decoration: none;
 
@@ -273,19 +264,31 @@ body{
   background: transparent;
 }
 
-/* Equalize all vendor image sizes */
 .vendor-row img{
-  height: 90%;      /* consistent visual height across all vendor PNGs */
-  width: auto;      /* keep aspect ratio */
-  max-width: 100%;  /* never overflow the column */
+  height: 90%;
+  width: auto;
+  max-width: 100%;
   object-fit: contain;
   display: block;
 }
 
-/* Hover (optional) */
 .vendor-row:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* ✅ MOBILE: make it match desktop look by basing row height on the CARD, not viewport */
+@media (max-width: 768px){
+  :root{
+    /* If you want it a touch lower on mobile to match desktop vibe, adjust this */
+    --vendor-top: 12.12%;
+    /* Key change: row height becomes % of the panel height */
+    --vendor-row-h: calc((100% - var(--vendor-top) - var(--vendor-bottom)) / var(--vendor-count));
+  }
+
+  .vendor-row img{
+    height: 92%;
+  }
 }
 
 /* ========== iOS Glass Footer + bigger text ========== */
