@@ -279,7 +279,7 @@ body{
 ========================================================= */
 @media (max-width: 768px){
   :root{
-    --vendor-scale: 0.78;          /* main dial: smaller = fits better */
+    --vendor-scale: 0.90;          /* main dial: smaller = fits better */
     --vendor-y-shift: 0px;         /* remove extra shift on mobile */
     --vendor-row-h: clamp(14px, 4.2vw, 18px); /* tighter line height on phones */
   }
