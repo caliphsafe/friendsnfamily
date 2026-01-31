@@ -256,9 +256,9 @@ body{
 
 /* 🔑 THIS is the equalizer */
 .vendor-links a img{
-  height: 100%;       /* every vendor image = same visual height */
+  height: 70%;       /* every vendor image = same visual height */
   width: auto;        /* keep aspect ratio */
-  max-width: 100%;    /* prevent overflow */
+  max-width: 70%;    /* prevent overflow */
   object-fit: contain;
   display: block;
 }
