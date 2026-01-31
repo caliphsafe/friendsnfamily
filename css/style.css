@@ -244,7 +244,7 @@ body{
 
   /* Base “margins” converted to percentages so it scales with the panel */
   left: 20.12%;                 /* 167 / 830 */
-  top: 12.12%;                  /* 161 / 1329 */
+  top: 10.12%;                  /* 161 / 1329 */
 
   /* Add extra top margin if you want (dial this) */
   transform: translateY(clamp(0px, 0.8vw, 10px));
