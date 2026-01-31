@@ -254,10 +254,10 @@ body{
   display: grid;
 
   /* This guarantees each vendor gets its own row (prevents stacking) */
-  grid-auto-rows: clamp(22px, 2.0vw, 28px);
+  grid-auto-rows: clamp(16px, 1.5vw, 20px);
 
   /* Controls the “line spacing” feel */
-  row-gap: clamp(2px, 0.5vw, 8px);
+  row-gap: 0;
 
   pointer-events: auto;
 }
