@@ -226,70 +226,63 @@ body{
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
 /* ================================
-   VENDOR OVERLAY (SCALES WITH PANEL)
-   - Matches the card scaling
-   - Uniform image sizing
-   - No overlap
+   VENDOR OVERLAY (NO OVERLAP)
+   Matches HTML:
+   .vendor-links > .vendor-list > a.vendor-row > img
 ================================== */
+
+/* Overlay layer */
 .vendor-links{
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none; /* only children clickable */
 }
 
-.vendor-links .vendor-row{
+/* Position + spacing container */
+.vendor-list{
   position: absolute;
 
-  /* Anchor the whole column relative to the card */
-  left: 20.12%;  /* 167 / 830 */
-  top: 12.12%;   /* 161 / 1329 */
+  /* Base “margins” converted to percentages so it scales with the panel */
+  left: 20.12%;                 /* 167 / 830 */
+  top: 12.12%;                  /* 161 / 1329 */
 
-  /* Column width */
-  width: 70%;
+  /* Add extra top margin if you want (dial this) */
+  transform: translateY(clamp(0px, 0.8vw, 10px));
 
-  /* Turn the FIRST .vendor-row into the container lane stack */
-}
+  width: 65%;
 
-/* Make vendor-links behave like the stack container */
-.vendor-links{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
 
-  padding-left: 20.12%;
-  padding-top: 12.12%;
+  /* This guarantees each vendor gets its own row (prevents stacking) */
+  grid-auto-rows: clamp(22px, 2.0vw, 28px);
 
-  width: 100%;
-  height: 100%;
+  /* Controls the “line spacing” feel */
+  row-gap: clamp(2px, 0.5vw, 8px);
 
-  /* spacing scales with the panel */
-  gap: 2.15%;
-}
-
-/* Each row = one ruled line lane */
-.vendor-row{
   pointer-events: auto;
+}
+
+/* Each vendor row = one lane */
+.vendor-row{
   display: flex;
-  align-items: flex-end;
+  align-items: flex-end; /* sits on the line */
+  width: 100%;
   text-decoration: none;
 
-  /* lane height scales with the panel */
-  height: 2.15%;
-
-  width: 70%;
   border-radius: 10px;
   background: transparent;
 }
 
-/* ✅ Equalizer: every vendor png is the SAME height */
+/* Equalize all vendor image sizes */
 .vendor-row img{
-  height: 100%;
-  width: auto;
-  max-width: 100%;
+  height: 90%;      /* consistent visual height across all vendor PNGs */
+  width: auto;      /* keep aspect ratio */
+  max-width: 100%;  /* never overflow the column */
   object-fit: contain;
   display: block;
 }
 
+/* Hover (optional) */
 .vendor-row:hover{
   background: rgba(0,0,0,0.04);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
