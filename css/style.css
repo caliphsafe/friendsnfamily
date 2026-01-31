@@ -242,7 +242,7 @@ body{
 
   /* your requested margins (scaled to the card) */
   padding-left: 20.12%; /* 167 / 830 */
-  padding-top: 12.12%;  /* 161 / 1329 */
+  padding-top: 20.12%;  /* 161 / 1329 */
 
   /* clickable only on the rows, not the whole overlay */
   pointer-events: none;
