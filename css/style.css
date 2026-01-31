@@ -235,18 +235,34 @@ body{
   position: absolute;
   inset: 0;
 
-  /* stack rows instead of absolute overlap */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
-  /* your requested margins (scaled to the card) */
-  padding-left: 20.12%; /* 167 / 830 */
-  padding-top: 17.12%;  /* 161 / 1329 */
+  padding-left: 20.12%;
+  padding-top: 14%;   /* adjust as needed */
 
-  /* clickable only on the rows, not the whole overlay */
+  gap: clamp(6px, 1.1vw, 14px);
+
   pointer-events: none;
 }
+
+.vendor-links a{
+  display: flex;
+  align-items: flex-end;   /* sit on ruled line */
+  height: clamp(22px, 2.2vw, 30px);  /* one consistent lane per vendor */
+  pointer-events: auto;
+}
+
+/* 🔑 THIS is the equalizer */
+.vendor-links a img{
+  height: 100%;       /* every vendor image = same visual height */
+  width: auto;        /* keep aspect ratio */
+  max-width: 100%;    /* prevent overflow */
+  object-fit: contain;
+  display: block;
+}
+
 
 .vendor-row{
   /* IMPORTANT: not absolute anymore */
