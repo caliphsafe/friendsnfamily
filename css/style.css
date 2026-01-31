@@ -20,13 +20,12 @@
 
   --bg: #f6f7ef;
 
-  /* ===== Vendor overlay dials ===== */
-  --vendor-left: 20.12%;    /* 167 / 830 */
-  --vendor-top: 10.12%;     /* base top (desktop) */
-  --vendor-bottom: 12%;     /* reserved space at bottom of card */
-  --vendor-count: 19;       /* number of vendor rows */
-
-  /* Desktop row height stays exactly like you had it */
+  /* Vendor overlay dials (desktop defaults) */
+  --vendor-left: 20.12%;
+  --vendor-top: 10.12%;
+  --vendor-width: 65%;
+  --vendor-scale: 1;
+  --vendor-y-shift: clamp(0px, 0.8vw, 10px);
   --vendor-row-h: clamp(18px, 1.7vw, 22px);
 }
 
@@ -180,7 +179,7 @@ body{
   text-decoration: none;
 }
 
-/* Each icon scales down to its lane (prevents HOME/SHOP/FAQS from “bullying” the row) */
+/* Each icon scales down to its lane */
 .nav-item img{
   height: clamp(7px, 55%, 12px);
   width: auto;
@@ -190,7 +189,7 @@ body{
   opacity: 0.95;
 }
 
-/* separators: fixed, tiny, never steal lane width */
+/* separators */
 .nav-split{
   flex: 0 0 auto;
   height: clamp(6px, 42%, 10px);
@@ -204,18 +203,14 @@ body{
 /* Mobile tightening ONLY (does not affect desktop) */
 @media (max-width: 768px){
   .nav-overlay{ gap: 2px; }
-
-  .nav-item img{
-    height: clamp(6px, 48%, 10px);
-  }
-
+  .nav-item img{ height: clamp(6px, 48%, 10px); }
   .nav-split{
     height: clamp(5px, 36%, 8px);
     max-width: 10px;
   }
 }
 
-/* Small phones: micro scale, but still lane-based so nothing crops */
+/* Small phones */
 @media (max-width: 430px){
   .nav-overlay{
     transform: scale(0.96);
@@ -231,9 +226,7 @@ body{
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
 /* ================================
-   VENDOR OVERLAY (DESKTOP BASE)
-   Requires HTML:
-   .vendor-links > .vendor-list > a.vendor-row > img
+   VENDOR OVERLAY (DESKTOP PERFECT)
 ================================== */
 .vendor-links{
   position: absolute;
@@ -245,11 +238,15 @@ body{
   position: absolute;
   left: var(--vendor-left);
   top: var(--vendor-top);
-  width: 65%;
+  width: var(--vendor-width);
 
   display: grid;
   grid-auto-rows: var(--vendor-row-h);
   row-gap: 0;
+
+  /* IMPORTANT: keep desktop the same */
+  transform-origin: top left;
+  transform: translateY(var(--vendor-y-shift)) scale(var(--vendor-scale));
 
   pointer-events: auto;
 }
@@ -259,7 +256,6 @@ body{
   align-items: flex-end;
   width: 100%;
   text-decoration: none;
-
   border-radius: 10px;
   background: transparent;
 }
@@ -277,17 +273,22 @@ body{
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ✅ MOBILE: make it match desktop look by basing row height on the CARD, not viewport */
+/* =========================================================
+   ✅ MOBILE ONLY FIX: scale vendor overlay down to fit card
+   (does NOT affect desktop at all)
+========================================================= */
 @media (max-width: 768px){
   :root{
-    /* If you want it a touch lower on mobile to match desktop vibe, adjust this */
-    --vendor-top: 12.12%;
-    /* Key change: row height becomes % of the panel height */
-    --vendor-row-h: calc((100% - var(--vendor-top) - var(--vendor-bottom)) / var(--vendor-count));
+    --vendor-scale: 0.78;          /* main dial: smaller = fits better */
+    --vendor-y-shift: 0px;         /* remove extra shift on mobile */
+    --vendor-row-h: clamp(14px, 4.2vw, 18px); /* tighter line height on phones */
   }
 
-  .vendor-row img{
-    height: 92%;
+  /* Slight reposition so it stays on the ruled lines after scaling */
+  .vendor-list{
+    top: 9.4%;
+    left: 18.6%;
+    width: 72%;
   }
 }
 
