@@ -331,49 +331,50 @@ body{
 }
 
 /* ========== iOS Glass Footer + bigger text ========== */
+/* =========================
+   Footer (match subpages)
+========================= */
 .site-footer{
   width: 100vw;
-  height: var(--footer-h);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-
-  border-top: 1px solid rgba(0,0,0,0.08);
-  box-shadow:
-    0 -1px 0 rgba(255,255,255,0.6) inset,
-    0 -8px 24px rgba(0,0,0,0.04);
+  height: auto;                 /* ✅ no fixed height */
+  display: block;               /* ✅ simple block footer */
+  background: transparent;      /* ✅ let page background show through */
+  border-top: none;             /* ✅ remove glass border */
+  box-shadow: none;             /* ✅ remove glass shadow */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
+/* ✅ kill the desktop fixed footer behavior */
 @media (min-width: 1101px){
   .site-footer{
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    position: static;
+    left: auto;
+    bottom: auto;
   }
 }
 
 .footer-inner{
   width: min(calc(1800px * var(--ui-scale)), 96vw);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   text-align: center;
-  opacity: 0.92;
-  padding: 6px 12px;
+  opacity: 1;                  /* ✅ match subpages (no fade) */
+  padding: 16px 8px;           /* ✅ match subpages spacing */
+  color: rgba(0,0,0,0.68);     /* ✅ match subpages tone */
 }
 
 .footer-inner p{
   margin: 0;
-  font-size: calc(20px * var(--ui-scale));
+  font-size: 14px;             /* ✅ match subpages */
   line-height: 1.35;
   letter-spacing: 0.02em;
 }
 
+/* Optional: if you still keep footer links somewhere */
 .footer-links a{
   color: inherit;
   text-decoration: none;
@@ -388,4 +389,11 @@ body{
 .footer-links .dot{
   padding: 0 8px;
   opacity: 0.65;
+}
+
+/* ✅ subpage-style tiny line (works with your new HTML below) */
+.footer-inner .tiny{
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.56);
 }
