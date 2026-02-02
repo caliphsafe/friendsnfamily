@@ -126,34 +126,29 @@ body{
 
 /* =========================
    HERO ROW (ABOUT + TOP 4)
-   ✅ UPDATE: equal height on desktop
+   ✅ UPDATE: match widths to grid below
+   - Left column = 1.2fr (same as .grid left)
+   - Right column = 0.8fr (same as .grid right)
+   - Keep heights unchanged
 ========================= */
 .hero-row{
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
+  grid-template-columns: 1.2fr 0.8fr; /* ✅ matches .grid */
   gap: var(--gap);
-  align-items: start; /* default (mobile-friendly) */
+  align-items: start;
   margin-bottom: var(--gap);
 }
 
-/* Desktop: force both columns same height */
+/* Desktop: equal height only (doesn't change heights content-wise, just column stretch) */
 @media (min-width: 901px){
-  .hero-row{
-    align-items: stretch; /* ✅ makes both columns equal height */
-  }
-  .profile-header{
-    height: 100%;         /* ✅ fill left column height */
-  }
-  .topfriends{
-    height: 100%;         /* ✅ fill right column height */
-  }
+  .hero-row{ align-items: stretch; }
+  .profile-header{ height: 100%; }
+  .topfriends{ height: 100%; }
 }
 
-/* Mobile: stack */
+/* Mobile: stack (keep existing mobile look) */
 @media (max-width: 900px){
-  .hero-row{
-    grid-template-columns: 1fr;
-  }
+  .hero-row{ grid-template-columns: 1fr; }
 }
 
 /* =========================
@@ -187,9 +182,10 @@ body{
 }
 
 .tag-row{
-  display: flex;
+  display: inline-flex; /* ✅ shrink-wrap tags so we can size quick info to them */
   flex-wrap: wrap;
   gap: 6px;
+  max-width: 100%;
 }
 
 .tag{
@@ -200,19 +196,54 @@ body{
   border: 1px solid rgba(0,0,0,0.15);
 }
 
-/* ✅ Optional: keeps quick info lower inside About box without affecting mobile */
-@media (min-width: 901px){
-  .profile-left{
-    display: flex;
-    flex-direction: column;
-  }
-  .profile-right{
-    margin-top: auto; /* pushes quick info down */
-  }
+/* =========================
+   Quick Info width rule
+   ✅ UPDATE:
+   - Make Quick Info width match the tags row width
+   - Never exceed the About box width
+   - No height changes
+========================= */
+.profile-right{ margin-top: 10px; }
+
+.profile-right .mini-box{
+  display: inline-block;   /* ✅ shrink to content width (we set it below) */
+  width: max-content;
+  max-width: 100%;
 }
 
-/* quick info */
-.mini-box{ padding: 0; max-width: 720px; }
+/* Make mini box match the tag-row width */
+.profile-left .tag-row + .profile-right,
+.profile-left .tag-row{ /* (no-op, kept for structure) */ }
+
+.profile-header .profile-right .mini-box{
+  /* fallback if the browser doesn't support "fit-content" well */
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Force the mini-box to align under tags (left-justified) */
+.profile-header .profile-right{
+  width: 100%;
+}
+
+/* Key part: quick info becomes exactly as wide as the tag-row (up to container width) */
+.profile-left .tag-row{
+  width: fit-content;
+}
+
+.profile-header .profile-right .mini-box{
+  width: min(100%, max-content);
+}
+
+/* If you want it to match tag-row even when tag-row wraps, lock both to same line length */
+@media (min-width: 901px){
+  .profile-left{ display: block; }
+  .profile-left .tag-row{ max-width: 100%; }
+  .profile-header .profile-right .mini-box{ max-width: 100%; }
+}
+
+/* quick info inner styling */
+.mini-box{ padding: 0; }
 .mini-box-title{
   padding: 8px 10px;
   font-weight: 700;
@@ -249,7 +280,7 @@ body{
    Top 4
 ========================= */
 .topfriends{
-  margin: 0; /* ✅ since hero-row handles spacing */
+  margin: 0; /* hero-row handles spacing */
 }
 
 .topfriends-header{
@@ -267,7 +298,7 @@ body{
 
 .topfriends-grid{
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* matches your mobile-ish look */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -365,7 +396,7 @@ body{
 .photo-slot img{
   width: 100%;
   height: 100%;
-  object-fit: cover; /* keep your about_1/about_2 behavior */
+  object-fit: cover; /* keep about_1/about_2 behavior */
   object-position: center;
   display: block;
 }
