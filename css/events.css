@@ -14,7 +14,7 @@
 
   /* nav sizing */
   --nav-max: 760px;
-  --nav-h: 18px; /* adjust if you want */
+  --nav-h: 14px; /* adjust if you want */
 }
 
 *{ box-sizing: border-box; }
