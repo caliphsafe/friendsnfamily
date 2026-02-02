@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — About</title>
+  <meta name="description" content="About Friends + Family thrift shop." />
+  <link rel="stylesheet" href="css/inner-pages.css" />
+</head>
+
+<body>
+  <!-- Top brand strip -->
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Friends + Family Home">
+      <img src="img/fnf.png" alt="friends + family" />
+    </a>
+  </header>
+
+  <!-- Y2K Nav (image buttons) -->
+  <nav class="y2k-nav" aria-label="Site navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-btn" aria-label="Home">
+        <img src="img/home.png" alt="Home">
+      </a>
+      <span class="nav-dot">✦</span>
+      <a href="shop.html" class="nav-btn" aria-label="Shop">
+        <img src="img/shop.png" alt="Shop">
+      </a>
+      <span class="nav-dot">✦</span>
+      <a href="events.html" class="nav-btn" aria-label="Events">
+        <img src="img/events.png" alt="Events">
+      </a>
+      <span class="nav-dot">✦</span>
+      <a href="about.html" class="nav-btn is-active" aria-label="About">
+        <img src="img/about.png" alt="About">
+      </a>
+      <span class="nav-dot">✦</span>
+      <a href="faqs.html" class="nav-btn" aria-label="FAQs">
+        <img src="img/faqs.png" alt="FAQs">
+      </a>
+      <span class="nav-dot">✦</span>
+      <a href="contact.html" class="nav-btn" aria-label="Contact">
+        <img src="img/contact.png" alt="Contact">
+      </a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div class="layout">
+      <!-- LEFT: little myspace-style modules -->
+      <aside class="side">
+        <section class="box">
+          <h3 class="box-title">Status</h3>
+          <p class="tiny">
+            currently: <strong>adding new drops</strong> ✧
+            <br />
+            mood: <strong>thrift treasure hunter</strong>
+          </p>
+        </section>
+
+        <section class="box">
+          <h3 class="box-title">Quick Links</h3>
+          <ul class="linklist">
+            <li><a href="shop.html">Shop vendors</a></li>
+            <li><a href="events.html">Upcoming events</a></li>
+            <li><a href="contact.html">Contact / collabs</a></li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <h3 class="box-title">Vibe</h3>
+          <p class="tiny">
+            y2k • myspace • thrift • community • pop-ups
+            <br />
+            <span class="blink">online now</span>
+          </p>
+        </section>
+      </aside>
+
+      <!-- RIGHT: main content -->
+      <section class="content">
+        <header class="pagehead">
+          <h1>About Us</h1>
+          <p class="subtitle">a friends + family thing ✧ thrift shop + community moments</p>
+        </header>
+
+        <section class="box big">
+          <h2 class="box-title">Our Story</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor,
+            dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Praesent pulvinar
+            neque pellentesque mattis pretium. Integer non libero ut arcu commodo commodo.
+          </p>
+        </section>
+
+        <section class="grid2">
+          <section class="box">
+            <h2 class="box-title">What We Do</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu tortor, suscipit eget, imperdiet
+              nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris.
+            </p>
+            <ul class="bullets">
+              <li>Lorem ipsum dolor sit amet</li>
+              <li>Consectetur adipiscing elit</li>
+              <li>Sed do eiusmod tempor</li>
+            </ul>
+          </section>
+
+          <section class="box">
+            <h2 class="box-title">Why Thrift?</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent congue erat at massa. Sed cursus
+              turpis vitae tortor. Donec posuere vulputate arcu.
+            </p>
+            <p class="tiny">
+              ✦ want to vend? collab? pop-up? hit the contact page ✦
+            </p>
+          </section>
+        </section>
+
+        <!-- Photo areas (2) -->
+        <section class="box big">
+          <h2 class="box-title">Photos</h2>
+
+          <div class="photos">
+            <!-- Replace src with your real images later -->
+            <figure class="photo-slot">
+              <div class="photo-frame">
+                <!-- Optional: put an <img> here later -->
+                <span class="photo-placeholder">Photo Placeholder 1</span>
+              </div>
+              <figcaption>caption lorem ipsum ✧</figcaption>
+            </figure>
+
+            <figure class="photo-slot">
+              <div class="photo-frame">
+                <span class="photo-placeholder">Photo Placeholder 2</span>
+              </div>
+              <figcaption>caption lorem ipsum ✧</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <footer class="pagefoot">
+          <p class="tiny">
+            © <span id="year"></span> Friends + Family • made with love + late-night nostalgia
+          </p>
+        </footer>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
