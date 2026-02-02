@@ -1,20 +1,21 @@
 :root{
   --bg: #f6f7ef;
-  --ink: #111;
-  --muted: rgba(0,0,0,0.65);
+  --ink: rgba(0,0,0,0.86);
+  --muted: rgba(0,0,0,0.58);
 
-  /* box look */
   --box-bg: rgba(255,255,255,0.92);
   --box-border: #b9b9b9;
   --box-border-dark: #8f8f8f;
-  --shadow: 2px 2px 0 rgba(0,0,0,0.18);
-
+  --shadow: 2px 2px 0 rgba(0,0,0,0.16);
   --radius: 2px;
+
   --gap: 14px;
 
-  /* nav sizing */
   --nav-max: 760px;
-  --nav-h: 14px; /* adjust if you want */
+  --nav-h: 18px;
+
+  /* Tumblr-ish feed sizing */
+  --feed-w: 640px;
 }
 
 *{ box-sizing: border-box; }
@@ -33,7 +34,7 @@ body{
 }
 
 /* =========================
-   Topbar + nav
+   Topbar + nav (same vibe)
 ========================= */
 .topbar{
   position: sticky;
@@ -60,10 +61,12 @@ body{
 .img-nav{
   margin: 0 auto;
   width: min(var(--nav-max), 96vw);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 7px;
+
+  padding: 6px 8px;
 
   background: var(--box-bg);
   border: 1px solid var(--box-border);
@@ -101,80 +104,89 @@ body{
 }
 
 /* =========================
-   Layout / boxes
+   Tumblr-ish feed layout
 ========================= */
-.wrap{
-  width: min(980px, 94vw);
-  margin: 14px auto 40px;
+.feed-wrap{
+  width: min(var(--feed-w), 94vw);
+  margin: 18px auto 40px;
 }
 
-.box{
+.feed-head{
+  padding: 10px 2px 14px;
+}
+
+.feed-title{
+  margin: 0 0 6px;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.feed-sub{
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.feed{
+  display: grid;
+  gap: 18px; /* roomy like tumblr */
+}
+
+/* =========================
+   Post card
+========================= */
+.post{
   background: var(--box-bg);
   border: 1px solid var(--box-border);
   border-right-color: var(--box-border-dark);
   border-bottom-color: var(--box-border-dark);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 12px 12px;
+  padding: 12px;
 }
 
-/* =========================
-   Page header
-========================= */
-.page-head{
-  margin-bottom: var(--gap);
+.post-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.page-title{
-  margin: 0 0 6px;
-  font-size: clamp(18px, 2.2vw, 26px);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.status{
-  margin: 6px 0 6px;
+.post-meta{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.online-dot{
+.post-tag{
   display: inline-block;
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(0,0,0,0.35);
-  background: #2ecc71;
-  margin-right: 8px;
-  vertical-align: middle;
+  padding: 2px 8px;
+  background: #eef3ff;
+  border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.70);
 }
 
-.subcopy{
-  margin: 0;
-  color: rgba(0,0,0,0.72);
-  font-size: 13px;
-  line-height: 1.5;
+.dot{
+  opacity: 0.6;
 }
 
 /* =========================
-   Events feed
+   Flyer frame + auto tape
 ========================= */
-.events-feed{
-  display: grid;
-  gap: var(--gap);
-}
-
-/* Each flyer card */
-.event-card{
+.flyer-frame{
   position: relative;
-  padding: 16px 12px 12px; /* top room for tape overlap feel */
-  overflow: hidden;
+  padding-top: 34px; /* room for tape */
 }
 
-/* ✅ AUTO TAPE (applies to every event-card) */
-.event-card::before{
+/* ✅ Tape appears automatically for every post */
+.flyer-frame::before{
   content: "";
   position: absolute;
-  top: 8px;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: min(220px, 72%);
@@ -185,23 +197,58 @@ body{
   opacity: 0.98;
 }
 
-/* Flyer image */
-.event-flyer{
+.flyer{
   width: 100%;
   height: auto;
   display: block;
 
   border: 2px solid #000;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.22);
   background: #fff;
-
-  /* Nice spacing from tape */
-  margin-top: 30px;
 }
 
-/* Optional hover */
-.event-card:hover .event-flyer{
-  filter: contrast(1.03);
+.post-caption{
+  padding-top: 10px;
+}
+
+.post-caption p{
+  margin: 0;
+  color: rgba(0,0,0,0.78);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* =========================
+   Loader
+========================= */
+.feed-loading{
+  margin: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 12px 0;
+}
+
+.spinner{
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(0,0,0,0.15);
+  border-top-color: rgba(0,0,0,0.45);
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.75s linear infinite;
+  opacity: 0;
+}
+
+.feed-loading.is-on .spinner{
+  opacity: 1;
+}
+
+@keyframes spin{
+  to{ transform: rotate(360deg); }
 }
 
 /* =========================
