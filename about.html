@@ -46,76 +46,81 @@
 
   <main class="wrap">
 
-    <!-- MySpace-style profile header -->
-    <section class="box profile-header">
-      <div class="profile-left">
-        <h1 class="page-title">ABOUT US</h1>
+    <!-- ✅ NEW: Desktop side-by-side wrapper (mobile stays stacked naturally) -->
+    <section class="above-fold">
 
-        <div class="photo-slot" aria-label="Friends + Family profile photo">
-          <img
-            src="img/profile.png"
-            alt="Friends + Family profile photo"
-          >
+      <!-- MySpace-style profile header -->
+      <section class="box profile-header">
+        <div class="profile-left">
+          <h1 class="page-title">ABOUT US</h1>
+
+          <div class="photo-slot" aria-label="Friends + Family profile photo">
+            <img
+              src="img/profile.png"
+              alt="Friends + Family profile photo"
+            >
+          </div>
+
+          <p class="status">
+            <span class="online-dot" aria-hidden="true"></span>
+            <strong>Status:</strong> online • thrifting • curating
+          </p>
+
+          <div class="tag-row" aria-label="Tags">
+            <span class="tag">curated finds</span>
+            <span class="tag">local vendors</span>
+            <span class="tag">re-loved</span>
+            <span class="tag">community</span>
+          </div>
         </div>
 
-        <p class="status">
-          <span class="online-dot" aria-hidden="true"></span>
-          <strong>Status:</strong> online • thrifting • curating
-        </p>
+        <aside class="profile-right">
+          <div class="box mini-box">
+            <div class="mini-box-title">Quick Info</div>
+            <ul class="mini-list">
+              <li><strong>Type:</strong> Curated / Vintage</li>
+              <li><strong>Location:</strong> Cambridge, MA</li>
+              <li><strong>Drop Days:</strong> Tuesday + Friday</li>
+              <li><strong>Vibe:</strong> Quality Over Quantity</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
 
-        <div class="tag-row" aria-label="Tags">
-          <span class="tag">curated finds</span>
-          <span class="tag">local vendors</span>
-          <span class="tag">re-loved</span>
-          <span class="tag">community</span>
+      <!-- TOP 4 (MySpace “Top Friends” vibe) -->
+      <section class="box topfriends">
+        <div class="topfriends-header">
+          <h2 class="box-title">Top 4</h2>
+          <div class="topfriends-sub">Featured vendors (in order)</div>
         </div>
-      </div>
 
-      <aside class="profile-right">
-        <div class="box mini-box">
-          <div class="mini-box-title">Quick Info</div>
-          <ul class="mini-list">
-            <li><strong>Type:</strong> Curated / Vintage</li>
-            <li><strong>Location:</strong> Cambridge, MA</li>
-            <li><strong>Drop Days:</strong> Tuesday + Friday</li>
-            <li><strong>Vibe:</strong> Quality Over Quantity</li>
-          </ul>
+        <div class="topfriends-grid">
+          <!-- 1 -->
+          <a class="friend" href="#" aria-label="01 mimimarie">
+            <div class="friend-photo" role="img" aria-label="01 mimimarie photo placeholder"></div>
+            <div class="friend-name">01 mimimarie</div>
+          </a>
+
+          <!-- 2 -->
+          <a class="friend" href="#" aria-label="Benny Enzo!">
+            <div class="friend-photo" role="img" aria-label="Benny Enzo photo placeholder"></div>
+            <div class="friend-name">Benny Enzo!</div>
+          </a>
+
+          <!-- 3 -->
+          <a class="friend" href="#" aria-label="Maia">
+            <div class="friend-photo" role="img" aria-label="Maia photo placeholder"></div>
+            <div class="friend-name">Maia</div>
+          </a>
+
+          <!-- 4 -->
+          <a class="friend" href="#" aria-label="Meera">
+            <div class="friend-photo" role="img" aria-label="Meera photo placeholder"></div>
+            <div class="friend-name">Meera</div>
+          </a>
         </div>
-      </aside>
-    </section>
+      </section>
 
-    <!-- TOP 4 (MySpace “Top Friends” vibe) -->
-    <section class="box topfriends">
-      <div class="topfriends-header">
-        <h2 class="box-title">Top 4</h2>
-        <div class="topfriends-sub">Featured vendors (in order)</div>
-      </div>
-
-      <div class="topfriends-grid">
-        <!-- 1 -->
-        <a class="friend" href="#" aria-label="01 mimimarie">
-          <div class="friend-photo" role="img" aria-label="01 mimimarie photo placeholder"></div>
-          <div class="friend-name">01 mimimarie</div>
-        </a>
-
-        <!-- 2 -->
-        <a class="friend" href="#" aria-label="Benny Enzo!">
-          <div class="friend-photo" role="img" aria-label="Benny Enzo photo placeholder"></div>
-          <div class="friend-name">Benny Enzo!</div>
-        </a>
-
-        <!-- 3 -->
-        <a class="friend" href="#" aria-label="Maia">
-          <div class="friend-photo" role="img" aria-label="Maia photo placeholder"></div>
-          <div class="friend-name">Maia</div>
-        </a>
-
-        <!-- 4 -->
-        <a class="friend" href="#" aria-label="Meera">
-          <div class="friend-photo" role="img" aria-label="Meera photo placeholder"></div>
-          <div class="friend-name">Meera</div>
-        </a>
-      </div>
     </section>
 
     <!-- Main content grid -->
