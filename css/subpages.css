@@ -124,32 +124,43 @@ body{
   padding: 12px 12px;
 }
 
-/* ✅ About + Top 4 row:
-   - desktop = 2 columns with the SAME gap as the lower grid
-   - mobile = stacks (no disruption) */
+/* =========================
+   HERO ROW (ABOUT + TOP 4)
+   ✅ UPDATE: equal height on desktop
+========================= */
 .hero-row{
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.4fr 0.6fr;
   gap: var(--gap);
+  align-items: start; /* default (mobile-friendly) */
   margin-bottom: var(--gap);
 }
 
+/* Desktop: force both columns same height */
 @media (min-width: 901px){
   .hero-row{
-    grid-template-columns: 1.55fr 1fr; /* ✅ makes About box wider, closes dead space */
-    align-items: start;
+    align-items: stretch; /* ✅ makes both columns equal height */
+  }
+  .profile-header{
+    height: 100%;         /* ✅ fill left column height */
+  }
+  .topfriends{
+    height: 100%;         /* ✅ fill right column height */
+  }
+}
+
+/* Mobile: stack */
+@media (max-width: 900px){
+  .hero-row{
+    grid-template-columns: 1fr;
   }
 }
 
 /* =========================
-   Profile header (single column inside)
+   Profile header (About box)
 ========================= */
 .profile-header{
-  width: 100%;
-}
-
-.profile-left{
-  text-align: left;
+  display: block;
 }
 
 .page-title{
@@ -160,7 +171,7 @@ body{
 }
 
 .status{
-  margin: 8px 0 10px;
+  margin: 0 0 10px;
   color: var(--muted);
   font-size: 13px;
 }
@@ -179,7 +190,6 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 10px;
 }
 
 .tag{
@@ -190,34 +200,19 @@ body{
   border: 1px solid rgba(0,0,0,0.15);
 }
 
-/* ✅ Profile photo: small, left, shows whole image */
-.photo-slot[aria-label="Friends + Family profile photo"]{
-  width: 120px;         /* ✅ half-ish size */
-  height: 120px;
-  aspect-ratio: auto;
-  margin: 6px 0 10px;
-}
-
-.photo-slot[aria-label="Friends + Family profile photo"] img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  background: #f6f7ef;
-}
-
-/* quick info (kept narrow — does NOT stretch wider) */
-.profile-right{
-  margin-top: 10px;
-}
-
-.profile-right .mini-box{
-  width: min(420px, 100%);   /* ✅ stays controlled */
+/* ✅ Optional: keeps quick info lower inside About box without affecting mobile */
+@media (min-width: 901px){
+  .profile-left{
+    display: flex;
+    flex-direction: column;
+  }
+  .profile-right{
+    margin-top: auto; /* pushes quick info down */
+  }
 }
 
 /* quick info */
-.mini-box{ padding: 0; }
+.mini-box{ padding: 0; max-width: 720px; }
 .mini-box-title{
   padding: 8px 10px;
   font-weight: 700;
@@ -233,10 +228,28 @@ body{
 }
 
 /* =========================
-   Top 4 vendors (2x2 like your screenshot)
+   Profile photo (special case)
+========================= */
+.photo-slot[aria-label="Friends + Family profile photo"]{
+  width: 150px;
+  height: 150px;
+  aspect-ratio: auto;
+}
+
+.photo-slot[aria-label="Friends + Family profile photo"] img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #f6f7ef;
+}
+
+/* =========================
+   Top 4
 ========================= */
 .topfriends{
-  width: 100%;
+  margin: 0; /* ✅ since hero-row handles spacing */
 }
 
 .topfriends-header{
@@ -254,7 +267,7 @@ body{
 
 .topfriends-grid{
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* ✅ always 2x2 */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* matches your mobile-ish look */
   gap: 10px;
 }
 
@@ -331,7 +344,7 @@ body{
 }
 
 /* =========================
-   Photo blocks (unchanged behavior)
+   Photo slots (default)
 ========================= */
 .photo-box .caption{
   margin-top: 8px;
@@ -352,13 +365,13 @@ body{
 .photo-slot img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* keep your about_1/about_2 behavior */
   object-position: center;
   display: block;
 }
 
 /* =========================
-   Content grid (Our Story / Photos)
+   Content grid (below hero)
 ========================= */
 .grid{
   display: grid;
