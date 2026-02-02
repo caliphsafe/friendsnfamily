@@ -122,29 +122,22 @@ body{
 
 /* =========================
    HERO ROW (LEFT STACK + TOP 4)
-   - Desktop: 2 columns
-   - LEFT column is a 2-row stack that matches Top 4 height
-   - Mobile: stacks
+   ✅ UPDATE: remove forced equal-height behavior
+   - This kills the dead space on desktop
+   - Mobile still stacks normally
 ========================= */
 .hero-row{
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: var(--gap);
-  align-items: start;
+  align-items: start;          /* ✅ content-based height */
   margin-bottom: var(--gap);
 }
 
 .hero-left{
   display: grid;
   gap: var(--gap);
-}
-
-/* Desktop: make LEFT stack fill the same height as Top 4, split into two equal halves */
-@media (min-width: 901px){
-  .hero-row{ align-items: stretch; }
-  .hero-left{ grid-template-rows: 1fr 1fr; }
-  .hero-left > .box{ height: 100%; }
-  .topfriends{ height: 100%; }
+  grid-auto-rows: max-content; /* ✅ shrink-wrap the two boxes */
 }
 
 /* Mobile: stack everything naturally */
@@ -155,7 +148,7 @@ body{
 
 /* =========================
    Profile header (About box)
-   ✅ Quick Info back to top-right aligned with photo
+   Quick Info top-right aligned with photo
 ========================= */
 .profile-header{
   display: block;
@@ -168,7 +161,6 @@ body{
   align-items: start;
 }
 
-/* On mobile, keep it stacked (same as before) */
 @media (max-width: 900px){
   .profile-top{ grid-template-columns: 1fr; }
 }
@@ -254,7 +246,7 @@ body{
    NEW CONTACT CARD (screenshot vibe)
 ========================= */
 .contact-card{
-  padding: 0; /* header bar flush like the screenshot */
+  padding: 0; /* header bar flush */
 }
 
 .contact-card-title{
@@ -291,7 +283,6 @@ body{
   text-decoration: underline;
 }
 
-/* tiny icon pills (simple + clean, matches boxy theme) */
 .ico{
   width: 18px;
   height: 18px;
@@ -304,7 +295,6 @@ body{
   background: #fff;
 }
 
-/* Icon variations */
 .ico.plus{ background: #dff7df; }
 .ico.plus::after{ content:"+"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#1a8f2d; }
 
