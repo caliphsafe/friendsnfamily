@@ -250,11 +250,11 @@ body{
 }
 
 .contact-card-title{
-  background: #6ea9ff;
-  color: #fff;
-  font-weight: 700;
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(0,0,0,0.22);
+  font-weight: 700;
+  background: #f0f0f0;                    /* ✅ same as .mini-box-title */
+  border-bottom: 1px solid rgba(0,0,0,0.14);
+  color: rgba(0,0,0,0.78);                /* ✅ site ink-ish */
   text-transform: none;
 }
 
@@ -274,7 +274,7 @@ body{
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  color: #1146a6;
+  color: rgba(0,0,0,0.78);                /* ✅ match site text */
   font-weight: 700;
   font-size: 14px;
 }
