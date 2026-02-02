@@ -320,19 +320,22 @@ body{
 
 .photo-slot{
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1; /* profile picture = square */
   background: #fff;
   border: 2px solid #000;
   box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
   overflow: hidden;
+  position: relative;
 }
 
-.photo-img{
+.photo-slot img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;      /* 🔑 this fixes the issue */
+  object-position: center;
   display: block;
 }
+
 
 .photo-slot-inner{
   position: absolute;
