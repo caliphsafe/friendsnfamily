@@ -6,9 +6,9 @@
   <title>Friends + Family — FAQs</title>
   <meta name="description" content="FAQs for Friends + Family curated thrift shop." />
 
-  <!-- shared subpage styles -->
+  <!-- shared subpage styles (header/footer/box) -->
   <link rel="stylesheet" href="css/subpages.css" />
-  <!-- myspace-style faq thread -->
+  <!-- faq page layout + myspace look -->
   <link rel="stylesheet" href="css/faqs.css" />
 </head>
 
@@ -21,168 +21,402 @@
     </a>
 
     <nav class="img-nav" aria-label="Primary navigation">
-      <a class="img-nav-item" href="index.html"><img src="img/home.png" alt="Home"></a>
-      <a class="img-nav-item" href="shop.html"><img src="img/shop.png" alt="Shop"></a>
-      <a class="img-nav-item" href="events.html"><img src="img/events.png" alt="Events"></a>
-      <a class="img-nav-item" href="about.html"><img src="img/about.png" alt="About"></a>
-      <a class="img-nav-item" href="faqs.html" aria-current="page"><img src="img/faqs.png" alt="FAQs"></a>
-      <a class="img-nav-item" href="contact.html"><img src="img/contact.png" alt="Contact"></a>
+      <a class="img-nav-item" href="index.html" aria-label="Home"><img src="img/home.png" alt="Home"></a>
+      <a class="img-nav-item" href="shop.html" aria-label="Shop"><img src="img/shop.png" alt="Shop"></a>
+      <a class="img-nav-item" href="events.html" aria-label="Events"><img src="img/events.png" alt="Events"></a>
+      <a class="img-nav-item" href="about.html" aria-label="About"><img src="img/about.png" alt="About"></a>
+      <a class="img-nav-item" href="faqs.html" aria-current="page" aria-label="FAQs"><img src="img/faqs.png" alt="FAQs"></a>
+      <a class="img-nav-item" href="contact.html" aria-label="Contact"><img src="img/contact.png" alt="Contact"></a>
     </nav>
   </header>
 
   <main class="wrap">
 
-    <!-- PAGE HEADER -->
+    <!-- Page header -->
     <section class="box page-head">
-      <h1 class="page-title">FAQs</h1>
-      <p class="subcopy">
-        questions we get all the time • answered by the friends + family team
-      </p>
+      <h1 class="page-title">FAQS</h1>
+      <p class="subcopy">questions we get all the time • answered by the friends + family team</p>
     </section>
 
-    <!-- FAQ THREAD -->
+    <!-- Forum wrapper -->
     <section class="box forum">
-
       <div class="forum-head">
-        <div class="forum-title">friends + family comments</div>
+        <div class="forum-title">FRIENDS + FAMILY COMMENTS</div>
         <div class="forum-sub">15 posts • last active today</div>
       </div>
 
       <div class="thread">
 
-        <!-- FAQ 1 -->
+        <!-- POST 1 -->
         <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
             <div class="user">admin</div>
-            <div class="mood"><strong>mood:</strong> helpful<br><strong>music:</strong> curated loops</div>
-            <div class="time">posted 2 hours ago</div>
-            <div class="mini-actions">
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> helpful</div>
+              <div><span class="k">music:</span> curated loops</div>
+              <div class="when">posted 2 hours ago</div>
+            </div>
+
+            <div class="left-actions">
               <a href="contact.html"><span class="chip">✉</span>Message</a>
               <a href="#"><span class="chip">+</span>Add</a>
               <a href="#"><span class="chip">⛔</span>Block</a>
             </div>
-          </div>
-          <h3 class="post-q">How does Friends + Family work?</h3>
-          <div class="post-a">
-            <p>
-              Friends + Family is a curated thrift platform that brings together independent vendors
-              under one shared space. Each vendor selects and manages their own inventory, while we
-              handle the overall presentation and experience.
-            </p>
-            <div class="sig">— friends + family team • quality over quantity</div>
-          </div>
-          <div class="post-actions">
-            <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
-          </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How does Friends + Family work?</h3>
+            <div class="post-a">
+              <p>
+                Friends + Family is a curated thrift platform that brings together independent vendors under one shared space.
+                Each vendor selects and manages their own inventory, and we keep the overall experience consistent and easy to browse.
+              </p>
+              <p>
+                Think “community storefront” — multiple curators, one vibe.
+              </p>
+              <div class="sig">— friends + family team • quality over quantity</div>
+            </div>
+
+            <div class="post-actions">
+              <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
+            </div>
+          </section>
         </article>
 
-        <!-- FAQ 2 -->
+        <!-- POST 2 -->
         <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
             <div class="user">fnf_support</div>
-            <div class="mood"><strong>mood:</strong> chill<br><strong>music:</strong> slow digs</div>
-            <div class="time">posted today</div>
-            <div class="mini-actions">
-              <a href="#"><span class="chip">✉</span>Message</a>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> chill</div>
+              <div><span class="k">music:</span> slow digs</div>
+              <div class="when">posted today</div>
+            </div>
+            <div class="left-actions">
+              <a href="contact.html"><span class="chip">✉</span>Message</a>
               <a href="#"><span class="chip">+</span>Add</a>
             </div>
-          </div>
-          <h3 class="post-q">Are all items secondhand?</h3>
-          <div class="post-a">
-            <p>
-              Most items are secondhand or vintage. Occasionally, vendors may include small-batch
-              new items, but everything is selected with sustainability and longevity in mind.
-            </p>
-            <div class="sig">— fnf support</div>
-          </div>
-          <div class="post-actions">
-            <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
-          </div>
-        </article>
+          </aside>
 
-        <!-- FAQ 3 -->
-        <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
-            <div class="user">curation_bot</div>
-            <div class="mood"><strong>mood:</strong> organized<br><strong>music:</strong> none</div>
-            <div class="time">posted yesterday</div>
-            <div class="mini-actions">
-              <a href="#"><span class="chip">✉</span>Message</a>
-              <a href="#"><span class="chip">+</span>Add</a>
+          <section class="post-right">
+            <h3 class="post-q">Are all items secondhand?</h3>
+            <div class="post-a">
+              <p>
+                Mostly yes — secondhand and vintage are the foundation. Occasionally vendors may include small-batch new pieces,
+                but everything is curated with longevity and sustainability in mind.
+              </p>
+              <div class="sig">— fnf support</div>
             </div>
-          </div>
-          <h3 class="post-q">How often do vendors restock?</h3>
-          <div class="post-a">
-            <p>
-              Restocks depend on the vendor, but most update their collections once or twice a week.
-              Drop days are typically announced ahead of time.
-            </p>
-            <div class="sig">— automated curation response</div>
-          </div>
-          <div class="post-actions">
-            <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
-          </div>
+            <div class="post-actions">
+              <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
+            </div>
+          </section>
         </article>
 
-        <!-- FAQ 4–15 (shorter for readability but same structure) -->
-
-        <!-- You can duplicate this block and change text as needed -->
-        <!-- FAQ 4 -->
+        <!-- POST 3 -->
         <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
-            <div class="user">admin</div>
-            <div class="mood"><strong>mood:</strong> focused</div>
-            <div class="time">posted yesterday</div>
-          </div>
-          <h3 class="post-q">Do vendors ship internationally?</h3>
-          <div class="post-a">
-            <p>
-              Some vendors offer international shipping. Check individual vendor pages for shipping details.
-            </p>
-            <div class="sig">— friends + family team</div>
-          </div>
-        </article>
-
-        <!-- FAQ 5 -->
-        <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
-            <div class="user">admin</div>
-            <div class="mood"><strong>mood:</strong> calm</div>
-            <div class="time">posted 2 days ago</div>
-          </div>
-          <h3 class="post-q">Can I return items?</h3>
-          <div class="post-a">
-            <p>
-              Returns are handled by individual vendors. Please review each vendor’s return policy before purchasing.
-            </p>
-            <div class="sig">— friends + family team</div>
-          </div>
-        </article>
-
-        <!-- FAQ 6 -->
-        <article class="post">
-          <div class="post-meta">
-            <div class="avatar"></div>
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
             <div class="user">vendor_ops</div>
-            <div class="time">posted 3 days ago</div>
-          </div>
-          <h3 class="post-q">How do I become a vendor?</h3>
-          <div class="post-a">
-            <p>
-              Vendors can apply through the contact page. We look for strong curation, consistency,
-              and a clear point of view.
-            </p>
-            <div class="sig">— vendor operations</div>
-          </div>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> organized</div>
+              <div class="when">posted yesterday</div>
+            </div>
+            <div class="left-actions">
+              <a href="contact.html"><span class="chip">✉</span>Message</a>
+              <a href="#"><span class="chip">+</span>Add</a>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How often do vendors restock?</h3>
+            <div class="post-a">
+              <p>
+                It varies by vendor, but most do 1–2 drops per week. When a big drop is coming, we’ll usually tease it on the Events page.
+              </p>
+              <div class="sig">— vendor operations</div>
+            </div>
+            <div class="post-actions">
+              <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
+            </div>
+          </section>
         </article>
 
-        <!-- FAQs 7–15 -->
-        <!-- Keep duplicating this exact structure for visual consistency -->
+        <!-- POST 4 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> focused</div>
+              <div class="when">posted yesterday</div>
+            </div>
+            <div class="left-actions">
+              <a href="contact.html"><span class="chip">✉</span>Message</a>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Do vendors ship internationally?</h3>
+            <div class="post-a">
+              <p>
+                Some do, some don’t. Each vendor controls shipping options. Check the vendor page and their checkout settings for details.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+            <div class="post-actions">
+              <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 5 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">fnf_support</div>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> calm</div>
+              <div class="when">posted 2 days ago</div>
+            </div>
+            <div class="left-actions">
+              <a href="contact.html"><span class="chip">✉</span>Message</a>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Can I return items?</h3>
+            <div class="post-a">
+              <p>
+                Return policies are set by each vendor. If you’re unsure, message the vendor before buying — we want you confident in the fit.
+              </p>
+              <div class="sig">— fnf support</div>
+            </div>
+            <div class="post-actions">
+              <a href="#">Reply</a><span class="dot">•</span><a href="#">Forward</a>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 6 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> welcoming</div>
+              <div class="when">posted 3 days ago</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How do I become a vendor?</h3>
+            <div class="post-a">
+              <p>
+                Send us a message through Contact with a quick intro, your curation style, and links to your shop/socials.
+                We look for strong point-of-view and consistency.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 7 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">curation_bot</div>
+            <div class="meta-lines">
+              <div><span class="k">mood:</span> scanning racks</div>
+              <div class="when">posted last week</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">What does “curated” mean here?</h3>
+            <div class="post-a">
+              <p>
+                It means vendors choose items intentionally — by fit, era, material, and vibe — instead of listing everything.
+                The goal is fewer pieces, better pieces.
+              </p>
+              <div class="sig">— automated curation response</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 8 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div class="when">posted last week</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How do I find my size?</h3>
+            <div class="post-a">
+              <p>
+                Use measurements first. If a listing includes chest/waist/inseam, compare to something you already own that fits.
+                If you need a measurement, message the vendor.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 9 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">fnf_support</div>
+            <div class="meta-lines">
+              <div class="when">posted last week</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Do you authenticate designer items?</h3>
+            <div class="post-a">
+              <p>
+                Vendors are responsible for accurate descriptions. For high-value pieces, vendors may provide extra photos and provenance notes.
+                If you have questions, ask before purchase.
+              </p>
+              <div class="sig">— fnf support</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 10 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div class="when">posted last week</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How do drops work?</h3>
+            <div class="post-a">
+              <p>
+                Drops are timed restocks. Vendors publish new items at a set time, and the best stuff can move quickly.
+                If you’re early, you win.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 11 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">vendor_ops</div>
+            <div class="meta-lines">
+              <div class="when">posted last month</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Can I bundle items from one vendor?</h3>
+            <div class="post-a">
+              <p>
+                Often yes. Many vendors will bundle to save shipping. Message them with the items you want and ask for a combined invoice.
+              </p>
+              <div class="sig">— vendor operations</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 12 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">fnf_support</div>
+            <div class="meta-lines">
+              <div class="when">posted last month</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Why do some items cost more than thrift-store prices?</h3>
+            <div class="post-a">
+              <p>
+                Curation takes time: sourcing, cleaning, repairs, photography, measurements, and listing.
+                You’re paying for selection + effort + rare finds.
+              </p>
+              <div class="sig">— fnf support</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 13 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div class="when">posted last month</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">Do you have local pickup?</h3>
+            <div class="post-a">
+              <p>
+                Some vendors offer local pickup depending on location. If you’re nearby, message the vendor and ask what’s possible.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 14 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">curation_bot</div>
+            <div class="meta-lines">
+              <div class="when">posted last month</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How do I contact a specific vendor?</h3>
+            <div class="post-a">
+              <p>
+                Go to the vendor page and use their preferred contact method. If you’re stuck, reach out via Contact and we’ll point you right.
+              </p>
+              <div class="sig">— automated curation response</div>
+            </div>
+          </section>
+        </article>
+
+        <!-- POST 15 -->
+        <article class="post">
+          <aside class="post-left">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="user">admin</div>
+            <div class="meta-lines">
+              <div class="when">posted last month</div>
+            </div>
+          </aside>
+
+          <section class="post-right">
+            <h3 class="post-q">How can I stay updated on drops and events?</h3>
+            <div class="post-a">
+              <p>
+                Check the Events page regularly and follow your favorite vendors. We’ll keep the big announcements up front.
+              </p>
+              <div class="sig">— friends + family team</div>
+            </div>
+          </section>
+        </article>
 
       </div>
     </section>
@@ -191,4 +425,14 @@
     <footer class="subfooter">
       <div class="subfooter-inner">
         <p>© <span id="year"></span> Friends + Family</p>
-        <p class="
+        <p class="tiny">made for the thrift community</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
