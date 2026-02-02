@@ -109,7 +109,7 @@ body{
 }
 
 .box{
-  background: var(--box-bg);
+  background: transparent; /* ✅ let page background show through */
   border: 1px solid var(--box-border);
   border-right-color: var(--box-border-dark);
   border-bottom-color: var(--box-border-dark);
@@ -117,6 +117,7 @@ body{
   box-shadow: var(--shadow);
   padding: 12px 12px;
 }
+
 
 /* =========================
    Page header
