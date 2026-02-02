@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Events</title>
+  <meta name="description" content="Friends + Family events and pop-ups." />
+  <link rel="stylesheet" href="css/events.css" />
+</head>
+
+<body class="subpage events-page">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a class="topbar-brand" href="index.html" aria-label="Friends + Family Home">
+      <img src="img/fnf.png" alt="friends + family" />
+    </a>
+
+    <!-- Image-nav (same assets as guest check nav, NO dividers) -->
+    <nav class="img-nav" aria-label="Primary navigation">
+      <a class="img-nav-item" href="index.html" aria-label="Home">
+        <img src="img/home.png" alt="Home">
+      </a>
+
+      <a class="img-nav-item" href="shop.html" aria-label="Shop">
+        <img src="img/shop.png" alt="Shop">
+      </a>
+
+      <a class="img-nav-item" href="events.html" aria-current="page" aria-label="Events">
+        <img src="img/events.png" alt="Events">
+      </a>
+
+      <a class="img-nav-item" href="about.html" aria-label="About">
+        <img src="img/about.png" alt="About">
+      </a>
+
+      <a class="img-nav-item" href="faqs.html" aria-label="FAQs">
+        <img src="img/faqs.png" alt="FAQs">
+      </a>
+
+      <a class="img-nav-item" href="contact.html" aria-label="Contact">
+        <img src="img/contact.png" alt="Contact">
+      </a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Page header -->
+    <section class="box page-head">
+      <h1 class="page-title">EVENTS</h1>
+      <p class="status">
+        <span class="online-dot" aria-hidden="true"></span>
+        <strong>Status:</strong> tap-in • pop-ups • community
+      </p>
+      <p class="subcopy">
+        Most recent flyers are at the top. Scroll for past events.
+      </p>
+    </section>
+
+    <!-- Events feed -->
+    <section class="events-feed" aria-label="Event flyers feed">
+
+      <!-- MOST RECENT (top) -->
+      <article class="box event-card" aria-label="Event flyer 1 (most recent)">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_01.png"
+          alt="Event flyer 1"
+          loading="lazy"
+        />
+      </article>
+
+      <article class="box event-card" aria-label="Event flyer 2">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_02.png"
+          alt="Event flyer 2"
+          loading="lazy"
+        />
+      </article>
+
+      <article class="box event-card" aria-label="Event flyer 3">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_03.png"
+          alt="Event flyer 3"
+          loading="lazy"
+        />
+      </article>
+
+      <!-- Add more flyers by copying one of the cards above -->
+
+    </section>
+
+    <footer class="subfooter">
+      <div class="subfooter-inner">
+        <p>© <span id="year"></span> Friends + Family</p>
+        <p class="tiny">made for the thrift community</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
