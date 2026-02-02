@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/events.css" />
 </head>
 
-<body class="events-page">
+<body class="subpage events-page">
 
   <!-- Top bar -->
   <header class="topbar">
@@ -44,24 +44,54 @@
     </nav>
   </header>
 
-  <main class="feed-wrap">
+  <main class="wrap">
 
-    <!-- Tumblr-ish header -->
-    <section class="feed-head" aria-label="Events intro">
-      <h1 class="feed-title">Events</h1>
-      <p class="feed-sub">Newest at the top. Scroll for past flyers.</p>
+    <!-- Page header -->
+    <section class="box page-head">
+      <h1 class="page-title">EVENTS</h1>
+      <p class="status">
+        <span class="online-dot" aria-hidden="true"></span>
+        <strong>Status:</strong> tap-in • pop-ups • community
+      </p>
+      <p class="subcopy">
+        Most recent flyers are at the top. Scroll for past events.
+      </p>
     </section>
 
-    <!-- Feed column -->
-    <section id="feed" class="feed" aria-label="Event flyers feed">
-      <!-- Posts will be injected here -->
-    </section>
+    <!-- Events feed -->
+    <section class="events-feed" aria-label="Event flyers feed">
 
-    <!-- Loading / sentinel -->
-    <div class="feed-loading" aria-label="Loading more events">
-      <span class="spinner" aria-hidden="true"></span>
-      <span class="loading-text">Loading more…</span>
-    </div>
+      <!-- MOST RECENT (top) -->
+      <article class="box event-card" aria-label="Event flyer 1 (most recent)">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_01.png"
+          alt="Event flyer 1"
+          loading="lazy"
+        />
+      </article>
+
+      <article class="box event-card" aria-label="Event flyer 2">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_02.png"
+          alt="Event flyer 2"
+          loading="lazy"
+        />
+      </article>
+
+      <article class="box event-card" aria-label="Event flyer 3">
+        <img
+          class="event-flyer"
+          src="img/events/flyer_03.png"
+          alt="Event flyer 3"
+          loading="lazy"
+        />
+      </article>
+
+      <!-- Add more flyers by copying one of the cards above -->
+
+    </section>
 
     <footer class="subfooter">
       <div class="subfooter-inner">
@@ -74,113 +104,6 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    /**
-     * ✅ HOW TO ADD EVENTS:
-     * 1) Upload flyers to: img/events/
-     * 2) Add the filename to this array (newest FIRST).
-     *    Example: "flyer_09.png"
-     */
-    const FLYERS = [
-      "flyer_01.png",
-      "flyer_02.png",
-      "flyer_03.png",
-      // add more here...
-    ];
-
-    const feed = document.getElementById("feed");
-    const loadingEl = document.querySelector(".feed-loading");
-
-    // How many posts to add per batch:
-    const PAGE_SIZE = 3;
-
-    // We loop over flyers repeatedly only if you want "endless" demo behavior.
-    // Set to false if you want it to stop when it reaches the end.
-    const LOOP_WHEN_END = false;
-
-    let cursor = 0;
-
-    function createPost(filename, indexLabel) {
-      const article = document.createElement("article");
-      article.className = "post";
-      article.setAttribute("aria-label", `Event flyer ${indexLabel}`);
-
-      article.innerHTML = `
-        <div class="post-top">
-          <div class="post-meta">
-            <span class="post-tag">event</span>
-            <span class="dot" aria-hidden="true">•</span>
-            <span class="post-date">Lorem ipsum date</span>
-          </div>
-        </div>
-
-        <div class="flyer-frame">
-          <img
-            class="flyer"
-            src="img/events/${filename}"
-            alt="Event flyer"
-            loading="lazy"
-          />
-        </div>
-
-        <div class="post-caption">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.</p>
-        </div>
-      `;
-
-      return article;
-    }
-
-    function loadNextBatch() {
-      // If no flyers, hide loader and bail
-      if (!FLYERS.length) {
-        loadingEl.style.display = "none";
-        return;
-      }
-
-      loadingEl.classList.add("is-on");
-
-      // simulate a tiny delay (feels like tumblr loading)
-      setTimeout(() => {
-        const start = cursor;
-        const end = cursor + PAGE_SIZE;
-
-        for (let i = start; i < end; i++) {
-          let idx = i;
-
-          if (idx >= FLYERS.length) {
-            if (!LOOP_WHEN_END) break;
-            idx = idx % FLYERS.length;
-          }
-
-          const post = createPost(FLYERS[idx], i + 1);
-          feed.appendChild(post);
-        }
-
-        cursor = end;
-
-        // Stop if we hit the end and we're not looping
-        if (!LOOP_WHEN_END && cursor >= FLYERS.length) {
-          loadingEl.querySelector(".loading-text").textContent = "You’re all caught up.";
-          loadingEl.classList.remove("is-on");
-          return;
-        }
-
-        loadingEl.classList.remove("is-on");
-      }, 350);
-    }
-
-    // initial load
-    loadNextBatch();
-
-    // infinite scroll observer
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) loadNextBatch();
-      });
-    }, { rootMargin: "800px 0px" });
-
-    observer.observe(loadingEl);
   </script>
 </body>
 </html>
