@@ -5,153 +5,205 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Friends + Family — About</title>
   <meta name="description" content="About Friends + Family thrift shop." />
-  <link rel="stylesheet" href="css/inner-pages.css" />
+  <link rel="stylesheet" href="css/subpages.css" />
 </head>
 
-<body>
-  <!-- Top brand strip -->
+<body class="subpage about-page">
+
+  <!-- Top bar -->
   <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Friends + Family Home">
+    <a class="topbar-brand" href="index.html" aria-label="Friends + Family Home">
       <img src="img/fnf.png" alt="friends + family" />
     </a>
-  </header>
 
-  <!-- Y2K Nav (image buttons) -->
-  <nav class="y2k-nav" aria-label="Site navigation">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-btn" aria-label="Home">
+    <!-- Image-nav (same assets as guest check nav, NO dividers) -->
+    <nav class="img-nav" aria-label="Primary navigation">
+      <a class="img-nav-item" href="index.html" aria-label="Home">
         <img src="img/home.png" alt="Home">
       </a>
-      <span class="nav-dot">✦</span>
-      <a href="shop.html" class="nav-btn" aria-label="Shop">
+
+      <a class="img-nav-item" href="shop.html" aria-label="Shop">
         <img src="img/shop.png" alt="Shop">
       </a>
-      <span class="nav-dot">✦</span>
-      <a href="events.html" class="nav-btn" aria-label="Events">
+
+      <a class="img-nav-item" href="events.html" aria-label="Events">
         <img src="img/events.png" alt="Events">
       </a>
-      <span class="nav-dot">✦</span>
-      <a href="about.html" class="nav-btn is-active" aria-label="About">
+
+      <a class="img-nav-item" href="about.html" aria-current="page" aria-label="About">
         <img src="img/about.png" alt="About">
       </a>
-      <span class="nav-dot">✦</span>
-      <a href="faqs.html" class="nav-btn" aria-label="FAQs">
+
+      <a class="img-nav-item" href="faqs.html" aria-label="FAQs">
         <img src="img/faqs.png" alt="FAQs">
       </a>
-      <span class="nav-dot">✦</span>
-      <a href="contact.html" class="nav-btn" aria-label="Contact">
+
+      <a class="img-nav-item" href="contact.html" aria-label="Contact">
         <img src="img/contact.png" alt="Contact">
       </a>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <main class="wrap">
-    <div class="layout">
-      <!-- LEFT: little myspace-style modules -->
-      <aside class="side">
-        <section class="box">
-          <h3 class="box-title">Status</h3>
-          <p class="tiny">
-            currently: <strong>adding new drops</strong> ✧
-            <br />
-            mood: <strong>thrift treasure hunter</strong>
-          </p>
-        </section>
 
-        <section class="box">
-          <h3 class="box-title">Quick Links</h3>
-          <ul class="linklist">
-            <li><a href="shop.html">Shop vendors</a></li>
-            <li><a href="events.html">Upcoming events</a></li>
-            <li><a href="contact.html">Contact / collabs</a></li>
+    <!-- MySpace-style profile header -->
+    <section class="box profile-header">
+      <div class="profile-left">
+        <h1 class="page-title">ABOUT FRIENDS + FAMILY</h1>
+        <p class="status">
+          <span class="online-dot" aria-hidden="true"></span>
+          <strong>Status:</strong> online • thrifting • updating
+        </p>
+
+        <div class="tag-row" aria-label="Tags">
+          <span class="tag">curated finds</span>
+          <span class="tag">local vendors</span>
+          <span class="tag">re-loved</span>
+          <span class="tag">community</span>
+        </div>
+      </div>
+
+      <aside class="profile-right">
+        <div class="box mini-box">
+          <div class="mini-box-title">Quick Info</div>
+          <ul class="mini-list">
+            <li><strong>Type:</strong> Thrift / Vintage</li>
+            <li><strong>Location:</strong> Lorem City, MA</li>
+            <li><strong>Drop Days:</strong> Lorem + Ipsum</li>
+            <li><strong>Vibe:</strong> Classic internet</li>
           </ul>
-        </section>
+        </div>
+      </aside>
+    </section>
 
-        <section class="box">
-          <h3 class="box-title">Vibe</h3>
-          <p class="tiny">
-            y2k • myspace • thrift • community • pop-ups
-            <br />
-            <span class="blink">online now</span>
-          </p>
-        </section>
+    <!-- TOP 4 (MySpace “Top Friends” vibe) -->
+    <section class="box topfriends">
+      <div class="topfriends-header">
+        <h2 class="box-title">Top 4 Vendors</h2>
+        <div class="topfriends-sub">Featured vendors (in order)</div>
+      </div>
+
+      <div class="topfriends-grid">
+        <!-- 1 -->
+        <a class="friend" href="#" aria-label="01 mimimarie">
+          <div class="friend-photo" role="img" aria-label="01 mimimarie photo placeholder"></div>
+          <div class="friend-name">01 mimimarie</div>
+        </a>
+
+        <!-- 2 -->
+        <a class="friend" href="#" aria-label="Benny Enzo!">
+          <div class="friend-photo" role="img" aria-label="Benny Enzo photo placeholder"></div>
+          <div class="friend-name">Benny Enzo!</div>
+        </a>
+
+        <!-- 3 -->
+        <a class="friend" href="#" aria-label="Maia">
+          <div class="friend-photo" role="img" aria-label="Maia photo placeholder"></div>
+          <div class="friend-name">Maia</div>
+        </a>
+
+        <!-- 4 -->
+        <a class="friend" href="#" aria-label="Meera">
+          <div class="friend-photo" role="img" aria-label="Meera photo placeholder"></div>
+          <div class="friend-name">Meera</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Main content grid -->
+    <section class="grid">
+
+      <!-- About copy -->
+      <article class="box">
+        <h2 class="box-title">Our Story</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+          Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+        </p>
+        <p>
+          Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.
+          Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.
+        </p>
+      </article>
+
+      <!-- Photo spot 1 -->
+      <aside class="box photo-box">
+        <h2 class="box-title">Photo</h2>
+        <div class="photo-slot" role="img" aria-label="About photo placeholder 1">
+          <div class="photo-slot-inner">
+            <span class="photo-hint">Photo placeholder</span>
+            <span class="photo-subhint">about_1.jpg / png</span>
+          </div>
+        </div>
+        <p class="caption">Lorem ipsum caption about the shop vibe.</p>
       </aside>
 
-      <!-- RIGHT: main content -->
-      <section class="content">
-        <header class="pagehead">
-          <h1>About Us</h1>
-          <p class="subtitle">a friends + family thing ✧ thrift shop + community moments</p>
-        </header>
+      <!-- Mission / Values -->
+      <article class="box">
+        <h2 class="box-title">Mission</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
+          Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+        </p>
+        <h3 class="mini-h">Values</h3>
+        <ul class="bullets">
+          <li>Lorem ipsum dolor sit amet, consectetur.</li>
+          <li>Adipiscing elit, sed do eiusmod tempor.</li>
+          <li>Incididunt ut labore et dolore magna aliqua.</li>
+          <li>Ut enim ad minim veniam, quis nostrud.</li>
+        </ul>
+      </article>
 
-        <section class="box big">
-          <h2 class="box-title">Our Story</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor,
-            dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Praesent pulvinar
-            neque pellentesque mattis pretium. Integer non libero ut arcu commodo commodo.
-          </p>
-        </section>
-
-        <section class="grid2">
-          <section class="box">
-            <h2 class="box-title">What We Do</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis arcu tortor, suscipit eget, imperdiet
-              nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris.
-            </p>
-            <ul class="bullets">
-              <li>Lorem ipsum dolor sit amet</li>
-              <li>Consectetur adipiscing elit</li>
-              <li>Sed do eiusmod tempor</li>
-            </ul>
-          </section>
-
-          <section class="box">
-            <h2 class="box-title">Why Thrift?</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent congue erat at massa. Sed cursus
-              turpis vitae tortor. Donec posuere vulputate arcu.
-            </p>
-            <p class="tiny">
-              ✦ want to vend? collab? pop-up? hit the contact page ✦
-            </p>
-          </section>
-        </section>
-
-        <!-- Photo areas (2) -->
-        <section class="box big">
-          <h2 class="box-title">Photos</h2>
-
-          <div class="photos">
-            <!-- Replace src with your real images later -->
-            <figure class="photo-slot">
-              <div class="photo-frame">
-                <!-- Optional: put an <img> here later -->
-                <span class="photo-placeholder">Photo Placeholder 1</span>
-              </div>
-              <figcaption>caption lorem ipsum ✧</figcaption>
-            </figure>
-
-            <figure class="photo-slot">
-              <div class="photo-frame">
-                <span class="photo-placeholder">Photo Placeholder 2</span>
-              </div>
-              <figcaption>caption lorem ipsum ✧</figcaption>
-            </figure>
+      <!-- Photo spot 2 -->
+      <aside class="box photo-box">
+        <h2 class="box-title">Photo</h2>
+        <div class="photo-slot" role="img" aria-label="About photo placeholder 2">
+          <div class="photo-slot-inner">
+            <span class="photo-hint">Photo placeholder</span>
+            <span class="photo-subhint">about_2.jpg / png</span>
           </div>
-        </section>
+        </div>
+        <p class="caption">Lorem ipsum caption about events + community.</p>
+      </aside>
 
-        <footer class="pagefoot">
-          <p class="tiny">
-            © <span id="year"></span> Friends + Family • made with love + late-night nostalgia
-          </p>
-        </footer>
+      <!-- Comments block -->
+      <section class="box comments">
+        <h2 class="box-title">Comments</h2>
+
+        <div class="comment">
+          <div class="comment-meta">
+            <span class="comment-name">thriftangel</span>
+            <span class="comment-time">2 hours ago</span>
+          </div>
+          <p>Lorem ipsum dolor sit amet, this drop was 🔥</p>
+        </div>
+
+        <div class="comment">
+          <div class="comment-meta">
+            <span class="comment-name">vintagevault</span>
+            <span class="comment-time">yesterday</span>
+          </div>
+          <p>Consectetur adipiscing elit. Sed do eiusmod — obsessed with the finds.</p>
+        </div>
+
+        <div class="comment">
+          <div class="comment-meta">
+            <span class="comment-name">localsonly</span>
+            <span class="comment-time">last week</span>
+          </div>
+          <p>Ut enim ad minim veniam… best curated stuff in town.</p>
+        </div>
       </section>
-    </div>
+
+    </section>
+
+    <footer class="subfooter">
+      <div class="subfooter-inner">
+        <p>© <span id="year"></span> Friends + Family</p>
+        <p class="tiny">made for the thrift community</p>
+      </div>
+    </footer>
+
   </main>
 
   <script>
