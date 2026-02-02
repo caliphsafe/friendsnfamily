@@ -14,7 +14,7 @@
 
   /* nav sizing */
   --nav-max: 760px;
-  --nav-h: 18px; /* adjust if you want */
+  --nav-h: 14px;
 }
 
 *{ box-sizing: border-box; }
@@ -60,11 +60,9 @@ body{
 .img-nav{
   margin: 0 auto;
   width: min(var(--nav-max), 96vw);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 5px 7px;
 
   background: var(--box-bg);
@@ -102,7 +100,6 @@ body{
   :root{ --nav-h: 16px; }
 }
 
-
 /* =========================
    Layout / boxes
 ========================= */
@@ -112,7 +109,7 @@ body{
 }
 
 .box{
-  background: transparent; /* ✅ let page background show through */
+  background: var(--box-bg); /* ✅ RESTORED */
   border: 1px solid var(--box-border);
   border-right-color: var(--box-border-dark);
   border-bottom-color: var(--box-border-dark);
@@ -166,21 +163,16 @@ body{
   gap: var(--gap);
 }
 
-/* Each flyer card */
 .event-card{
   position: relative;
-  padding: 16px 12px 12px; /* top room for tape overlap feel */
+  padding: 16px 12px 12px;
   overflow: hidden;
 
-  /* ✅ 20% smaller (card + flyer + tape) */
   transform: scale(0.8);
   transform-origin: top center;
-
-  /* ✅ compensate so you don’t get big dead space between cards */
   margin-bottom: -16%;
 }
 
-/* ✅ AUTO TAPE (applies to every event-card) */
 .event-card::before{
   content: "";
   position: absolute;
@@ -195,21 +187,16 @@ body{
   opacity: 0.98;
 }
 
-/* Flyer image */
 .event-flyer{
   width: 100%;
   height: auto;
   display: block;
-
   border: 2px solid #000;
   box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
   background: #fff;
-
-  /* Nice spacing from tape */
   margin-top: 30px;
 }
 
-/* Optional hover */
 .event-card:hover .event-flyer{
   filter: contrast(1.03);
 }
