@@ -107,24 +107,6 @@ body{
 }
 
 /* =========================
-   Profile picture (keeps it small, shows full image)
-========================= */
-.photo-slot[aria-label="Friends + Family profile photo"]{
-  width: 150px;
-  height: 150px;
-  aspect-ratio: auto;
-}
-
-.photo-slot[aria-label="Friends + Family profile photo"] img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  background: #f6f7ef;
-}
-
-/* =========================
    Layout / boxes
 ========================= */
 .wrap{
@@ -142,42 +124,32 @@ body{
   padding: 12px 12px;
 }
 
-/* ✅ NEW: desktop-only side-by-side layout for profile + Top 4
-   - Mobile unchanged because default is stacked
-*/
-.above-fold{
-  display: block; /* mobile default (stack) */
-}
-
-/* Desktop: profile on left (smaller), Top 4 on right */
-@media (min-width: 901px){
-  .above-fold{
-    display: grid;
-    grid-template-columns: 520px 1fr; /* ✅ smaller left box, right box takes rest */
-    gap: var(--gap);
-    align-items: start;
-  }
-
-  /* ✅ left-justify, no centering behavior */
-  .profile-header{
-    margin: 0;
-    max-width: 520px; /* match left column */
-    justify-self: start;
-  }
-
-  .topfriends{
-    margin: 0;
-    justify-self: stretch;
-  }
-}
-
-/* Keep profile header stacked internally (so Quick Info sits underneath) */
-.profile-header{
+/* ✅ About + Top 4 row:
+   - desktop = 2 columns with the SAME gap as the lower grid
+   - mobile = stacks (no disruption) */
+.hero-row{
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--gap);
-  align-items: start;
   margin-bottom: var(--gap);
+}
+
+@media (min-width: 901px){
+  .hero-row{
+    grid-template-columns: 1.55fr 1fr; /* ✅ makes About box wider, closes dead space */
+    align-items: start;
+  }
+}
+
+/* =========================
+   Profile header (single column inside)
+========================= */
+.profile-header{
+  width: 100%;
+}
+
+.profile-left{
+  text-align: left;
 }
 
 .page-title{
@@ -188,7 +160,7 @@ body{
 }
 
 .status{
-  margin: 0 0 10px;
+  margin: 8px 0 10px;
   color: var(--muted);
   font-size: 13px;
 }
@@ -207,6 +179,7 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-bottom: 10px;
 }
 
 .tag{
@@ -215,6 +188,32 @@ body{
   font-size: 12px;
   background: #eef3ff;
   border: 1px solid rgba(0,0,0,0.15);
+}
+
+/* ✅ Profile photo: small, left, shows whole image */
+.photo-slot[aria-label="Friends + Family profile photo"]{
+  width: 120px;         /* ✅ half-ish size */
+  height: 120px;
+  aspect-ratio: auto;
+  margin: 6px 0 10px;
+}
+
+.photo-slot[aria-label="Friends + Family profile photo"] img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #f6f7ef;
+}
+
+/* quick info (kept narrow — does NOT stretch wider) */
+.profile-right{
+  margin-top: 10px;
+}
+
+.profile-right .mini-box{
+  width: min(420px, 100%);   /* ✅ stays controlled */
 }
 
 /* quick info */
@@ -234,10 +233,10 @@ body{
 }
 
 /* =========================
-   Top 4 vendors
+   Top 4 vendors (2x2 like your screenshot)
 ========================= */
 .topfriends{
-  margin-bottom: var(--gap);
+  width: 100%;
 }
 
 .topfriends-header{
@@ -255,12 +254,8 @@ body{
 
 .topfriends-grid{
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* ✅ always 2x2 */
   gap: 10px;
-}
-
-@media (max-width: 900px){
-  .topfriends-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .friend{
@@ -303,7 +298,9 @@ body{
   text-transform: lowercase;
 }
 
-/* titles, text */
+/* =========================
+   Titles, text
+========================= */
 .box-title{
   margin: 0 0 8px;
   font-size: 14px;
@@ -333,7 +330,9 @@ body{
   font-size: 13px;
 }
 
-/* photo placeholders */
+/* =========================
+   Photo blocks (unchanged behavior)
+========================= */
 .photo-box .caption{
   margin-top: 8px;
   font-size: 12px;
@@ -342,7 +341,7 @@ body{
 
 .photo-slot{
   width: 100%;
-  aspect-ratio: 1 / 1; /* default squares */
+  aspect-ratio: 1 / 1;
   background: #fff;
   border: 2px solid #000;
   box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
@@ -353,32 +352,14 @@ body{
 .photo-slot img{
   width: 100%;
   height: 100%;
-  object-fit: cover;      /* keep other photo slots as-is */
+  object-fit: cover;
   object-position: center;
   display: block;
 }
 
-.photo-slot-inner{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 12px;
-}
-
-.photo-hint{
-  font-weight: 700;
-}
-
-.photo-subhint{
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.55);
-}
-
-/* content grid */
+/* =========================
+   Content grid (Our Story / Photos)
+========================= */
 .grid{
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
