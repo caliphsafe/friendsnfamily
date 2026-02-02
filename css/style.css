@@ -136,7 +136,7 @@ body{
   justify-content: center;
   align-items: flex-start;
   gap: var(--gap);
-  padding: 18px 0 10px;
+  padding: 8px 0 10px;
 }
 
 @media (max-width: 1100px){
