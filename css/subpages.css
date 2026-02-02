@@ -122,22 +122,46 @@ body{
 
 /* =========================
    HERO ROW (LEFT STACK + TOP 4)
-   ✅ UPDATE: remove forced equal-height behavior
-   - This kills the dead space on desktop
-   - Mobile still stacks normally
+   ✅ FIX: make left column match Top 4 height on desktop
+   - Desktop: equal-height columns + contact fills leftover height
+   - Mobile: unchanged (stack)
 ========================= */
 .hero-row{
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: var(--gap);
-  align-items: start;          /* ✅ content-based height */
+  align-items: start;
   margin-bottom: var(--gap);
 }
 
 .hero-left{
   display: grid;
   gap: var(--gap);
-  grid-auto-rows: max-content; /* ✅ shrink-wrap the two boxes */
+  grid-auto-rows: max-content;
+}
+
+/* ✅ Desktop-only flush behavior */
+@media (min-width: 901px){
+  .hero-row{
+    align-items: stretch;          /* ✅ equal column heights */
+  }
+
+  .hero-left{
+    grid-template-rows: auto 1fr;  /* ✅ contact fills remaining height */
+    grid-auto-rows: unset;         /* ✅ stop max-content forcing */
+    height: 100%;
+    min-height: 0;
+  }
+
+  .contact-card{
+    height: 100%;
+    min-height: 0;
+  }
+
+  .topfriends{
+    height: 100%;
+    min-height: 0;
+  }
 }
 
 /* Mobile: stack everything naturally */
@@ -208,7 +232,7 @@ body{
 
 .profile-right .mini-box{
   padding: 0;
-  width: 330px;         /* keeps it "tight" */
+  width: 330px;
   max-width: 100%;
 }
 
@@ -244,17 +268,21 @@ body{
 
 /* =========================
    NEW CONTACT CARD (screenshot vibe)
+   ✅ FIX: allow card to grow but keep content top-aligned
 ========================= */
 .contact-card{
-  padding: 0; /* header bar flush */
+  padding: 0;
+  display: flex;              /* ✅ allows growth without awkward spacing */
+  flex-direction: column;
+  min-height: 0;
 }
 
 .contact-card-title{
   padding: 8px 10px;
   font-weight: 700;
-  background: #f0f0f0;                    /* ✅ same as .mini-box-title */
+  background: #f0f0f0;
   border-bottom: 1px solid rgba(0,0,0,0.14);
-  color: rgba(0,0,0,0.78);                /* ✅ site ink-ish */
+  color: rgba(0,0,0,0.78);
   text-transform: none;
 }
 
@@ -263,6 +291,9 @@ body{
   grid-template-columns: 1fr 1fr;
   gap: 6px 18px;
   padding: 10px 12px 12px;
+  align-content: start;       /* ✅ keep items at the top */
+  flex: 1;                    /* ✅ fill remaining card height */
+  min-height: 0;
 }
 
 @media (max-width: 520px){
@@ -274,7 +305,7 @@ body{
   align-items: center;
   gap: 10px;
   text-decoration: none;
-  color: rgba(0,0,0,0.78);                /* ✅ match site text */
+  color: rgba(0,0,0,0.78);
   font-weight: 700;
   font-size: 14px;
 }
