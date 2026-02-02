@@ -107,24 +107,21 @@ body{
 }
 
 /* =========================
-   Profile picture (FIX ONLY)
-   - Your HTML uses: <div class="photo-slot"><img ...></div>
-   - So we must target .photo-slot (NOT .profile-pic)
-   - Keep the frame small, show full image inside
+   Profile picture (keeps it small, shows full image)
 ========================= */
 .photo-slot[aria-label="Friends + Family profile photo"]{
-  width: 150px;        /* ✅ small frame */
-  height: 150px;       /* ✅ small frame */
-  aspect-ratio: auto;  /* ✅ prevent any aspect-ratio rule from overriding */
+  width: 150px;
+  height: 150px;
+  aspect-ratio: auto;
 }
 
 .photo-slot[aria-label="Friends + Family profile photo"] img{
   width: 100%;
   height: 100%;
-  object-fit: contain;     /* ✅ show the full image */
+  object-fit: contain;
   object-position: center;
   display: block;
-  background: #f6f7ef;     /* optional fill for letterboxing */
+  background: #f6f7ef;
 }
 
 /* =========================
@@ -145,20 +142,42 @@ body{
   padding: 12px 12px;
 }
 
-/* ✅ FIX: force Quick Info under tags on desktop too
-   and prevent the big empty right-side area
-   (mobile remains the same because it already stacks) */
+/* ✅ NEW: desktop-only side-by-side layout for profile + Top 4
+   - Mobile unchanged because default is stacked
+*/
+.above-fold{
+  display: block; /* mobile default (stack) */
+}
+
+/* Desktop: profile on left (smaller), Top 4 on right */
+@media (min-width: 901px){
+  .above-fold{
+    display: grid;
+    grid-template-columns: 520px 1fr; /* ✅ smaller left box, right box takes rest */
+    gap: var(--gap);
+    align-items: start;
+  }
+
+  /* ✅ left-justify, no centering behavior */
+  .profile-header{
+    margin: 0;
+    max-width: 520px; /* match left column */
+    justify-self: start;
+  }
+
+  .topfriends{
+    margin: 0;
+    justify-self: stretch;
+  }
+}
+
+/* Keep profile header stacked internally (so Quick Info sits underneath) */
 .profile-header{
   display: grid;
-  grid-template-columns: 1fr; /* ✅ single column everywhere */
+  grid-template-columns: 1fr;
   gap: var(--gap);
   align-items: start;
   margin-bottom: var(--gap);
-
-  /* ✅ keeps this box from stretching super wide on desktop */
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .page-title{
@@ -215,7 +234,7 @@ body{
 }
 
 /* =========================
-   Top 4 vendors (MySpace-ish)
+   Top 4 vendors
 ========================= */
 .topfriends{
   margin-bottom: var(--gap);
@@ -264,7 +283,6 @@ body{
   width: 100%;
   aspect-ratio: 1 / 1;
 
-  /* placeholder look */
   background:
     linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
     repeating-linear-gradient(
