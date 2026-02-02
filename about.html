@@ -46,50 +46,103 @@
 
   <main class="wrap">
 
-    <!-- ✅ Desktop: About (left) + Top 4 (right). Mobile: stacks. -->
+    <!-- ✅ Desktop: LEFT stack (About half + new section half) + RIGHT Top 4. Mobile: stacks. -->
     <section class="hero-row">
 
-      <!-- MySpace-style profile header -->
-      <section class="box profile-header">
-        <div class="profile-left">
-          <h1 class="page-title">ABOUT US</h1>
+      <!-- LEFT COLUMN STACK -->
+      <div class="hero-left">
 
-          <div class="photo-slot" aria-label="Friends + Family profile photo">
-            <img
-              src="img/profile.png"
-              alt="Friends + Family profile photo"
-            >
-          </div>
+        <!-- About box (now "half" height on desktop) -->
+        <section class="box profile-header">
+          <div class="profile-top">
+            <div class="profile-left">
+              <h1 class="page-title">ABOUT US</h1>
 
-          <p class="status">
-            <span class="online-dot" aria-hidden="true"></span>
-            <strong>Status:</strong> online • thrifting • curating
-          </p>
+              <div class="photo-slot" aria-label="Friends + Family profile photo">
+                <img
+                  src="img/profile.png"
+                  alt="Friends + Family profile photo"
+                >
+              </div>
 
-          <div class="tag-row" aria-label="Tags">
-            <span class="tag">curated finds</span>
-            <span class="tag">local vendors</span>
-            <span class="tag">re-loved</span>
-            <span class="tag">community</span>
-          </div>
+              <p class="status">
+                <span class="online-dot" aria-hidden="true"></span>
+                <strong>Status:</strong> online • thrifting • curating
+              </p>
 
-          <!-- Quick info should sit under tags (desktop + mobile) -->
-          <aside class="profile-right">
-            <div class="box mini-box">
-              <div class="mini-box-title">Quick Info</div>
-              <ul class="mini-list">
-                <li><strong>Type:</strong> Curated / Vintage</li>
-                <li><strong>Location:</strong> Cambridge, MA</li>
-                <li><strong>Drop Days:</strong> Tuesday + Friday</li>
-                <li><strong>Vibe:</strong> Quality Over Quantity</li>
-              </ul>
+              <div class="tag-row" aria-label="Tags">
+                <span class="tag">curated finds</span>
+                <span class="tag">local vendors</span>
+                <span class="tag">re-loved</span>
+                <span class="tag">community</span>
+              </div>
             </div>
-          </aside>
 
-        </div>
-      </section>
+            <!-- ✅ Quick info back to top-right -->
+            <aside class="profile-right">
+              <div class="box mini-box">
+                <div class="mini-box-title">Quick Info</div>
+                <ul class="mini-list">
+                  <li><strong>Type:</strong> Curated / Vintage</li>
+                  <li><strong>Location:</strong> Cambridge, MA</li>
+                  <li><strong>Drop Days:</strong> Tuesday + Friday</li>
+                  <li><strong>Vibe:</strong> Quality Over Quantity</li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </section>
 
-      <!-- TOP 4 -->
+        <!-- ✅ NEW SECTION (mirrors screenshot vibe) -->
+        <section class="box contact-card" aria-label="Contact options">
+          <div class="contact-card-title">Contacting An</div>
+
+          <div class="contact-actions" role="list">
+            <a class="action" href="#" role="listitem">
+              <span class="ico plus" aria-hidden="true"></span>
+              <span class="txt">Add to Friends</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico star" aria-hidden="true"></span>
+              <span class="txt">Add to Favorites</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico msg" aria-hidden="true"></span>
+              <span class="txt">Send Message</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico fwd" aria-hidden="true"></span>
+              <span class="txt">Forward to Friend</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico im" aria-hidden="true"></span>
+              <span class="txt">Instant Message</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico stop" aria-hidden="true"></span>
+              <span class="txt">Block User</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico group" aria-hidden="true"></span>
+              <span class="txt">Add to Group</span>
+            </a>
+
+            <a class="action" href="#" role="listitem">
+              <span class="ico flag" aria-hidden="true"></span>
+              <span class="txt">Report User</span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: TOP 4 -->
       <section class="box topfriends">
         <div class="topfriends-header">
           <h2 class="box-title">Top 4</h2>
