@@ -172,6 +172,9 @@ body{
   padding: 16px 12px 12px; /* top room for tape overlap feel */
   overflow: hidden;
 
+  /* ✅ RESTORE background for events ONLY (like it was before) */
+  background: var(--box-bg);
+
   /* ✅ 20% smaller (card + flyer + tape) */
   transform: scale(0.8);
   transform-origin: top center;
