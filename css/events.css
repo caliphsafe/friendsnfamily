@@ -1,237 +1,227 @@
+/* =========================================
+   FAQs page — MySpace comment section vibe
+   (keeps your theme + subpages.css header/footer)
+========================================= */
+
 :root{
-  --bg: #fafbf5;
-  --ink: #111;
-  --muted: rgba(0,0,0,0.65);
-
-  /* box look */
-  --box-bg: rgba(255,255,255,0.92);
-  --box-border: #b9b9b9;
-  --box-border-dark: #8f8f8f;
-  --shadow: 2px 2px 0 rgba(0,0,0,0.18);
-
-  --radius: 2px;
-  --gap: 14px;
-
-  /* nav sizing */
-  --nav-max: 760px;
-  --nav-h: 14px; /* adjust if you want */
+  /* subtle tints for the comment blocks */
+  --ms-strip: #f0f0f0;
+  --ms-tint-a: rgba(255,255,255,0.55);
+  --ms-tint-b: rgba(238,243,255,0.55);
+  --ms-ink: rgba(0,0,0,0.78);
+  --ms-muted: rgba(0,0,0,0.60);
+  --ms-line: rgba(0,0,0,0.14);
+  --ms-chip: rgba(0,0,0,0.08);
 }
 
-*{ box-sizing: border-box; }
-html, body{ height: 100%; }
-
-body{
-  margin: 0;
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-
-  background:
-    linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px) 0 0 / 18px 18px,
-    linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px) 0 0 / 18px 18px,
-    var(--bg);
+/* MAIN THREAD BOX */
+.faqs-page .forum{
+  padding: 0; /* header strip flush */
 }
 
-/* =========================
-   Topbar + nav
-========================= */
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: 12px 10px;
-  background: rgba(255,255,255,0.85);
-  border-bottom: 1px solid rgba(0,0,0,0.18);
-}
-
-.topbar-brand{
-  display: flex;
-  justify-content: center;
-  text-decoration: none;
-  margin-bottom: 10px;
-}
-
-.topbar-brand img{
-  width: min(420px, 92vw);
-  height: auto;
-  display: block;
-}
-
-.img-nav{
-  margin: 0 auto;
-  width: min(var(--nav-max), 96vw);
-
+/* “MySpace” style strip header */
+.faqs-page .forum-head{
+  padding: 8px 10px;
+  background: var(--ms-strip);
+  border-bottom: 1px solid var(--ms-line);
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 5px 7px;
-
-  background: var(--box-bg);
-  border: 1px solid var(--box-border);
-  border-right-color: var(--box-border-dark);
-  border-bottom-color: var(--box-border-dark);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  gap: 10px;
 }
 
-.img-nav-item{
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.img-nav-item img{
-  height: var(--nav-h);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  opacity: 0.95;
-}
-
-.img-nav-item[aria-current="page"] img{
-  opacity: 1;
-  filter: contrast(1.1);
-}
-
-@media (max-width: 480px){
-  :root{ --nav-h: 16px; }
-}
-
-
-/* =========================
-   Layout / boxes
-========================= */
-.wrap{
-  width: min(980px, 94vw);
-  margin: 14px auto 40px;
-}
-
-.box{
-  background: transparent; /* ✅ let page background show through */
-  border: 1px solid var(--box-border);
-  border-right-color: var(--box-border-dark);
-  border-bottom-color: var(--box-border-dark);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 12px 12px;
-}
-
-/* =========================
-   Page header
-========================= */
-.page-head{
-  margin-bottom: var(--gap);
-}
-
-.page-title{
-  margin: 0 0 6px;
-  font-size: clamp(18px, 2.2vw, 26px);
-  letter-spacing: 0.04em;
+.faqs-page .forum-title{
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
-.status{
-  margin: 6px 0 6px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.online-dot{
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(0,0,0,0.35);
-  background: #2ecc71;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.subcopy{
-  margin: 0;
-  color: rgba(0,0,0,0.72);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-/* =========================
-   Events feed
-========================= */
-.events-feed{
-  display: grid;
-  gap: var(--gap);
-}
-
-/* Each flyer card */
-.event-card{
-  position: relative;
-  padding: 16px 12px 12px; /* top room for tape overlap feel */
-  overflow: hidden;
-
-  /* ✅ RESTORE background for events ONLY (like it was before) */
-  background: var(--box-bg);
-
-  /* ✅ 20% smaller (card + flyer + tape) */
-  transform: scale(0.8);
-  transform-origin: top center;
-
-  /* ✅ compensate so you don’t get big dead space between cards */
-  margin-bottom: -16%;
-}
-
-/* ✅ AUTO TAPE (applies to every event-card) */
-.event-card::before{
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(220px, 72%);
-  height: 60px;
-  background: url("../img/blue_tape.png") center / contain no-repeat;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.98;
-}
-
-/* Flyer image */
-.event-flyer{
-  width: 100%;
-  height: auto;
-  display: block;
-
-  border: 2px solid #000;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
-  background: #fff;
-
-  /* Nice spacing from tape */
-  margin-top: 30px;
-}
-
-/* Optional hover */
-.event-card:hover .event-flyer{
-  filter: contrast(1.03);
-}
-
-/* =========================
-   Footer
-========================= */
-.subfooter{
-  margin-top: 18px;
-  text-align: center;
-}
-
-.subfooter-inner{
-  padding: 16px 8px;
-  color: rgba(0,0,0,0.68);
-}
-
-.subfooter-inner .tiny{
-  margin-top: 6px;
+.faqs-page .forum-sub{
   font-size: 12px;
-  color: rgba(0,0,0,0.56);
+  color: var(--ms-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Container padding */
+.faqs-page .thread{
+  padding: 12px 12px 14px;
+}
+
+/* Each comment row */
+.faqs-page .post{
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 10px;
+
+  border: 1px solid var(--ms-line);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+
+  margin-top: 12px;
+  overflow: hidden; /* keep inside borders */
+  background: var(--ms-tint-a);
+}
+
+.faqs-page .post:nth-child(even){
+  background: var(--ms-tint-b); /* alternating like old boards */
+}
+
+.faqs-page .post:first-child{
+  margin-top: 0;
+}
+
+/* Left side (user card) */
+.faqs-page .post-meta{
+  padding: 10px;
+  border-right: 1px solid var(--ms-line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.00));
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+/* Fake avatar */
+.faqs-page .avatar{
+  width: 90px;
+  height: 90px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.20);
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.06), rgba(255,255,255,0.0)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.08) 0px,
+      rgba(0,0,0,0.08) 6px,
+      rgba(255,255,255,0.0) 6px,
+      rgba(255,255,255,0.0) 12px
+    );
+}
+
+/* username + little “mood” */
+.faqs-page .post-meta .user{
+  font-weight: 800;
+  color: rgba(0,0,0,0.82);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  font-size: 13px;
+}
+
+.faqs-page .mood{
+  font-size: 12px;
+  color: var(--ms-muted);
+  line-height: 1.25;
+}
+
+.faqs-page .time{
+  font-size: 12px;
+  color: var(--ms-muted);
+}
+
+/* Action links like MySpace */
+.faqs-page .mini-actions{
+  display: grid;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.faqs-page .mini-actions a{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.72);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.faqs-page .mini-actions a:hover{
+  text-decoration: underline;
+}
+
+.faqs-page .mini-actions .chip{
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0,0,0,0.25);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.16);
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: #fff;
+  font-size: 12px;
+}
+
+/* Right side (message) */
+.faqs-page .post-q{
+  margin: 0;
+  padding: 10px 12px 0;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(0,0,0,0.85);
+}
+
+.faqs-page .post-a{
+  padding: 8px 12px 10px;
+}
+
+.faqs-page .post-a p{
+  margin: 0 0 10px;
+  color: var(--ms-ink);
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+/* Signature line (very MySpace) */
+.faqs-page .sig{
+  border-top: 1px dashed rgba(0,0,0,0.22);
+  padding-top: 8px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+}
+
+/* Bottom links row */
+.faqs-page .post-actions{
+  padding: 0 12px 12px;
+  font-size: 12px;
+  color: var(--ms-muted);
+}
+
+.faqs-page .post-actions a{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  font-weight: 700;
+}
+
+.faqs-page .post-actions a:hover{
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.faqs-page .post-actions .dot{
+  padding: 0 8px;
+  opacity: 0.65;
+}
+
+/* Mobile: stack user card above message like MySpace on narrow screens */
+@media (max-width: 650px){
+  .faqs-page .post{
+    grid-template-columns: 1fr;
+  }
+  .faqs-page .post-meta{
+    border-right: none;
+    border-bottom: 1px solid var(--ms-line);
+    grid-template-columns: 90px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    align-items: start;
+  }
+  .faqs-page .avatar{
+    grid-row: 1 / span 2;
+  }
+  .faqs-page .mini-actions{
+    grid-column: 2;
+  }
 }
