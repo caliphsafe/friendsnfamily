@@ -105,6 +105,7 @@ body{
 @media (max-width: 480px){
   :root{ --nav-h: 16px; }
 }
+
 /* =========================
    Profile picture placeholder
 ========================= */
@@ -118,23 +119,30 @@ body{
   box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
 
   overflow: hidden;
+
+  /* ✅ FIX ONLY: keep frame size, center image, prevent image from "acting big" */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.profile-photo img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;   /* 👈 show whole image */
+/* ✅ FIX ONLY: fit the full image inside the existing 160px square */
+.profile-pic img{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   object-position: center;
-  background: #f6f7ef;   /* optional: fills empty space nicely */
+  display: block;
+  background: #f6f7ef; /* optional fill for letterboxing */
 }
-
 
 @media (max-width: 600px){
   .profile-pic{
     width: 130px;
   }
 }
-
 
 /* =========================
    Layout / boxes
@@ -344,7 +352,6 @@ body{
   object-position: center;
   display: block;
 }
-
 
 .photo-slot-inner{
   position: absolute;
