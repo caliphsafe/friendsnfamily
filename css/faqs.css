@@ -1,150 +1,137 @@
-/* =========================================
-   FAQs page — MySpace comment section vibe
-   (keeps your theme + subpages.css header/footer)
-========================================= */
+/* =========================================================
+   FAQs — MySpace-style comment thread
+   (fixes the “squeezed left + dead space right” issue)
+========================================================= */
 
-:root{
-  /* subtle tints for the comment blocks */
-  --ms-strip: #f0f0f0;
-  --ms-tint-a: rgba(255,255,255,0.55);
-  --ms-tint-b: rgba(238,243,255,0.55);
-  --ms-ink: rgba(0,0,0,0.78);
-  --ms-muted: rgba(0,0,0,0.60);
-  --ms-line: rgba(0,0,0,0.14);
-  --ms-chip: rgba(0,0,0,0.08);
+.faqs-page .page-head{
+  margin-bottom: var(--gap);
 }
 
-/* MAIN THREAD BOX */
-.faqs-page .forum{
-  padding: 0; /* header strip flush */
+/* Forum header strip */
+.forum{
+  padding: 0; /* let header strip sit flush */
+  overflow: hidden;
 }
 
-/* “MySpace” style strip header */
-.faqs-page .forum-head{
-  padding: 8px 10px;
-  background: var(--ms-strip);
-  border-bottom: 1px solid var(--ms-line);
+.forum-head{
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+
+  background: #f0f0f0;
+  border-bottom: 1px solid rgba(0,0,0,0.14);
 }
 
-.faqs-page .forum-title{
+.forum-title{
   font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-
-.faqs-page .forum-sub{
-  font-size: 12px;
-  color: var(--ms-muted);
-  text-align: right;
-  white-space: nowrap;
-}
-
-/* Container padding */
-.faqs-page .thread{
-  padding: 12px 12px 14px;
-}
-
-/* Each comment row */
-.faqs-page .post{
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 10px;
-
-  border: 1px solid var(--ms-line);
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
-
-  margin-top: 12px;
-  overflow: hidden; /* keep inside borders */
-  background: var(--ms-tint-a);
-}
-
-.faqs-page .post:nth-child(even){
-  background: var(--ms-tint-b); /* alternating like old boards */
-}
-
-.faqs-page .post:first-child{
-  margin-top: 0;
-}
-
-/* Left side (user card) */
-.faqs-page .post-meta{
-  padding: 10px;
-  border-right: 1px solid var(--ms-line);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.00));
-  display: grid;
-  align-content: start;
-  gap: 8px;
-}
-
-/* Fake avatar */
-.faqs-page .avatar{
-  width: 90px;
-  height: 90px;
-  border: 2px solid #000;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.20);
-  background:
-    linear-gradient(135deg, rgba(0,0,0,0.06), rgba(255,255,255,0.0)),
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,0,0,0.08) 0px,
-      rgba(0,0,0,0.08) 6px,
-      rgba(255,255,255,0.0) 6px,
-      rgba(255,255,255,0.0) 12px
-    );
-}
-
-/* username + little “mood” */
-.faqs-page .post-meta .user{
-  font-weight: 800;
-  color: rgba(0,0,0,0.82);
-  text-transform: lowercase;
   letter-spacing: 0.02em;
+}
+
+.forum-sub{
+  color: rgba(0,0,0,0.60);
   font-size: 13px;
 }
 
-.faqs-page .mood{
-  font-size: 12px;
-  color: var(--ms-muted);
-  line-height: 1.25;
-}
-
-.faqs-page .time{
-  font-size: 12px;
-  color: var(--ms-muted);
-}
-
-/* Action links like MySpace */
-.faqs-page .mini-actions{
+/* Thread list */
+.thread{
+  padding: 10px 10px 12px;
   display: grid;
-  gap: 6px;
-  margin-top: 2px;
+  gap: 12px;
 }
 
-.faqs-page .mini-actions a{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
+/* =========================================================
+   ✅ KEY FIX:
+   True 2-column post layout:
+   left = fixed user card, right = fluid content (fills row)
+========================================================= */
+.post{
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr); /* ✅ right column uses all space */
+  border: 1px solid rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+}
+
+/* Alternating subtle tint */
+.post:nth-child(even){
+  background: rgba(255,255,255,0.40);
+}
+
+/* Left user card */
+.post-left{
+  padding: 10px 10px 12px;
+  border-right: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.55);
+}
+
+.avatar{
+  width: 120px;
+  height: 120px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.06) 0px,
+      rgba(0,0,0,0.06) 6px,
+      rgba(255,255,255,0.0) 6px,
+      rgba(255,255,255,0.0) 12px
+    );
+  margin: 4px 0 10px;
+}
+
+.user{
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: lowercase;
+  margin-bottom: 6px;
+}
+
+.meta-lines{
+  font-size: 13px;
   color: rgba(0,0,0,0.72);
-  text-decoration: none;
+  line-height: 1.35;
+}
+
+.meta-lines .k{
+  color: rgba(0,0,0,0.55);
   font-weight: 700;
 }
 
-.faqs-page .mini-actions a:hover{
+.meta-lines .when{
+  margin-top: 6px;
+  color: rgba(0,0,0,0.60);
+}
+
+/* Left quick actions */
+.left-actions{
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.left-actions a{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: rgba(0,0,0,0.75);
+  font-weight: 700;
+}
+
+.left-actions a:hover{
   text-decoration: underline;
 }
 
-.faqs-page .mini-actions .chip{
+.chip{
   width: 18px;
   height: 18px;
   border: 1px solid rgba(0,0,0,0.25);
-  box-shadow: 1px 1px 0 rgba(0,0,0,0.16);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.18);
   border-radius: 50%;
   display: inline-grid;
   place-items: center;
@@ -152,76 +139,105 @@
   font-size: 12px;
 }
 
-/* Right side (message) */
-.faqs-page .post-q{
-  margin: 0;
-  padding: 10px 12px 0;
-  font-size: 13px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(0,0,0,0.85);
+/* Right content area */
+.post-right{
+  padding: 12px 14px 12px;
+  min-width: 0; /* ✅ critical: allows content to actually fill */
 }
 
-.faqs-page .post-a{
-  padding: 8px 12px 10px;
-}
-
-.faqs-page .post-a p{
+/* Question line */
+.post-q{
   margin: 0 0 10px;
-  color: var(--ms-ink);
-  line-height: 1.5;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
 }
 
-/* Signature line (very MySpace) */
-.faqs-page .sig{
-  border-top: 1px dashed rgba(0,0,0,0.22);
+/* Answer bubble */
+.post-a{
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(0,0,0,0.10);
+  padding: 12px 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+
+  width: 100%;     /* ✅ fill the right column */
+  max-width: none; /* ✅ no artificial squeezing */
+}
+
+.post-a p{
+  margin: 0 0 10px;
+  color: rgba(0,0,0,0.78);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.sig{
+  margin-top: 8px;
   padding-top: 8px;
+  border-top: 1px dashed rgba(0,0,0,0.22);
+  color: rgba(0,0,0,0.62);
   font-size: 12px;
-  color: rgba(0,0,0,0.55);
+  font-style: italic;
 }
 
-/* Bottom links row */
-.faqs-page .post-actions{
-  padding: 0 12px 12px;
-  font-size: 12px;
-  color: var(--ms-muted);
+/* Bottom actions */
+.post-actions{
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(0,0,0,0.65);
 }
 
-.faqs-page .post-actions a{
-  color: inherit;
+.post-actions a{
+  color: rgba(0,0,0,0.65);
   text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 700;
+  font-weight: 800;
 }
 
-.faqs-page .post-actions a:hover{
-  border-bottom-color: rgba(0,0,0,0.55);
+.post-actions a:hover{
+  text-decoration: underline;
 }
 
-.faqs-page .post-actions .dot{
+.post-actions .dot{
   padding: 0 8px;
-  opacity: 0.65;
+  opacity: 0.6;
 }
 
-/* Mobile: stack user card above message like MySpace on narrow screens */
-@media (max-width: 650px){
-  .faqs-page .post{
-    grid-template-columns: 1fr;
+/* =========================================================
+   Mobile
+========================================================= */
+@media (max-width: 860px){
+  .post{
+    grid-template-columns: 1fr; /* stack like MySpace mobile */
   }
-  .faqs-page .post-meta{
+  .post-left{
     border-right: none;
-    border-bottom: 1px solid var(--ms-line);
-    grid-template-columns: 90px 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 10px;
     align-items: start;
   }
-  .faqs-page .avatar{
-    grid-row: 1 / span 2;
+  .avatar{
+    width: 120px;
+    height: 120px;
+    margin: 0;
   }
-  .faqs-page .mini-actions{
-    grid-column: 2;
+  .left-actions{
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, max-content);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px){
+  .post-left{
+    grid-template-columns: 1fr;
+  }
+  .left-actions{
+    grid-template-columns: 1fr;
   }
 }
