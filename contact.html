@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Contact</title>
+  <meta name="description" content="Contact Friends + Family." />
+
+  <!-- shared subpage styles (header/footer/box) -->
+  <link rel="stylesheet" href="css/subpages.css" />
+  <!-- contact page styles -->
+  <link rel="stylesheet" href="css/contact.css" />
+</head>
+
+<body class="subpage contact-page">
+
+  <!-- HEADER (same as other subpages) -->
+  <header class="topbar">
+    <a class="topbar-brand" href="index.html" aria-label="Friends + Family Home">
+      <img src="img/fnf.png" alt="friends + family" />
+    </a>
+
+    <nav class="img-nav" aria-label="Primary navigation">
+      <a class="img-nav-item" href="index.html" aria-label="Home"><img src="img/home.png" alt="Home"></a>
+      <a class="img-nav-item" href="shop.html" aria-label="Shop"><img src="img/shop.png" alt="Shop"></a>
+      <a class="img-nav-item" href="events.html" aria-label="Events"><img src="img/events.png" alt="Events"></a>
+      <a class="img-nav-item" href="about.html" aria-label="About"><img src="img/about.png" alt="About"></a>
+      <a class="img-nav-item" href="faqs.html" aria-label="FAQs"><img src="img/faqs.png" alt="FAQs"></a>
+      <a class="img-nav-item" href="contact.html" aria-current="page" aria-label="Contact"><img src="img/contact.png" alt="Contact"></a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Page header -->
+    <section class="box page-head">
+      <h1 class="page-title">CONTACT</h1>
+      <p class="subcopy">send a message • vendor inquiries • collabs • general questions</p>
+    </section>
+
+    <!-- Two-column layout (desktop) -->
+    <section class="contact-grid">
+
+      <!-- Left: Address / card -->
+      <aside class="box contact-info">
+        <div class="info-head">
+          <div class="info-title">Friends + Family</div>
+          <div class="info-sub">Cambridge, MA</div>
+        </div>
+
+        <div class="info-body">
+          <div class="address-block">
+            <div class="address-label">Address</div>
+            <div class="address">
+              1073 Massachusetts Ave<br />
+              Cambridge, MA 02138
+            </div>
+          </div>
+
+          <div class="contact-lines">
+            <div class="line">
+              <span class="k">Email:</span>
+              <a class="v" href="mailto:friendsnfamily@gmail.com">friendsnfamily@gmail.com</a>
+            </div>
+            <div class="line">
+              <span class="k">Status:</span>
+              <span class="v">online • responding soon</span>
+            </div>
+          </div>
+
+          <div class="mini-actions">
+            <a class="mini-action" href="mailto:friendsnfamily@gmail.com?subject=Friends%20%2B%20Family%20Inquiry">
+              <span class="chip">✉</span>Send Email
+            </a>
+            <a class="mini-action" href="https://www.google.com/maps?q=1073+Massachusetts+Ave,+Cambridge,+MA+02138" target="_blank" rel="noopener">
+              <span class="chip">📍</span>Open Map
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right: MySpace Message Composer -->
+      <section class="box message-box" aria-label="Send a message to Friends + Family">
+        <div class="msg-head">
+          <div class="msg-title">Send Message</div>
+          <div class="msg-sub">to: friendsnfamily@gmail.com</div>
+        </div>
+
+        <!-- mailto form (static-friendly) -->
+        <form
+          class="msg-form"
+          action="mailto:friendsnfamily@gmail.com"
+          method="post"
+          enctype="text/plain"
+        >
+          <div class="row">
+            <label class="lbl" for="name">Your Name</label>
+            <input class="inp" id="name" name="Name" type="text" placeholder="Type your name" required />
+          </div>
+
+          <div class="row two">
+            <div class="field">
+              <label class="lbl" for="email">Email</label>
+              <input class="inp" id="email" name="Email" type="email" placeholder="you@email.com" required />
+            </div>
+            <div class="field">
+              <label class="lbl" for="phone">Contact Number</label>
+              <input class="inp" id="phone" name="Phone" type="tel" placeholder="(555) 555-5555" />
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="lbl" for="subject">Subject</label>
+            <input class="inp" id="subject" name="Subject" type="text" placeholder="What’s this about?" />
+          </div>
+
+          <div class="row">
+            <label class="lbl" for="message">Message</label>
+            <textarea class="txt" id="message" name="Message" rows="8" placeholder="Write your message..." required></textarea>
+          </div>
+
+          <div class="send-row">
+            <button class="btn" type="submit">Send</button>
+            <button class="btn ghost" type="reset">Clear</button>
+            <div class="hint">
+              This opens your email app to send the message.
+            </div>
+          </div>
+        </form>
+      </section>
+
+    </section>
+
+    <!-- FOOTER (same as subpages) -->
+    <footer class="subfooter">
+      <div class="subfooter-inner">
+        <p>© <span id="year"></span> Friends + Family</p>
+        <p class="tiny">made for the thrift community</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
