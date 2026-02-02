@@ -117,37 +117,15 @@ body{
   border: 2px solid #000;
   box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
 
-  position: relative;
+  overflow: hidden;
 }
 
-.profile-pic-inner{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 10px;
-}
-
-.pic-label{
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: lowercase;
-}
-
-.pic-sub{
-  display: block;
-  margin-top: 6px;
-  font-size: 11px;
-  color: rgba(0,0,0,0.55);
-}
-
-/* Mobile tweak (keeps desktop untouched) */
 @media (max-width: 600px){
   .profile-pic{
     width: 130px;
   }
 }
+
 
 /* =========================
    Layout / boxes
