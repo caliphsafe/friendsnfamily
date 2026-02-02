@@ -13,6 +13,33 @@
     <a class="brand" href="index.html" aria-label="Friends + Family Home">
       <img src="img/fnf.png" alt="friends + family" />
     </a>
+
+    <!-- ✅ Added: Subpage-style navigation (does NOT replace guest-check nav) -->
+    <nav class="img-nav" aria-label="Primary navigation">
+      <a class="img-nav-item" href="index.html" aria-label="Home">
+        <img src="img/home.png" alt="Home">
+      </a>
+
+      <a class="img-nav-item" href="shop.html" aria-label="Shop">
+        <img src="img/shop.png" alt="Shop">
+      </a>
+
+      <a class="img-nav-item" href="events.html" aria-label="Events">
+        <img src="img/events.png" alt="Events">
+      </a>
+
+      <a class="img-nav-item" href="about.html" aria-label="About">
+        <img src="img/about.png" alt="About">
+      </a>
+
+      <a class="img-nav-item" href="faqs.html" aria-label="FAQs">
+        <img src="img/faqs.png" alt="FAQs">
+      </a>
+
+      <a class="img-nav-item" href="contact.html" aria-label="Contact">
+        <img src="img/contact.png" alt="Contact">
+      </a>
+    </nav>
   </header>
 
   <main class="page">
@@ -22,6 +49,7 @@
         <div class="panel-inner guest-stack">
           <img class="guest-img" src="img/header.png" alt="" />
 
+          <!-- ✅ Existing guest-check nav stays untouched -->
           <div class="guest-nav-wrap" aria-label="Site navigation">
             <img class="nav-bg" src="img/nav.png" alt="" />
 
@@ -60,14 +88,11 @@
 
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
         <div class="panel-inner thanks-wrap">
-          <!-- Use ONE background image for this panel -->
           <img class="thanks-bg" src="img/stores_bg.png" alt="Thank you" />
 
-          <!-- Vendor overlay -->
           <div class="vendor-links" aria-label="Vendor links">
             <div class="vendor-list">
 
-              <!-- Replace these hrefs with your real vendor URLs or vendor pages -->
               <a class="vendor-row" href="vendors/mimimarie.html" aria-label="Mimimarie">
                 <img src="img/mimi.png" alt="Mimimarie">
               </a>
