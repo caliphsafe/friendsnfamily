@@ -165,16 +165,11 @@ body{
 }
 
 /* Each flyer card */
-.box{
-  background: transparent; /* ✅ let page background show through */
-  border: 1px solid var(--box-border);
-  border-right-color: var(--box-border-dark);
-  border-bottom-color: var(--box-border-dark);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 12px 12px;
+.event-card{
+  position: relative;
+  padding: 16px 12px 12px; /* top room for tape overlap feel */
+  overflow: hidden;
 }
-
 
 /* ✅ AUTO TAPE (applies to every event-card) */
 .event-card::before{
