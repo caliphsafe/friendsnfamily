@@ -1,0 +1,102 @@
+/* =========================================
+   FAQs page — forum / comment thread look
+   (does NOT override your shared subpages.css)
+========================================= */
+
+.faqs-page .forum{
+  padding: 0; /* header bar flush */
+}
+
+.faqs-page .forum-head{
+  padding: 8px 10px;
+  background: #f0f0f0; /* same vibe as mini-box-title */
+  border-bottom: 1px solid rgba(0,0,0,0.14);
+}
+
+.faqs-page .forum-title{
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.faqs-page .forum-sub{
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.60);
+}
+
+.faqs-page .thread{
+  padding: 10px 12px 12px;
+}
+
+/* Each post = forum reply */
+.faqs-page .post{
+  border-top: 1px solid rgba(0,0,0,0.14);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.faqs-page .post:first-child{
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* meta line like MySpace comments */
+.faqs-page .post-meta{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.60);
+  margin-bottom: 6px;
+}
+
+.faqs-page .post-meta .user{
+  font-weight: 700;
+  color: rgba(0,0,0,0.72);
+}
+
+/* Question headline */
+.faqs-page .post-q{
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Answer */
+.faqs-page .post-a p{
+  margin: 0 0 10px;
+  color: rgba(0,0,0,0.78);
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+/* Small action row like "Permalink / Reply" */
+.faqs-page .post-actions{
+  font-size: 12px;
+  color: rgba(0,0,0,0.60);
+}
+
+.faqs-page .post-actions a{
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  font-weight: 600;
+}
+
+.faqs-page .post-actions a:hover{
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.faqs-page .post-actions .dot{
+  padding: 0 8px;
+  opacity: 0.65;
+}
+
+/* Tighten a bit on small screens */
+@media (max-width: 520px){
+  .faqs-page .thread{ padding: 10px 10px 12px; }
+}
