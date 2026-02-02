@@ -321,9 +321,17 @@ body{
 .photo-slot{
   width: 100%;
   aspect-ratio: 4 / 3;
-  border: 1px dashed rgba(0,0,0,0.35);
   background: #fff;
-  position: relative;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+.photo-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .photo-slot-inner{
