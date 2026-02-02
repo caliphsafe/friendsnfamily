@@ -1,5 +1,5 @@
 :root{
-  --bg: #fafbf5;
+  --bg: #f6f7ef;
   --ink: #111;
   --muted: rgba(0,0,0,0.65);
 
@@ -118,6 +118,7 @@ body{
   padding: 12px 12px;
 }
 
+
 /* =========================
    Page header
 ========================= */
@@ -168,13 +169,6 @@ body{
   position: relative;
   padding: 16px 12px 12px; /* top room for tape overlap feel */
   overflow: hidden;
-
-  /* ✅ 20% smaller (card + flyer + tape) */
-  transform: scale(0.8);
-  transform-origin: top center;
-
-  /* ✅ compensate so you don’t get big dead space between cards */
-  margin-bottom: -16%;
 }
 
 /* ✅ AUTO TAPE (applies to every event-card) */
