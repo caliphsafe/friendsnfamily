@@ -26,7 +26,6 @@ body{
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 
-  /* classic tiled background vibe */
   background:
     linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px) 0 0 / 18px 18px,
     linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px) 0 0 / 18px 18px,
@@ -41,7 +40,6 @@ body{
   top: 0;
   z-index: 1000;
   padding: 12px 10px;
-
   background: rgba(255,255,255,0.85);
   border-bottom: 1px solid rgba(0,0,0,0.18);
 }
@@ -59,7 +57,6 @@ body{
   display: block;
 }
 
-/* old-school nav bar, no dividers */
 .img-nav{
   margin: 0 auto;
   width: min(var(--nav-max), 96vw);
@@ -101,7 +98,6 @@ body{
   filter: contrast(1.1);
 }
 
-/* mobile tweak */
 @media (max-width: 480px){
   :root{ --nav-h: 16px; }
 }
@@ -125,37 +121,56 @@ body{
 }
 
 /* =========================
-   HERO ROW (ABOUT + TOP 4)
-   ✅ UPDATE: match widths to grid below
-   - Left column = 1.2fr (same as .grid left)
-   - Right column = 0.8fr (same as .grid right)
-   - Keep heights unchanged
+   HERO ROW (LEFT STACK + TOP 4)
+   - Desktop: 2 columns
+   - LEFT column is a 2-row stack that matches Top 4 height
+   - Mobile: stacks
 ========================= */
 .hero-row{
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr; /* ✅ matches .grid */
+  grid-template-columns: 1.2fr 0.8fr;
   gap: var(--gap);
   align-items: start;
   margin-bottom: var(--gap);
 }
 
-/* Desktop: equal height only (doesn't change heights content-wise, just column stretch) */
+.hero-left{
+  display: grid;
+  gap: var(--gap);
+}
+
+/* Desktop: make LEFT stack fill the same height as Top 4, split into two equal halves */
 @media (min-width: 901px){
   .hero-row{ align-items: stretch; }
-  .profile-header{ height: 100%; }
+  .hero-left{ grid-template-rows: 1fr 1fr; }
+  .hero-left > .box{ height: 100%; }
   .topfriends{ height: 100%; }
 }
 
-/* Mobile: stack (keep existing mobile look) */
+/* Mobile: stack everything naturally */
 @media (max-width: 900px){
   .hero-row{ grid-template-columns: 1fr; }
+  .hero-left{ grid-template-rows: none; }
 }
 
 /* =========================
    Profile header (About box)
+   ✅ Quick Info back to top-right aligned with photo
 ========================= */
 .profile-header{
   display: block;
+}
+
+.profile-top{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--gap);
+  align-items: start;
+}
+
+/* On mobile, keep it stacked (same as before) */
+@media (max-width: 900px){
+  .profile-top{ grid-template-columns: 1fr; }
 }
 
 .page-title{
@@ -166,7 +181,7 @@ body{
 }
 
 .status{
-  margin: 0 0 10px;
+  margin: 8px 0 10px;
   color: var(--muted);
   font-size: 13px;
 }
@@ -182,7 +197,7 @@ body{
 }
 
 .tag-row{
-  display: inline-flex; /* ✅ shrink-wrap tags so we can size quick info to them */
+  display: flex;
   flex-wrap: wrap;
   gap: 6px;
   max-width: 100%;
@@ -196,54 +211,15 @@ body{
   border: 1px solid rgba(0,0,0,0.15);
 }
 
-/* =========================
-   Quick Info width rule
-   ✅ UPDATE:
-   - Make Quick Info width match the tags row width
-   - Never exceed the About box width
-   - No height changes
-========================= */
-.profile-right{ margin-top: 10px; }
+/* Quick info */
+.profile-right{ margin: 0; }
 
 .profile-right .mini-box{
-  display: inline-block;   /* ✅ shrink to content width (we set it below) */
-  width: max-content;
+  padding: 0;
+  width: 330px;         /* keeps it "tight" */
   max-width: 100%;
 }
 
-/* Make mini box match the tag-row width */
-.profile-left .tag-row + .profile-right,
-.profile-left .tag-row{ /* (no-op, kept for structure) */ }
-
-.profile-header .profile-right .mini-box{
-  /* fallback if the browser doesn't support "fit-content" well */
-  width: fit-content;
-  max-width: 100%;
-}
-
-/* Force the mini-box to align under tags (left-justified) */
-.profile-header .profile-right{
-  width: 100%;
-}
-
-/* Key part: quick info becomes exactly as wide as the tag-row (up to container width) */
-.profile-left .tag-row{
-  width: fit-content;
-}
-
-.profile-header .profile-right .mini-box{
-  width: min(100%, max-content);
-}
-
-/* If you want it to match tag-row even when tag-row wraps, lock both to same line length */
-@media (min-width: 901px){
-  .profile-left{ display: block; }
-  .profile-left .tag-row{ max-width: 100%; }
-  .profile-header .profile-right .mini-box{ max-width: 100%; }
-}
-
-/* quick info inner styling */
-.mini-box{ padding: 0; }
 .mini-box-title{
   padding: 8px 10px;
   font-weight: 700;
@@ -258,9 +234,7 @@ body{
   font-size: 13px;
 }
 
-/* =========================
-   Profile photo (special case)
-========================= */
+/* Profile photo (special case) */
 .photo-slot[aria-label="Friends + Family profile photo"]{
   width: 150px;
   height: 150px;
@@ -277,10 +251,89 @@ body{
 }
 
 /* =========================
+   NEW CONTACT CARD (screenshot vibe)
+========================= */
+.contact-card{
+  padding: 0; /* header bar flush like the screenshot */
+}
+
+.contact-card-title{
+  background: #6ea9ff;
+  color: #fff;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.22);
+  text-transform: none;
+}
+
+.contact-actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 18px;
+  padding: 10px 12px 12px;
+}
+
+@media (max-width: 520px){
+  .contact-actions{ grid-template-columns: 1fr; }
+}
+
+.action{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #1146a6;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.action:hover{
+  text-decoration: underline;
+}
+
+/* tiny icon pills (simple + clean, matches boxy theme) */
+.ico{
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(0,0,0,0.25);
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.18);
+  border-radius: 50%;
+  display: inline-block;
+  flex: 0 0 18px;
+  position: relative;
+  background: #fff;
+}
+
+/* Icon variations */
+.ico.plus{ background: #dff7df; }
+.ico.plus::after{ content:"+"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#1a8f2d; }
+
+.ico.star{ background: #fff3c7; }
+.ico.star::after{ content:"★"; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; color:#b88900; }
+
+.ico.msg{ background: #e6f0ff; }
+.ico.msg::after{ content:"✉"; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; color:#2b5bbd; }
+
+.ico.fwd{ background: #e6f0ff; }
+.ico.fwd::after{ content:"➜"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#2b5bbd; }
+
+.ico.im{ background: #e9fbff; }
+.ico.im::after{ content:"💬"; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; }
+
+.ico.stop{ background: #ffe1e1; }
+.ico.stop::after{ content:"⛔"; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; }
+
+.ico.group{ background: #eef3ff; }
+.ico.group::after{ content:"👥"; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; }
+
+.ico.flag{ background: #ffe1e1; }
+.ico.flag::after{ content:"⚑"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#b10000; }
+
+/* =========================
    Top 4
 ========================= */
 .topfriends{
-  margin: 0; /* hero-row handles spacing */
+  margin: 0;
 }
 
 .topfriends-header{
@@ -306,7 +359,6 @@ body{
   display: block;
   text-decoration: none;
   color: inherit;
-
   padding: 8px;
   background: #ffffff;
   border: 1px solid rgba(0,0,0,0.22);
@@ -314,14 +366,11 @@ body{
   border-bottom-color: rgba(0,0,0,0.35);
 }
 
-.friend:hover{
-  background: #f7f7ff;
-}
+.friend:hover{ background: #f7f7ff; }
 
 .friend-photo{
   width: 100%;
   aspect-ratio: 1 / 1;
-
   background:
     linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
     repeating-linear-gradient(
@@ -331,7 +380,6 @@ body{
       rgba(255,255,255,0.0) 6px,
       rgba(255,255,255,0.0) 12px
     );
-
   border: 1px solid rgba(0,0,0,0.18);
 }
 
@@ -396,7 +444,7 @@ body{
 .photo-slot img{
   width: 100%;
   height: 100%;
-  object-fit: cover; /* keep about_1/about_2 behavior */
+  object-fit: cover;
   object-position: center;
   display: block;
 }
