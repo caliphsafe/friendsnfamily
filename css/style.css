@@ -214,86 +214,87 @@ body{
 }
 
 /* =========================
-   ✅ Footer with BG + links + text INSIDE
+   Footer: bg image + links + text INSIDE the bg area
 ========================= */
 .site-footer{
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 16px 0 18px;
+  margin-top: 22px;   /* breathing room above footer */
+  padding-bottom: 16px;
 }
 
-/* This is the "area that the footer background is in" */
+/* This wrapper is EXACTLY the footer image canvas */
 .footer-bg-wrap{
   position: relative;
   width: min(calc(830px * var(--ui-scale)), 96vw);
-  /* ✅ Create room UNDER the image for the text, but still inside the same area */
-  padding-bottom: 64px;
+  aspect-ratio: 830 / 228;          /* locks height to the image ratio */
+  overflow: visible;
 }
 
 .footer-bg{
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.18));
+  object-fit: cover;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,0.20));
 }
 
-/* Links sit on top of the BG image */
+/* Links sit ON TOP of the image */
 .footer-links-onbg{
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: auto;
-  pointer-events: none; /* links will re-enable */
+  inset: 0;
+  pointer-events: none; /* re-enable on links */
 }
 
+/* ✅ Match the "CAMBRIDGE" label look */
 .fbg-link{
   position: absolute;
-  top: 28%;                  /* aligns with CAMBRIDGE line row */
+  top: 26%;                         /* aligns with CAMBRIDGE row */
   transform: translateX(-50%);
   pointer-events: auto;
 
-  /* ✅ match CAMBRIDGE size/feel */
-  font-size: clamp(16px, calc(18px * var(--ui-scale)), 20px);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(22px * var(--ui-scale)); /* ✅ closer to CAMBRIDGE size */
   letter-spacing: 0.02em;
-  color: rgba(25,25,25,0.55);
-  text-decoration: none;
   text-transform: uppercase;
+
+  color: rgba(40,40,40,0.45);       /* soft gray like the printed label */
+  text-decoration: none;
+  line-height: 1;
 }
 
 .fbg-link:hover{
-  color: rgba(25,25,25,0.75);
+  color: rgba(40,40,40,0.68);
   text-decoration: underline;
 }
 
-/* ✅ Center each link between the bars
-   Adjusted anchors so FAQS + ABOUT move LEFT and are centered in their lanes.
-*/
-.fbg-terms{ left: 13.2%; }
-.fbg-faqs{ left: 38.2%; }     /* moved left to center between the bars */
-.fbg-about{ left: 90.6%; }    /* moved left to center between the bars */
+/* ✅ Center each label between its bars (moves FAQS + ABOUT left) */
+.fbg-terms{ left: 12.5%; }
+.fbg-faqs { left: 40.0%; }
+.fbg-about{ left: 88.5%; }
 
-/* Footer text pinned to the bottom of the same footer area */
+/* Footer text INSIDE the footer image area, at the bottom */
 .footer-meta{
   position: absolute;
   left: 0;
-  bottom: 10px;
-  width: 100%;
+  right: 0;
+  bottom: 10%;
   text-align: center;
-  color: rgba(0,0,0,0.68);
+  pointer-events: auto;
+  color: rgba(0,0,0,0.55);
 }
 
 .footer-meta p{
   margin: 0;
-  font-size: 14px;
-  line-height: 1.35;
+  font-size: calc(14px * var(--ui-scale));
+  line-height: 1.25;
 }
 
 .footer-meta .tiny{
   margin-top: 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.56);
+  font-size: calc(12px * var(--ui-scale));
+  color: rgba(0,0,0,0.45);
 }
 
 .footer-meta a{
