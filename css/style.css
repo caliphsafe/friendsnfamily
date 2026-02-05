@@ -362,13 +362,16 @@ body{
   align-items: center;
   justify-content: center;
   text-decoration: none;
+
+  /* ✅ NEW: scale link height with the footer-card height */
+  height: 12.28%;             /* 28px / 228px */
+  max-height: 28px;           /* ✅ preserves desktop exactly */
 }
 
-/* ✅ FIXED: responsive scaling without affecting desktop */
+/* ✅ NEW: image fills the link box, so it scales naturally */
 .footer-link img{
-  height: auto;
+  height: 100%;
   width: auto;
-  max-height: clamp(16px, 3.4vw, 28px);
   display: block;
   opacity: 0.95;
 }
