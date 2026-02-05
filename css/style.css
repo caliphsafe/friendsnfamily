@@ -364,10 +364,11 @@ body{
   text-decoration: none;
 }
 
+/* ✅ FIXED: responsive scaling without affecting desktop */
 .footer-link img{
   height: auto;
   width: auto;
-  max-height: 28px;           /* keeps it tidy; adjust if needed */
+  max-height: clamp(16px, 3.4vw, 28px);
   display: block;
   opacity: 0.95;
 }
@@ -392,7 +393,6 @@ body{
   text-align: center;
   line-height: 1.25;
 
-  /* tuned to look like your subpage footer vibe */
   color: rgba(0,0,0,0.62);
   width: 92%;
   max-width: 760px;
@@ -420,9 +420,8 @@ body{
   border-bottom-color: rgba(0,0,0,0.55);
 }
 
-/* Mobile: keep link images readable */
+/* Mobile text only (image scaling handled above) */
 @media (max-width: 480px){
-  .footer-link img{ max-height: 22px; }
   .footer-copy p{ font-size: 13px; }
   .footer-copy p + p{ font-size: 11px; }
 }
