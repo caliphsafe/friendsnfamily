@@ -31,9 +31,6 @@
   --vendor-scale: 1;
   --vendor-y-shift: clamp(0px, 0.8vw, 10px);
   --vendor-row-h: clamp(18px, 1.7vw, 22px);
-
-  /* ✅ NEW (footer link sizing control) */
-  --footer-link-h: 28px; /* adjust smaller/larger for BOTH desktop + mobile */
 }
 
 *{ box-sizing: border-box; }
@@ -366,28 +363,15 @@ body{
   justify-content: center;
   text-decoration: none;
 
-  /* ✅ FIX: make link images resize with footer on mobile (no desktop disruption) */
-  height: calc(var(--footer-link-h) * 228 / 830); /* no-op? -> see below */
+  /* ✅ NEW: scale link height with the footer-card height */
+  height: 12.28%;             /* 28px / 228px */
+  max-height: 28px;           /* ✅ preserves desktop exactly */
 }
 
-/* ✅ FIX: set image to fill the link box; use clamp to keep desktop same but allow downscale */
-.footer-link img{
-  height: auto;
-  width: clamp(0px, var(--footer-link-h), 28px);
-  max-width: 100%;
-  display: block;
-  opacity: 0.95;
-}
-
-/* ✅ FIX: instead of width-clamp (which depends on image widths), use height clamp on the LINK box */
-.footer-link{
-  height: clamp(18px, 12.28%, 28px); /* scales down on mobile, stays 28px on desktop */
-}
-
+/* ✅ NEW: image fills the link box, so it scales naturally */
 .footer-link img{
   height: 100%;
   width: auto;
-  max-height: 100%;
   display: block;
   opacity: 0.95;
 }
