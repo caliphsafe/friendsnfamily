@@ -331,7 +331,7 @@ body{
 }
 
 /* =========================
-   Footer (responsive art + links)
+   Footer (830x228 artboard that scales)
 ========================= */
 .site-footer{
   width: 100%;
@@ -339,62 +339,65 @@ body{
   background: transparent;
   border: 0;
   box-shadow: none;
-  padding: 18px 0 24px;
+
+  /* ✅ don’t push the footer down / change desktop positioning */
+  padding: 0;
+  margin: 0;
 }
 
 .footer-wrap{
-  width: min(830px, 96vw);   /* ✅ responsive width, max 830 */
-  margin: 0 auto;
+  width: min(830px, 96vw);   /* ✅ 830 desktop, responsive on mobile */
+  margin: 0 auto;            /* ✅ centered */
 }
 
-/* The footer “canvas” stays proportional to 830x228 */
+/* ✅ footer canvas */
 .footer-art{
   position: relative;
   width: 100%;
-  aspect-ratio: 830 / 228;   /* ✅ keeps height correct on mobile */
-  background: url("img/footerbg.png") center / cover no-repeat;
+  aspect-ratio: 830 / 228;
+
+  /* ✅ FIXED PATH (css/style.css -> ../img/) */
+  background: url("../img/footerbg.png") center / cover no-repeat;
+
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.22));
-  border-radius: 2px;
   overflow: hidden;
 }
 
-/* All link images scale with the footer */
+/* Link images */
 .footer-link{
   position: absolute;
-  top: 4.4%;                 /* 10px / 228px ≈ 4.4% */
+  top: 4.4%;                 /* 10px / 228px */
   transform: translateX(-50%);
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
   text-decoration: none;
 }
 
 .footer-link img{
-  height: clamp(12px, 1.9vw, 18px);  /* ✅ scales on mobile */
+  height: clamp(12px, 1.9vw, 18px);
   width: auto;
   display: block;
-  opacity: 0.95;
 }
 
-/* Positions converted from your px specs on an 830px-wide artboard:
-   TERMS 128px -> 15.42%
-   FAQS  256px -> 30.84%
-   ABOUT 600px -> 72.29%
+/* Positions based on 830px width:
+   128px -> 15.42%
+   256px -> 30.84%
+   600px -> 72.29%
 */
 .footer-terms{ left: 15.42%; }
 .footer-faqs{  left: 30.84%; }
 .footer-about{ left: 72.29%; }
 
-/* Copy is INSIDE the art, centered at 140px from top:
-   140 / 228 ≈ 61.4%
+/* Copy inside footer art at 140px from top:
+   140 / 228 = 61.4%
 */
 .footer-copy{
   position: absolute;
   left: 50%;
   top: 61.4%;
   transform: translate(-50%, -50%);
-  text-align: center;
   width: 92%;
+  text-align: center;
+
   color: rgba(0,0,0,0.58);
 }
 
@@ -420,5 +423,6 @@ body{
 .caliph-link:hover{
   border-bottom-color: rgba(0,0,0,0.55);
 }
+
 
 
