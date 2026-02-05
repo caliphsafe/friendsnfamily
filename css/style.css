@@ -7,15 +7,15 @@
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
 
   --gap: 40px;
-  --header-pad-y: 14px;
 
+  --header-pad-y: 14px;
   --bg: #fafbf5;
 
-  /* ✅ Header nav standard */
+  /* Subpage-style nav standard */
   --nav-max: 760px;
-  --nav-h: 14px; /* slightly smaller than before */
+  --nav-h: 14px;
 
-  /* Vendor overlay dials */
+  /* Vendor overlay dials (desktop defaults) */
   --vendor-left: 20.12%;
   --vendor-top: 10.12%;
   --vendor-width: 65%;
@@ -33,6 +33,11 @@ body{
   color: #1a1a1a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
+}
+
+/* Desktop: no scroll */
+@media (min-width: 1101px){
+  body{ overflow: hidden; }
 }
 
 /* ========== iOS Glass Header ========== */
@@ -66,7 +71,7 @@ body{
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* Header nav (subpage-style) */
+/* Subpage-style nav in header */
 .img-nav{
   margin: 0 auto 10px;
   width: min(var(--nav-max), 96vw);
@@ -115,22 +120,20 @@ body{
   align-items: center;
 }
 
-/* ✅ single centered panel now */
+/* ✅ Only one panel now; keep it centered */
 .panels{
-  width: 96vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 12px 0 14px;
+  padding: 8px 0 10px;
 }
 
-/* panel */
 .panel{
   display: flex;
   justify-content: center;
 }
 
-/* keep original panel sizing behavior */
 .panel-inner{
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
   aspect-ratio: 830 / 1329;
@@ -138,15 +141,16 @@ body{
   height: auto;
 }
 
+/* Desktop fit-to-window */
 @media (min-width: 1101px){
   .panel-inner{
-    height: calc(100vh - 180px);
+    height: calc(100vh - 140px - 260px); /* room for footer area */
     width: auto;
-    max-width: min(var(--panel-w), 70vw);
+    max-width: min(var(--panel-w), 60vw);
   }
 }
 
-/* ========== Thank you panel ========== */
+/* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
@@ -210,128 +214,94 @@ body{
 }
 
 /* =========================
-   Footer (overlay text links on footerbg.png)
+   ✅ Footer with BG + links + text INSIDE
 ========================= */
 .site-footer{
   width: 100%;
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 18px;
 }
 
-.footer-inner{
-  width: min(980px, 94vw);
-  margin: 0 auto;
-  padding: 10px 8px 18px;
-}
-
-/* footer strip image area */
-.footer-art{
+/* This is the "area that the footer background is in" */
+.footer-bg-wrap{
   position: relative;
-  width: min(830px, 94vw);
-  margin: 0 auto;
+  width: min(calc(830px * var(--ui-scale)), 96vw);
+  /* ✅ Create room UNDER the image for the text, but still inside the same area */
+  padding-bottom: 64px;
 }
 
-/* the background image */
 .footer-bg{
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.18));
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.18));
 }
 
-/* =========================
-   LINKS: match "CAMBRIDGE" size + center between bars
-========================= */
-.footer-links-row{
+/* Links sit on top of the BG image */
+.footer-links-onbg{
   position: absolute;
-  inset: 0;
-  display: grid;
-
-  /* 4 columns: TERMS | FAQS | (CAMBRIDGE column) | ABOUT  */
-  grid-template-columns: 1fr 1fr 2fr 1fr;
-
-  /* place the links near the top of the strip like the printed labels */
-  align-items: start;
-  padding-top: 26px;
-
-  /* keep away from edges a bit */
-  padding-left: 24px;
-  padding-right: 24px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none; /* links will re-enable */
 }
 
-.foot-link{
-  justify-self: center;
+.fbg-link{
+  position: absolute;
+  top: 28%;                  /* aligns with CAMBRIDGE line row */
+  transform: translateX(-50%);
+  pointer-events: auto;
+
+  /* ✅ match CAMBRIDGE size/feel */
+  font-size: clamp(16px, calc(18px * var(--ui-scale)), 20px);
+  letter-spacing: 0.02em;
+  color: rgba(25,25,25,0.55);
   text-decoration: none;
-  letter-spacing: 0.06em;
   text-transform: uppercase;
-
-  /* ✅ make these match the "CAMBRIDGE" label size */
-  font-size: clamp(18px, 2.2vw, 26px);
-  font-weight: 700;
-
-  /* soft gray like the print */
-  color: rgba(0,0,0,0.45);
 }
 
-.foot-link:hover{
-  color: rgba(0,0,0,0.62);
+.fbg-link:hover{
+  color: rgba(25,25,25,0.75);
   text-decoration: underline;
 }
 
-/* Place each link into its column */
-.foot-terms{ grid-column: 1; }
-.foot-faqs{  grid-column: 2; }
-.foot-about{ grid-column: 4; }
+/* ✅ Center each link between the bars
+   Adjusted anchors so FAQS + ABOUT move LEFT and are centered in their lanes.
+*/
+.fbg-terms{ left: 13.2%; }
+.fbg-faqs{ left: 38.2%; }     /* moved left to center between the bars */
+.fbg-about{ left: 90.6%; }    /* moved left to center between the bars */
 
-/* =========================
-   Copy INSIDE the footerbg area (bottom-aligned)
-========================= */
-.footer-copy{
+/* Footer text pinned to the bottom of the same footer area */
+.footer-meta{
   position: absolute;
   left: 0;
-  right: 0;
   bottom: 10px;
-
+  width: 100%;
   text-align: center;
   color: rgba(0,0,0,0.68);
-  padding: 0 12px;
+}
 
+.footer-meta p{
+  margin: 0;
   font-size: 14px;
   line-height: 1.35;
 }
 
-.footer-copy .tiny{
+.footer-meta .tiny{
   margin-top: 6px;
   font-size: 12px;
   color: rgba(0,0,0,0.56);
 }
 
-.tiny-link{
+.footer-meta a{
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(0,0,0,0.25);
 }
 
-.tiny-link:hover{
+.footer-meta a:hover{
   border-bottom-color: rgba(0,0,0,0.55);
-}
-
-.caliph{
-  font-weight: 700;
-}
-
-/* tighter spacing on small screens */
-@media (max-width: 520px){
-  .footer-links-row{
-    padding-top: 22px;
-    padding-left: 14px;
-    padding-right: 14px;
-    grid-template-columns: 1fr 1fr 2.2fr 1fr;
-  }
-  .foot-link{
-    font-size: clamp(16px, 4vw, 22px);
-  }
-  .footer-copy{
-    bottom: 8px;
-    font-size: 13px;
-  }
 }
