@@ -364,8 +364,8 @@ body{
   text-decoration: none;
 
   /* ✅ NEW: scale link height with the footer-card height */
-  height: 6.28%;             /* 28px / 228px */
-  max-height: 14px;           /* ✅ preserves desktop exactly */
+  height: 7%;             /* 28px / 228px */
+  max-height: 15px;           /* ✅ preserves desktop exactly */
 }
 
 /* ✅ NEW: image fills the link box, so it scales naturally */
