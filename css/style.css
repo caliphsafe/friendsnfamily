@@ -210,7 +210,7 @@ body{
 }
 
 /* =========================
-   Footer (custom strip + subpage tone)
+   Footer (overlay text links on footerbg.png)
 ========================= */
 .site-footer{
   width: 100%;
@@ -220,18 +220,17 @@ body{
 .footer-inner{
   width: min(980px, 94vw);
   margin: 0 auto;
-  text-align: center;
   padding: 10px 8px 18px;
-  color: rgba(0,0,0,0.68);
 }
 
 /* footer strip image area */
 .footer-art{
   position: relative;
   width: min(830px, 94vw);
-  margin: 0 auto 10px;
+  margin: 0 auto;
 }
 
+/* the background image */
 .footer-bg{
   width: 100%;
   height: auto;
@@ -239,48 +238,69 @@ body{
   filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.18));
 }
 
-/* icon links positioned over the strip */
+/* =========================
+   LINKS: match "CAMBRIDGE" size + center between bars
+========================= */
 .footer-links-row{
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  display: grid;
+
+  /* 4 columns: TERMS | FAQS | (CAMBRIDGE column) | ABOUT  */
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+
+  /* place the links near the top of the strip like the printed labels */
+  align-items: start;
+  padding-top: 26px;
+
+  /* keep away from edges a bit */
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .foot-link{
-  position: absolute;
-  top: 10px;
-  pointer-events: auto;
+  justify-self: center;
   text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  /* ✅ make these match the "CAMBRIDGE" label size */
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 700;
+
+  /* soft gray like the print */
+  color: rgba(0,0,0,0.45);
 }
 
-.foot-link img{
-  height: 22px;
-  width: auto;
-  display: block;
-  opacity: 0.98;
+.foot-link:hover{
+  color: rgba(0,0,0,0.62);
+  text-decoration: underline;
 }
 
-/* approximate column positions matching the strip */
-.foot-terms{ left: 120px; }
-.foot-faqs{ left: 265px; }
-.foot-about{ right: 105px; }
+/* Place each link into its column */
+.foot-terms{ grid-column: 1; }
+.foot-faqs{  grid-column: 2; }
+.foot-about{ grid-column: 4; }
 
-@media (max-width: 520px){
-  .foot-link img{ height: 18px; }
-  .foot-terms{ left: 14%; }
-  .foot-faqs{ left: 39%; }
-  .foot-about{ right: 12%; }
-}
+/* =========================
+   Copy INSIDE the footerbg area (bottom-aligned)
+========================= */
+.footer-copy{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
 
-.copy{
-  margin: 0;
+  text-align: center;
+  color: rgba(0,0,0,0.68);
+  padding: 0 12px;
+
   font-size: 14px;
   line-height: 1.35;
-  letter-spacing: 0.02em;
 }
 
-.tiny{
-  margin: 6px 0 0;
+.footer-copy .tiny{
+  margin-top: 6px;
   font-size: 12px;
   color: rgba(0,0,0,0.56);
 }
@@ -297,4 +317,21 @@ body{
 
 .caliph{
   font-weight: 700;
+}
+
+/* tighter spacing on small screens */
+@media (max-width: 520px){
+  .footer-links-row{
+    padding-top: 22px;
+    padding-left: 14px;
+    padding-right: 14px;
+    grid-template-columns: 1fr 1fr 2.2fr 1fr;
+  }
+  .foot-link{
+    font-size: clamp(16px, 4vw, 22px);
+  }
+  .footer-copy{
+    bottom: 8px;
+    font-size: 13px;
+  }
 }
