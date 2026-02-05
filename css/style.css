@@ -426,3 +426,47 @@ body{
   .footer-copy p{ font-size: 13px; }
   .footer-copy p + p{ font-size: 11px; }
 }
+
+/* =========================
+   Responsive footer links
+========================= */
+
+.footer-bg{
+  width: 100%;
+  max-width: 830px;
+  height: auto;
+  display: block;
+}
+
+.footer-wrap{
+  position: relative;
+  width: min(830px, 100%);
+  margin: 0 auto;
+}
+
+/* link images auto scale */
+.footer-link img{
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+
+/* scale entire footer on small screens */
+@media (max-width: 640px){
+
+  .footer-wrap{
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+
+}
+
+@media (max-width: 420px){
+
+  .footer-wrap{
+    transform: scale(0.75);
+  }
+
+}
+
