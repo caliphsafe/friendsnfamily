@@ -21,7 +21,7 @@
   --bg: #fafbf5;
 
   /* ✅ NEW: Subpage-style nav controls (use this standard going forward) */
-  --nav-max: 760px;
+  --nav-max: 665px;
   --nav-h: 14px; /* slightly smaller than before */
 
   /* Vendor overlay dials (desktop defaults) */
