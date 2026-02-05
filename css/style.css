@@ -6,25 +6,16 @@
 
   --panel-w: calc(var(--panel-w-base) * var(--ui-scale));
 
-  /* Hard px cap */
-  --nav-rail-max: calc(562px * var(--ui-scale));
-
-  /* Safe zone ratio: 562 / 830 = 0.6771 */
-  --nav-safe-ratio: 0.6771;
-
   --gap: 40px;
-  --side-pad: 7px;
-
   --header-pad-y: 14px;
-  --footer-h: 64px;
 
   --bg: #fafbf5;
 
-  /* ✅ NEW: Subpage-style nav controls (use this standard going forward) */
+  /* ✅ Header nav standard */
   --nav-max: 760px;
   --nav-h: 14px; /* slightly smaller than before */
 
-  /* Vendor overlay dials (desktop defaults) */
+  /* Vendor overlay dials */
   --vendor-left: 20.12%;
   --vendor-top: 10.12%;
   --vendor-width: 65%;
@@ -44,11 +35,6 @@ body{
   overflow-x: hidden;
 }
 
-/* Desktop: no scroll */
-@media (min-width: 1101px){
-  body{ overflow: hidden; }
-}
-
 /* ========== iOS Glass Header ========== */
 .site-header{
   position: sticky;
@@ -65,7 +51,7 @@ body{
     0 8px 24px rgba(0,0,0,0.04);
 }
 
-/* ✅ Logo sizing now matches subpages */
+/* Logo sizing matches subpages */
 .brand{
   display: flex;
   justify-content: center;
@@ -74,13 +60,13 @@ body{
 }
 
 .brand img{
-  width: min(420px, 92vw); /* ✅ match subpages */
+  width: min(420px, 92vw);
   height: auto;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* ✅ NEW: Subpage-style nav inside homepage header (doesn't affect guest-check nav) */
+/* Header nav (subpage-style) */
 .img-nav{
   margin: 0 auto 10px;
   width: min(var(--nav-max), 96vw);
@@ -89,7 +75,7 @@ body{
   align-items: center;
   justify-content: space-between;
 
-  padding: 5px 7px; /* ✅ new standard */
+  padding: 5px 7px;
 
   background: rgba(255,255,255,0.92);
   border: 1px solid rgba(0,0,0,0.18);
@@ -117,7 +103,6 @@ body{
   opacity: 0.95;
 }
 
-/* mobile tweak */
 @media (max-width: 480px){
   :root{ --nav-h: 13px; }
 }
@@ -130,29 +115,22 @@ body{
   align-items: center;
 }
 
+/* ✅ single centered panel now */
 .panels{
-  width: min(calc(1800px * var(--ui-scale)), 96vw);
+  width: 96vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: var(--gap);
-  padding: 8px 0 10px;
+  padding: 12px 0 14px;
 }
 
-@media (max-width: 1100px){
-  .panels{
-    flex-direction: column;
-    align-items: center;
-    width: 96vw;
-    gap: calc(26px * var(--ui-scale));
-  }
-}
-
+/* panel */
 .panel{
   display: flex;
   justify-content: center;
 }
 
+/* keep original panel sizing behavior */
 .panel-inner{
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
   aspect-ratio: 830 / 1329;
@@ -160,115 +138,19 @@ body{
   height: auto;
 }
 
-/* Desktop fit-to-window */
 @media (min-width: 1101px){
   .panel-inner{
-    height: calc(100vh - 140px - var(--footer-h));
+    height: calc(100vh - 180px);
     width: auto;
-    max-width: min(var(--panel-w), 48vw);
+    max-width: min(var(--panel-w), 70vw);
   }
 }
 
-.guest-stack{ width: 100%; }
-.guest-img{
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* =========================================
-   NAV (SCALING-SAFE + ALL LINKS ALWAYS FIT)
-========================================= */
-.guest-nav-wrap{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 830 / 17;
-}
-
-.nav-bg{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.nav-rail{
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--side-pad);
-}
-
-/* safe zone width is ratio + hard cap (unchanged) */
-.nav-overlay{
-  height: 100%;
-  width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
-
-  gap: clamp(0px, 0.25vw, 6px);
-  min-width: 0;
-}
-
-.nav-item{
-  flex: 1 1 0;
-  min-width: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.nav-item img{
-  height: clamp(7px, 55%, 12px);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  opacity: 0.95;
-}
-
-.nav-split{
-  flex: 0 0 auto;
-  height: clamp(6px, 42%, 10px);
-  width: auto;
-  max-width: clamp(6px, 1.2vw, 14px);
-  object-fit: contain;
-  display: block;
-  opacity: 0.85;
-}
-
-@media (max-width: 768px){
-  .nav-overlay{ gap: 2px; }
-  .nav-item img{ height: clamp(6px, 48%, 10px); }
-  .nav-split{
-    height: clamp(5px, 36%, 8px);
-    max-width: 10px;
-  }
-}
-
-@media (max-width: 430px){
-  .nav-overlay{
-    transform: scale(0.96);
-    transform-origin: center;
-  }
-}
-@media (max-width: 360px){
-  .nav-overlay{ transform: scale(0.92); }
-}
-
-/* ========== Thank you ========== */
+/* ========== Thank you panel ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
-/* ================================
-   VENDOR OVERLAY (DESKTOP PERFECT)
-================================== */
+/* Vendor overlay */
 .vendor-links{
   position: absolute;
   inset: 0;
@@ -313,9 +195,6 @@ body{
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* =========================================================
-   ✅ MOBILE ONLY FIX: scale vendor overlay down to fit card
-========================================================= */
 @media (max-width: 768px){
   :root{
     --vendor-scale: 1.60;
@@ -330,70 +209,92 @@ body{
   }
 }
 
-/* ========== iOS Glass Footer + bigger text ========== */
 /* =========================
-   Footer (match subpages)
+   Footer (custom strip + subpage tone)
 ========================= */
 .site-footer{
-  width: 100vw;
-  height: auto;                 /* ✅ no fixed height */
-  display: block;               /* ✅ simple block footer */
-  background: transparent;      /* ✅ let page background show through */
-  border-top: none;             /* ✅ remove glass border */
-  box-shadow: none;             /* ✅ remove glass shadow */
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-/* ✅ kill the desktop fixed footer behavior */
-@media (min-width: 1101px){
-  .site-footer{
-    position: static;
-    left: auto;
-    bottom: auto;
-  }
+  width: 100%;
+  margin-top: 10px;
 }
 
 .footer-inner{
-  width: min(calc(1800px * var(--ui-scale)), 96vw);
+  width: min(980px, 94vw);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
   text-align: center;
-  opacity: 1;                  /* ✅ match subpages (no fade) */
-  padding: 16px 8px;           /* ✅ match subpages spacing */
-  color: rgba(0,0,0,0.68);     /* ✅ match subpages tone */
+  padding: 10px 8px 18px;
+  color: rgba(0,0,0,0.68);
 }
 
-.footer-inner p{
+/* footer strip image area */
+.footer-art{
+  position: relative;
+  width: min(830px, 94vw);
+  margin: 0 auto 10px;
+}
+
+.footer-bg{
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.18));
+}
+
+/* icon links positioned over the strip */
+.footer-links-row{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.foot-link{
+  position: absolute;
+  top: 10px;
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+.foot-link img{
+  height: 22px;
+  width: auto;
+  display: block;
+  opacity: 0.98;
+}
+
+/* approximate column positions matching the strip */
+.foot-terms{ left: 120px; }
+.foot-faqs{ left: 265px; }
+.foot-about{ right: 105px; }
+
+@media (max-width: 520px){
+  .foot-link img{ height: 18px; }
+  .foot-terms{ left: 14%; }
+  .foot-faqs{ left: 39%; }
+  .foot-about{ right: 12%; }
+}
+
+.copy{
   margin: 0;
-  font-size: 14px;             /* ✅ match subpages */
+  font-size: 14px;
   line-height: 1.35;
   letter-spacing: 0.02em;
 }
 
-/* Optional: if you still keep footer links somewhere */
-.footer-links a{
+.tiny{
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: rgba(0,0,0,0.56);
+}
+
+.tiny-link{
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 600;
 }
 
-.footer-links a:hover{
+.tiny-link:hover{
   border-bottom-color: rgba(0,0,0,0.55);
 }
 
-.footer-links .dot{
-  padding: 0 8px;
-  opacity: 0.65;
-}
-
-/* ✅ subpage-style tiny line (works with your new HTML below) */
-.footer-inner .tiny{
-  margin-top: 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.56);
+.caliph{
+  font-weight: 700;
 }
