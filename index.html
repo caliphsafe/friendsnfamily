@@ -14,7 +14,7 @@
       <img src="img/fnf.png" alt="friends + family" />
     </a>
 
-    <!-- ✅ Header nav order: HOME SHOP APPTS EVENTS CONTACT -->
+    <!-- ✅ Top nav order: HOME SHOP APPTS EVENTS CONTACT -->
     <nav class="img-nav" aria-label="Primary navigation">
       <a class="img-nav-item" href="index.html" aria-label="Home">
         <img src="img/home.png" alt="Home">
@@ -39,10 +39,11 @@
   </header>
 
   <main class="page">
-    <!-- ✅ Guest check panel removed بالكامل -->
-    <section class="panels" aria-label="Homepage content">
+    <section class="panels" aria-label="Homepage panels">
 
-      <!-- ✅ Centered Thank you / vendor panel -->
+      <!-- ✅ Guest check section removed -->
+
+      <!-- ✅ Center the Thank you / vendor section -->
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
         <div class="panel-inner thanks-wrap">
           <img class="thanks-bg" src="img/stores_bg.png" alt="Thank you" />
@@ -133,32 +134,33 @@
 
     </section>
 
-    <!-- ✅ Footer with background area + icon links -->
-   <footer class="site-footer" aria-label="Footer">
-  <div class="footer-inner">
-    <div class="footer-art" aria-label="Footer navigation strip">
-      <img class="footer-bg" src="img/footerbg.png" alt="" />
+    <!-- ✅ Footer background area with links + footer text INSIDE it -->
+    <footer class="site-footer" aria-label="Footer">
+      <div class="footer-bg-wrap">
+        <img class="footer-bg" src="img/footerbg.png" alt="" aria-hidden="true" />
 
-      <!-- TEXT links centered between the bars -->
-      <div class="footer-links-row" aria-label="Footer links">
-        <a class="foot-link foot-terms" href="terms.html">TERMS</a>
-        <a class="foot-link foot-faqs" href="faqs.html">FAQS</a>
-        <a class="foot-link foot-about" href="about.html">ABOUT</a>
-      </div>
+        <!-- Links positioned ON the image -->
+        <nav class="footer-links-onbg" aria-label="Footer links">
+          <a class="fbg-link fbg-terms" href="terms.html">TERMS</a>
+          <a class="fbg-link fbg-faqs" href="faqs.html">FAQS</a>
+          <a class="fbg-link fbg-about" href="about.html">ABOUT</a>
+        </nav>
 
-      <!-- Footer text INSIDE the footerbg area (bottom-aligned) -->
-      <div class="footer-copy" aria-label="Footer credits">
-        <div>© 2026 Friends + Family. All Rights Reserved.</div>
-        <div class="tiny">
-          website created by <span class="caliph">“caliph”</span> ·
-          <a class="tiny-link" href="mailto:caliph.safe@gmail.com">caliph.safe@gmail.com</a>
+        <!-- Text positioned at the BOTTOM of the same footer area -->
+        <div class="footer-meta">
+          <p>© <span id="year"></span> Friends + Family. All Rights Reserved.</p>
+          <p class="tiny">
+            website crafted by <strong>“caliph”</strong> ·
+            <a href="mailto:caliph.safe@gmail.com">caliph.safe@gmail.com</a>
+          </p>
         </div>
       </div>
-    </div>
-  </div>
-</footer>
-
+    </footer>
 
   </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
