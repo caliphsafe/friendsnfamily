@@ -14,7 +14,7 @@
       <img src="img/fnf.png" alt="friends + family" />
     </a>
 
-    <!-- ✅ Added: Subpage-style navigation (does NOT replace guest-check nav) -->
+    <!-- ✅ Header nav order: HOME SHOP APPTS EVENTS CONTACT -->
     <nav class="img-nav" aria-label="Primary navigation">
       <a class="img-nav-item" href="index.html" aria-label="Home">
         <img src="img/home.png" alt="Home">
@@ -24,16 +24,12 @@
         <img src="img/shop.png" alt="Shop">
       </a>
 
+      <a class="img-nav-item" href="appts.html" aria-label="Appointments">
+        <img src="img/appts.png" alt="Appts">
+      </a>
+
       <a class="img-nav-item" href="events.html" aria-label="Events">
         <img src="img/events.png" alt="Events">
-      </a>
-
-      <a class="img-nav-item" href="about.html" aria-label="About">
-        <img src="img/about.png" alt="About">
-      </a>
-
-      <a class="img-nav-item" href="faqs.html" aria-label="FAQs">
-        <img src="img/faqs.png" alt="FAQs">
       </a>
 
       <a class="img-nav-item" href="contact.html" aria-label="Contact">
@@ -43,49 +39,10 @@
   </header>
 
   <main class="page">
-    <section class="panels" aria-label="Homepage panels">
+    <!-- ✅ Guest check panel removed بالكامل -->
+    <section class="panels" aria-label="Homepage content">
 
-      <div class="panel guest" aria-label="Guest check panel">
-        <div class="panel-inner guest-stack">
-          <img class="guest-img" src="img/header.png" alt="" />
-
-          <!-- ✅ Existing guest-check nav stays untouched -->
-          <div class="guest-nav-wrap" aria-label="Site navigation">
-            <img class="nav-bg" src="img/nav.png" alt="" />
-
-            <div class="nav-rail">
-              <nav class="nav-overlay" aria-label="Primary navigation">
-                <a href="index.html" class="nav-item" aria-label="Home">
-                  <img src="img/home.png" alt="Home">
-                </a>
-                <img class="nav-split" src="img/split.png" alt="">
-                <a href="shop.html" class="nav-item" aria-label="Shop">
-                  <img src="img/shop.png" alt="Shop">
-                </a>
-                <img class="nav-split" src="img/split.png" alt="">
-                <a href="events.html" class="nav-item" aria-label="Events">
-                  <img src="img/events.png" alt="Events">
-                </a>
-                <img class="nav-split" src="img/split.png" alt="">
-                <a href="about.html" class="nav-item" aria-label="About">
-                  <img src="img/about.png" alt="About">
-                </a>
-                <img class="nav-split" src="img/split.png" alt="">
-                <a href="faqs.html" class="nav-item" aria-label="FAQs">
-                  <img src="img/faqs.png" alt="FAQs">
-                </a>
-                <img class="nav-split" src="img/split.png" alt="">
-                <a href="contact.html" class="nav-item" aria-label="Contact">
-                  <img src="img/contact.png" alt="Contact">
-                </a>
-              </nav>
-            </div>
-          </div>
-
-          <img class="guest-img" src="img/body.png" alt="" />
-        </div>
-      </div>
-
+      <!-- ✅ Centered Thank you / vendor panel -->
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
         <div class="panel-inner thanks-wrap">
           <img class="thanks-bg" src="img/stores_bg.png" alt="Thank you" />
@@ -176,16 +133,37 @@
 
     </section>
 
-   <footer class="site-footer">
-  <div class="footer-inner">
-    <p>© <span id="year"></span> Friends + Family. All Rights Reserved.</p>
-    <p class="tiny">made for the thrift community</p>
-  </div>
-</footer>
-  </main>
+    <!-- ✅ Footer with background area + icon links -->
+    <footer class="site-footer" aria-label="Footer">
+      <div class="footer-inner">
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+        <div class="footer-art" aria-label="Footer navigation strip">
+          <img class="footer-bg" src="img/footerbg.png" alt="" />
+
+          <!-- clickable icons placed over the strip -->
+          <div class="footer-links-row" aria-label="Footer links">
+            <a class="foot-link foot-terms" href="terms.html" aria-label="Terms">
+              <img src="img/terms.png" alt="Terms">
+            </a>
+
+            <a class="foot-link foot-faqs" href="faqs.html" aria-label="FAQs">
+              <img src="img/faqs.png" alt="FAQs">
+            </a>
+
+            <a class="foot-link foot-about" href="about.html" aria-label="About">
+              <img src="img/about.png" alt="About">
+            </a>
+          </div>
+        </div>
+
+        <p class="copy">© 2026 Friends + Family. All Rights Reserved.</p>
+        <p class="tiny">
+          website crafted by <span class="caliph">“caliph”</span> ·
+          <a class="tiny-link" href="mailto:caliph.safe@gmail.com">caliph.safe@gmail.com</a>
+        </p>
+      </div>
+    </footer>
+
+  </main>
 </body>
 </html>
