@@ -44,9 +44,12 @@ body{
   overflow-x: hidden;
 }
 
-/* Desktop: no scroll */
+/* Desktop: allow scroll so footer is reachable */
 @media (min-width: 1101px){
-  body{ overflow: hidden; }
+  body{
+    overflow-y: auto;   /* ✅ scroll on desktop */
+    overflow-x: hidden; /* keep sideways scroll off */
+  }
 }
 
 /* ========== iOS Glass Header ========== */
