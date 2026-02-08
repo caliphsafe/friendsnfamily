@@ -52,6 +52,9 @@ body{
 }
 
 /* ✅ ADDED: Shared box style (subpages) */
+/* Shared box style (wins over most page CSS) */
+.wrap .box,
+.page .box,
 .box{
   background: var(--box-bg);
   border: 1px solid var(--box-border);
@@ -60,6 +63,7 @@ body{
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
+
 
 /* Desktop: allow scroll so footer is reachable */
 @media (min-width: 1101px){
