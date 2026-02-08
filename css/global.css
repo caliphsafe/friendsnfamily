@@ -20,6 +20,12 @@
 
   --bg: #fafbf5;
 
+    /* Old-school box look */
+  --box-bg: rgba(255,255,255,0.92);
+  --box-border: #b9b9b9;
+  --box-border-dark: #8f8f8f;
+  --shadow: 2px 2px 0 rgba(0,0,0,0.18);
+
   /* ✅ NEW: Subpage-style nav controls (use this standard going forward) */
   --nav-max: 665px;
   --nav-h: 14px; /* slightly smaller than before */
