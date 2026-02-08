@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Friends + Family — Events</title>
   <meta name="description" content="Friends + Family events and pop-ups." />
-  <link rel="stylesheet" href="css/subpages.css" />
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="css/events.css" />
+
+  <!-- Shared header/footer CSS -->
   <link rel="stylesheet" href="css/global.css" />
 </head>
 
 <body class="subpage events-page">
 
-   <!-- ✅ Global header injected here -->
+  <!-- ✅ GLOBAL HEADER -->
   <div id="header"></div>
 
   <main class="wrap">
@@ -31,7 +35,6 @@
     <!-- Events feed -->
     <section class="events-feed" aria-label="Event flyers feed">
 
-      <!-- MOST RECENT (top) -->
       <article class="box event-card" aria-label="Event flyer 1 (most recent)">
         <img
           class="event-flyer"
@@ -59,26 +62,23 @@
         />
       </article>
 
-      <!-- Add more flyers by copying one of the cards above -->
-
     </section>
+
   </main>
 
-  <!-- ✅ Global footer injected here -->
+  <!-- ✅ GLOBAL FOOTER -->
   <div id="footer"></div>
 
-  <!-- ✅ Load shared header/footer partials -->
+  <!-- ✅ PARTIAL LOADER -->
   <script>
     fetch("partials/header.html")
-      .then(res => res.text())
-      .then(html => { document.getElementById("header").innerHTML = html; });
+      .then(r => r.text())
+      .then(html => document.getElementById("header").innerHTML = html);
 
     fetch("partials/footer.html")
-      .then(res => res.text())
-      .then(html => { document.getElementById("footer").innerHTML = html; });
+      .then(r => r.text())
+      .then(html => document.getElementById("footer").innerHTML = html);
   </script>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+
 </body>
 </html>
