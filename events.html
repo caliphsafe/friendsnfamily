@@ -77,6 +77,8 @@
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
-
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
