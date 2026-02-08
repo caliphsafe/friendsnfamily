@@ -11,10 +11,6 @@
 
   --radius: 2px;  /* boxy */
   --gap: 14px;
-
-  /* Nav sizing */
-  --nav-max: 760px;
-  --nav-h: 14px; /* slightly smaller than before */
 }
 
 *{ box-sizing: border-box; }
@@ -30,76 +26,6 @@ body{
     linear-gradient(0deg, rgba(0,0,0,0.03) 1px, transparent 1px) 0 0 / 18px 18px,
     linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px) 0 0 / 18px 18px,
     var(--bg);
-}
-
-/* =========================
-   Topbar + nav
-========================= */
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: 12px 10px;
-  background: rgba(255,255,255,0.85);
-  border-bottom: 1px solid rgba(0,0,0,0.18);
-}
-
-.topbar-brand{
-  display: flex;
-  justify-content: center;
-  text-decoration: none;
-  margin-bottom: 10px;
-}
-
-.topbar-brand img{
-  width: min(420px, 92vw);
-  height: auto;
-  display: block;
-}
-
-.img-nav{
-  margin: 0 auto;
-  width: min(var(--nav-max), 96vw);
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 5px 7px;
-
-  background: var(--box-bg);
-  border: 1px solid var(--box-border);
-  border-right-color: var(--box-border-dark);
-  border-bottom-color: var(--box-border-dark);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.img-nav-item{
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.img-nav-item img{
-  height: var(--nav-h);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  opacity: 0.95;
-}
-
-.img-nav-item[aria-current="page"] img{
-  opacity: 1;
-  filter: contrast(1.1);
-}
-
-@media (max-width: 480px){
-  :root{ --nav-h: 16px; }
 }
 
 /* =========================
@@ -502,21 +428,4 @@ body{
 .comment-name{
   font-weight: 700;
   color: rgba(0,0,0,0.72);
-}
-
-/* footer */
-.subfooter{
-  margin-top: 18px;
-  text-align: center;
-}
-
-.subfooter-inner{
-  padding: 16px 8px;
-  color: rgba(0,0,0,0.68);
-}
-
-.subfooter-inner .tiny{
-  margin-top: 6px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.56);
 }
