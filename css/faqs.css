@@ -1,38 +1,15 @@
 /* =========================================================
-   FAQs — MySpace-style comment thread
-   (fixes the “squeezed left + dead space right” issue)
+   FAQs — Simplified Q/A blocks (no left column, no form header)
 ========================================================= */
 
 .faqs-page .page-head{
   margin-bottom: var(--gap);
 }
 
-/* Forum header strip */
+/* Forum wrapper */
 .forum{
-  padding: 0; /* let header strip sit flush */
+  padding: 0;
   overflow: hidden;
-}
-
-.forum-head{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-
-  padding: 10px 12px;
-
-  background: #f0f0f0;
-  border-bottom: 1px solid rgba(0,0,0,0.14);
-}
-
-.forum-title{
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.forum-sub{
-  color: rgba(0,0,0,0.60);
-  font-size: 13px;
 }
 
 /* Thread list */
@@ -42,17 +19,12 @@
   gap: 12px;
 }
 
-/* =========================================================
-   ✅ KEY FIX:
-   True 2-column post layout:
-   left = fixed user card, right = fluid content (fills row)
-========================================================= */
+/* Each FAQ item */
 .post{
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr); /* ✅ right column uses all space */
   border: 1px solid rgba(0,0,0,0.14);
   background: rgba(255,255,255,0.55);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  overflow: hidden;
 }
 
 /* Alternating subtle tint */
@@ -60,184 +32,30 @@
   background: rgba(255,255,255,0.40);
 }
 
-/* Left user card */
-.post-left{
-  padding: 10px 10px 12px;
-  border-right: 1px solid rgba(0,0,0,0.12);
-  background: rgba(255,255,255,0.55);
-}
+/* Question box (uses the same background color as the old header strip) */
+.faq-q{
+  padding: 10px 12px;
+  background: #f0f0f0;
+  border-bottom: 1px solid rgba(0,0,0,0.14);
 
-.avatar{
-  width: 120px;
-  height: 120px;
-  border: 2px solid #000;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
-  background:
-    linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,0,0,0.06) 0px,
-      rgba(0,0,0,0.06) 6px,
-      rgba(255,255,255,0.0) 6px,
-      rgba(255,255,255,0.0) 12px
-    );
-  margin: 4px 0 10px;
-}
-
-.user{
-  font-weight: 800;
-  font-size: 14px;
-  text-transform: lowercase;
-  margin-bottom: 6px;
-}
-
-.meta-lines{
-  font-size: 13px;
-  color: rgba(0,0,0,0.72);
-  line-height: 1.35;
-}
-
-.meta-lines .k{
-  color: rgba(0,0,0,0.55);
-  font-weight: 700;
-}
-
-.meta-lines .when{
-  margin-top: 6px;
-  color: rgba(0,0,0,0.60);
-}
-
-/* Left quick actions */
-.left-actions{
-  margin-top: 10px;
-  display: grid;
-  gap: 6px;
-}
-
-.left-actions a{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: rgba(0,0,0,0.75);
-  font-weight: 700;
-}
-
-.left-actions a:hover{
-  text-decoration: underline;
-}
-
-.chip{
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(0,0,0,0.25);
-  box-shadow: 1px 1px 0 rgba(0,0,0,0.18);
-  border-radius: 50%;
-  display: inline-grid;
-  place-items: center;
-  background: #fff;
-  font-size: 12px;
-}
-
-/* Right content area */
-.post-right{
-  padding: 12px 14px 12px;
-  min-width: 0; /* ✅ critical: allows content to actually fill */
-}
-
-/* Question line */
-.post-q{
-  margin: 0 0 10px;
-  font-size: 15px;
   font-weight: 900;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.10);
+  font-size: 14px;
 }
 
-/* Answer bubble */
-.post-a{
+/* Answer box */
+.faq-a{
   background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(0,0,0,0.10);
+  border-top: 1px solid rgba(255,255,255,0.55);
   padding: 12px 12px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
 
-  width: 100%;     /* ✅ fill the right column */
-  max-width: none; /* ✅ no artificial squeezing */
-}
-
-.post-a p{
-  margin: 0 0 10px;
   color: rgba(0,0,0,0.78);
   line-height: 1.55;
   font-size: 14px;
 }
 
-.sig{
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(0,0,0,0.22);
-  color: rgba(0,0,0,0.62);
-  font-size: 12px;
-  font-style: italic;
-}
-
-/* Bottom actions */
-.post-actions{
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(0,0,0,0.65);
-}
-
-.post-actions a{
-  color: rgba(0,0,0,0.65);
-  text-decoration: none;
-  font-weight: 800;
-}
-
-.post-actions a:hover{
-  text-decoration: underline;
-}
-
-.post-actions .dot{
-  padding: 0 8px;
-  opacity: 0.6;
-}
-
-/* =========================================================
-   Mobile
-========================================================= */
+/* Mobile (no special layout needed now) */
 @media (max-width: 860px){
-  .post{
-    grid-template-columns: 1fr; /* stack like MySpace mobile */
-  }
-  .post-left{
-    border-right: none;
-    border-bottom: 1px solid rgba(0,0,0,0.12);
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 10px;
-    align-items: start;
-  }
-  .avatar{
-    width: 120px;
-    height: 120px;
-    margin: 0;
-  }
-  .left-actions{
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(3, max-content);
-    gap: 10px;
-  }
-}
-
-@media (max-width: 520px){
-  .post-left{
-    grid-template-columns: 1fr;
-  }
-  .left-actions{
-    grid-template-columns: 1fr;
-  }
+  .thread{ padding: 10px 10px 12px; }
 }
