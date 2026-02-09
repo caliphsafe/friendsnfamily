@@ -393,7 +393,7 @@ body{
 /* Text: centered at 140px from top (140/228 = 61.4%) */
 .footer-copy{
   position: absolute;
-  top: 38%;
+  top: 57%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
