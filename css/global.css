@@ -206,7 +206,7 @@ body{
 /* Text: centered at 140px from top (140/228 = 61.4%) */
 .footer-copy{
   position: absolute;
-  top: 61.4%;
+  top: 57%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -219,12 +219,12 @@ body{
 
 .footer-copy p{
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .footer-copy p + p{
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(0,0,0,0.56);
 }
 
