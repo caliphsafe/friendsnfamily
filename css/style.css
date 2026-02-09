@@ -406,12 +406,12 @@ body{
 
 .footer-copy p{
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .footer-copy p + p{
   margin-top: 6px;
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(0,0,0,0.56);
 }
 
