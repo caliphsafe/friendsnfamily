@@ -429,34 +429,3 @@ body{
   font-weight: 700;
   color: rgba(0,0,0,0.72);
 }
-
-/* =========================
-   SPOTIFY CARD (replaces contact-card)
-========================= */
-.spotify-card{
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 0; /* critical so iframe can size correctly inside grid */
-}
-
-.spotify-card-title{
-  padding: 8px 10px;
-  font-weight: 700;
-  background: #f0f0f0;                  /* same darker strip */
-  border-bottom: 1px solid rgba(0,0,0,0.14);
-  color: rgba(0,0,0,0.78);
-}
-
-.spotify-embed{
-  flex: 1;       /* fills the remaining “left column section” height */
-  min-height: 0; /* prevents overflow in grid layouts */
-}
-
-.spotify-embed iframe{
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
