@@ -334,7 +334,7 @@ body{
 }
 
 /* =========================
-   FOOTER (830 x 228 w/ background + positioned links)
+   FOOTER (830 x 168 w/ background + positioned links)
 ========================= */
 .site-footer{
   width: 100%;
@@ -347,9 +347,9 @@ body{
 .footer-card{
   position: relative;
 
-  /* Responsive, but based on 830x228 design */
+  /* Responsive, but based on 830x168 design */
   width: min(830px, 96vw);
-  aspect-ratio: 830 / 228;
+  aspect-ratio: 830 / 168;
 
   background: url("../img/footerbg.png") center / cover no-repeat;
 
