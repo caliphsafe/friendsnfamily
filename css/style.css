@@ -1,4 +1,4 @@
-:root{
+  :root{
   --ui-scale: 0.8;
 
   --panel-w-base: 830px;
@@ -28,9 +28,13 @@
   --vendor-left: 20.12%;
   --vendor-top: 10.12%;
   --vendor-width: 65%;
-  --vendor-scale: 1;
+--vendor-scale: var(--ui-scale);
   --vendor-y-shift: clamp(0px, 0.8vw, 10px);
-  --vendor-row-h: clamp(18px, 1.7vw, 22px);
+  --vendor-row-h: clamp(
+  calc(18px * var(--ui-scale)),
+  calc(1.7vw * var(--ui-scale)),
+  calc(22px * var(--ui-scale))
+);
 }
 
 *{ box-sizing: border-box; }
