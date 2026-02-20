@@ -5,37 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Friends + Family</title>
   <meta name="description" content="Friends + Family online thrift store. Shop by vendor, explore events, and more." />
+
+  <!-- ✅ Global shared styles (header/footer/boxes/footer bg + positioning) -->
+  <link rel="stylesheet" href="css/global.css" />
+  <!-- ✅ Homepage-only styles (vendor overlay + homepage layout only) -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-  <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Friends + Family Home">
-      <img src="img/fnf.png" alt="friends + family" />
-    </a>
 
-    <nav class="img-nav" aria-label="Primary navigation">
-      <a class="img-nav-item" href="index.html" aria-label="Home">
-        <img src="img/home.png" alt="Home">
-      </a>
-
-      <a class="img-nav-item" href="shop.html" aria-label="Shop">
-        <img src="img/shop.png" alt="Shop">
-      </a>
-
-      <a class="img-nav-item" href="appts.html" aria-label="Appointments">
-        <img src="img/appts.png" alt="Appointments">
-      </a>
-
-      <a class="img-nav-item" href="events.html" aria-label="Events">
-        <img src="img/events.png" alt="Events">
-      </a>
-
-      <a class="img-nav-item" href="contact.html" aria-label="Contact">
-        <img src="img/contact.png" alt="Contact">
-      </a>
-    </nav>
-  </header>
+  <!-- ✅ Global header injected here -->
+  <div id="header"></div>
 
   <main class="page">
     <section class="panels" aria-label="Homepage panels">
@@ -126,33 +106,21 @@
       </div>
     </section>
 
-    <footer class="site-footer" aria-label="Footer">
-      <div class="footer-card">
-
-        <a class="footer-link footer-terms" href="faqs.html#terms" aria-label="Terms">
-          <img src="img/terms.png" alt="TERMS">
-        </a>
-
-        <a class="footer-link footer-faqs" href="faqs.html" aria-label="FAQs">
-          <img src="img/faqs.png" alt="FAQS">
-        </a>
-
-        <a class="footer-link footer-about" href="about.html" aria-label="About">
-          <img src="img/about.png" alt="ABOUT">
-        </a>
-
-        <div class="footer-copy">
-          <p>© <span id="year"></span> Friends + Family. All Rights Reserved.</p>
-        </div>
-
-      </div>
-    </footer>
-
   </main>
 
+  <!-- ✅ Global footer injected here -->
+  <div id="footer"></div>
+
+  <!-- ✅ Load shared header/footer partials (same as subpages) -->
   <script>
-    const y = document.getElementById("year");
-    if (y) y.textContent = new Date().getFullYear();
+    fetch("partials/header.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("header").innerHTML = html; });
+
+    fetch("partials/footer.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
+
 </body>
 </html>
