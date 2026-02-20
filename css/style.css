@@ -16,7 +16,7 @@
   --side-pad: 7px;
 
   --header-pad-y: 14px;
-  --footer-h: 64px;
+  --footer-h: 140px; /* ✅ updated to reflect the smaller footer */
 
   --bg: #fafbf5;
 
@@ -47,8 +47,8 @@ body{
 /* Desktop: allow scroll so footer is reachable */
 @media (min-width: 1101px){
   body{
-    overflow-y: auto;   /* ✅ scroll on desktop */
-    overflow-x: hidden; /* keep sideways scroll off */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 
@@ -77,13 +77,13 @@ body{
 }
 
 .brand img{
-  width: min(210px, 92vw); /* ✅ 50% smaller */
+  width: min(210px, 92vw);
   height: auto;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* ✅ NEW: Subpage-style nav inside homepage header (doesn't affect guest-check nav) */
+/* ✅ NEW: Subpage-style nav inside homepage header */
 .img-nav{
   margin: 0 auto 10px;
   width: min(var(--nav-max), 96vw);
@@ -92,7 +92,7 @@ body{
   align-items: center;
   justify-content: space-between;
 
-  padding: 5px 7px; /* ✅ new standard */
+  padding: 5px 7px;
 
   background: rgba(255,255,255,0.92);
   border: 1px solid rgba(0,0,0,0.18);
@@ -120,7 +120,6 @@ body{
   opacity: 0.95;
 }
 
-/* mobile tweak */
 @media (max-width: 480px){
   :root{ --nav-h: 13px; }
 }
@@ -179,92 +178,6 @@ body{
   display: block;
 }
 
-/* =========================================
-   NAV (SCALING-SAFE + ALL LINKS ALWAYS FIT)
-========================================= */
-.guest-nav-wrap{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 830 / 17;
-}
-
-.nav-bg{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.nav-rail{
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--side-pad);
-}
-
-/* safe zone width is ratio + hard cap (unchanged) */
-.nav-overlay{
-  height: 100%;
-  width: min(calc(var(--nav-safe-ratio) * 100%), var(--nav-rail-max), 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  overflow: hidden;
-
-  gap: clamp(0px, 0.25vw, 6px);
-  min-width: 0;
-}
-
-.nav-item{
-  flex: 1 1 0;
-  min-width: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.nav-item img{
-  height: clamp(7px, 55%, 12px);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  opacity: 0.95;
-}
-
-.nav-split{
-  flex: 0 0 auto;
-  height: clamp(6px, 42%, 10px);
-  width: auto;
-  max-width: clamp(6px, 1.2vw, 14px);
-  object-fit: contain;
-  display: block;
-  opacity: 0.85;
-}
-
-@media (max-width: 768px){
-  .nav-overlay{ gap: 2px; }
-  .nav-item img{ height: clamp(6px, 48%, 10px); }
-  .nav-split{
-    height: clamp(5px, 36%, 8px);
-    max-width: 10px;
-  }
-}
-
-@media (max-width: 430px){
-  .nav-overlay{
-    transform: scale(0.96);
-    transform-origin: center;
-  }
-}
-@media (max-width: 360px){
-  .nav-overlay{ transform: scale(0.92); }
-}
-
 /* ========== Thank you ========== */
 .thanks-wrap{ position: relative; width: 100%; }
 .thanks-bg{ width: 100%; height: auto; display: block; }
@@ -316,9 +229,6 @@ body{
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* =========================================================
-   ✅ MOBILE ONLY FIX: scale vendor overlay down to fit card
-========================================================= */
 @media (max-width: 768px){
   :root{
     --vendor-scale: 1.60;
@@ -334,7 +244,7 @@ body{
 }
 
 /* =========================
-   FOOTER (830 x 228 w/ background + positioned links)
+   FOOTER (830 x 140 w/ background + positioned links)
 ========================= */
 .site-footer{
   width: 100%;
@@ -347,31 +257,29 @@ body{
 .footer-card{
   position: relative;
 
-  /* Responsive, but based on 830x228 design */
   width: min(830px, 96vw);
-  aspect-ratio: 830 / 228;
+  aspect-ratio: 830 / 140; /* ✅ was 830/228 */
 
-  background: url("../img/footerbg.png") center / cover no-repeat;
+  background: url("../img/newfoot.png") center / cover no-repeat; /* ✅ was footerbg.png */
 
-  /* optional soft shadow to match your aesthetic */
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.18));
 }
 
 /* Shared link styling */
 .footer-link{
   position: absolute;
-  top: 4.39%;                 /* 10px / 228px */
+
+  top: 7.14%; /* ✅ keeps 10px from top in a 140px footer (10/140) */
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
 
-  /* ✅ NEW: scale link height with the footer-card height */
-  height: 7%;             /* 28px / 228px */
-  max-height: 15px;           /* ✅ preserves desktop exactly */
+  height: 20%;      /* ✅ keeps 28px tall in a 140px footer (28/140) */
+  max-height: 15px; /* ✅ preserves your desktop cap exactly */
 }
 
-/* ✅ NEW: image fills the link box, so it scales naturally */
 .footer-link img{
   height: 100%;
   width: auto;
@@ -384,20 +292,19 @@ body{
   filter: contrast(1.1);
 }
 
-/* Positioning based on your notes:
-   128px, 256px, 600px from left on an 830px wide footer */
-.footer-terms{ left: 15.42%; }  /* 128 / 830 */
-.footer-faqs{  left: 30.84%; }  /* 256 / 830 */
-.footer-about{ left: 72.29%; }  /* 600 / 830 */
+/* Same left positions as before */
+.footer-terms{ left: 15.42%; }
+.footer-faqs{  left: 30.84%; }
+.footer-about{ left: 72.29%; }
 
-/* Text: centered at 140px from top (140/228 = 61.4%) */
+/* Footer text moved up (and simplified) */
 .footer-copy{
   position: absolute;
-  top: 57%;
+  top: 68%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.2;
 
   color: rgba(0,0,0,0.62);
   width: 92%;
@@ -406,28 +313,9 @@ body{
 
 .footer-copy p{
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.footer-copy p + p{
-  margin-top: 6px;
-  font-size: 11px;
-  color: rgba(0,0,0,0.56);
-}
-
-.caliph-mail{
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 700;
-}
-
-.caliph-mail:hover{
-  border-bottom-color: rgba(0,0,0,0.55);
-}
-
-/* Mobile text only (image scaling handled above) */
 @media (max-width: 480px){
-  .footer-copy p{ font-size: 13px; }
-  .footer-copy p + p{ font-size: 11px; }
+  .footer-copy p{ font-size: 11px; }
 }
