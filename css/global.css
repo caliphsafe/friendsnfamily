@@ -223,5 +223,6 @@ body{
 
 /* Mobile text only */
 @media (max-width: 480px){
+  .footer-link{ max-height: 8px; }
   .footer-copy p{ font-size: 11px; }
 }
