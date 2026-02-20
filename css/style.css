@@ -28,7 +28,7 @@
   --vendor-left: 20.12%;
   --vendor-top: 10.12%;
   --vendor-width: 65%;
---vendor-scale: calc(var(--ui-scale) * 1.12);
+--vendor-scale: calc(var(--ui-scale) * 1.15);
   --vendor-y-shift: clamp(0px, 0.8vw, 10px);
   --vendor-row-h: clamp(
   calc(18px * var(--ui-scale)),
