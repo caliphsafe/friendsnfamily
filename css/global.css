@@ -16,7 +16,7 @@
   --side-pad: 7px;
 
   --header-pad-y: 14px;
-  --footer-h: 64px;
+  --footer-h: 140px; /* ✅ updated to match new 140px footer */
 
   --bg: #fafbf5;
 
@@ -63,7 +63,6 @@ body{
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-
 
 /* Desktop: allow scroll so footer is reachable */
 @media (min-width: 1101px){
@@ -147,24 +146,24 @@ body{
 }
 
 /* =========================
-   FOOTER (830 x 228 w/ background + positioned links)
+   FOOTER (830 x 140 w/ background + positioned links)
 ========================= */
 .site-footer{
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 22px 0 26px;
+  padding: 10px 0 10px; /* ✅ reduced padding to match index */
   background: transparent;
 }
 
 .footer-card{
   position: relative;
 
-  /* Responsive, but based on 830x228 design */
+  /* Responsive, but based on 830x140 design */
   width: min(830px, 96vw);
-  aspect-ratio: 830 / 228;
+  aspect-ratio: 830 / 140; /* ✅ was 830/228 */
 
-  background: url("../img/footerbg.png") center / cover no-repeat;
+  background: url("../img/newfoot.png") center / cover no-repeat; /* ✅ was footerbg.png */
 
   /* optional soft shadow to match your aesthetic */
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.18));
@@ -173,18 +172,18 @@ body{
 /* Shared link styling */
 .footer-link{
   position: absolute;
-  top: 4.39%;                 /* 10px / 228px */
+  top: 7.14%;                 /* ✅ was 4.39% (10px/140 now) */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
 
-  /* ✅ NEW: scale link height with the footer-card height */
-  height: 7%;             /* 28px / 228px */
+  /* ✅ scale link height with the footer-card height */
+  height: 20%;                /* ✅ was 7% (28px/140 now) */
   max-height: 15px;           /* ✅ preserves desktop exactly */
 }
 
-/* ✅ NEW: image fills the link box, so it scales naturally */
+/* image fills the link box, so it scales naturally */
 .footer-link img{
   height: 100%;
   width: auto;
@@ -203,14 +202,14 @@ body{
 .footer-faqs{  left: 30.84%; }  /* 256 / 830 */
 .footer-about{ left: 72.29%; }  /* 600 / 830 */
 
-/* Text: centered at 140px from top (140/228 = 61.4%) */
+/* Footer copy moved up + simplified */
 .footer-copy{
   position: absolute;
-  top: 57%;
+  top: 68%;                   /* ✅ moved up for 140px footer */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.2;
 
   color: rgba(0,0,0,0.62);
   width: 92%;
@@ -219,28 +218,10 @@ body{
 
 .footer-copy p{
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;            /* ✅ slightly smaller */
 }
 
-.footer-copy p + p{
-  margin-top: 6px;
-  font-size: 11px;
-  color: rgba(0,0,0,0.56);
-}
-
-.caliph-mail{
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  font-weight: 700;
-}
-
-.caliph-mail:hover{
-  border-bottom-color: rgba(0,0,0,0.55);
-}
-
-/* Mobile text only (image scaling handled above) */
+/* Mobile text only */
 @media (max-width: 480px){
-  .footer-copy p{ font-size: 13px; }
-  .footer-copy p + p{ font-size: 11px; }
+  .footer-copy p{ font-size: 11px; }
 }
