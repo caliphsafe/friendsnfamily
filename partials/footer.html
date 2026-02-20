@@ -14,19 +14,15 @@
       <img src="img/about.png" alt="ABOUT">
     </a>
 
-    <!-- Footer copy -->
+    <!-- Footer copy (matches index) -->
     <div class="footer-copy">
       <p>© <span id="year"></span> Friends + Family. All Rights Reserved.</p>
-      <p>
-        website crafted by
-        <a class="caliph-mail" href="mailto:caliph.safe@gmail.com">Caliph</a>
-        For 43DOU INC.
-      </p>
     </div>
 
   </div>
 </footer>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+  const y = document.getElementById("year");
+  if (y) y.textContent = new Date().getFullYear();
 </script>
