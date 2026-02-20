@@ -20,9 +20,13 @@
 
   --bg: #fafbf5;
 
-  /* ✅ NEW: Subpage-style nav controls (use this standard going forward) */
+  /* ✅ Subpage-style nav controls */
   --nav-max: 665px;
-  --nav-h: 14px; /* slightly smaller than before */
+  --nav-h: 14px; /* icon height target */
+
+  /* ✅ NEW: consistent nav button height + spacing */
+  --nav-item-h: 30px; /* same tap target height on desktop + mobile */
+  --nav-gap: 10px;    /* consistent horizontal spacing */
 
   /* ✅ ADDED: Old-school box look */
   --box-bg: rgba(255,255,255,0.92);
@@ -51,8 +55,7 @@ body{
   overflow-x: hidden;
 }
 
-/* ✅ ADDED: Shared box style (subpages) */
-/* Shared box style (wins over most page CSS) */
+/* ✅ Shared box style */
 .wrap .box,
 .page .box,
 .box{
@@ -67,8 +70,8 @@ body{
 /* Desktop: allow scroll so footer is reachable */
 @media (min-width: 1101px){
   body{
-    overflow-y: auto;   /* ✅ scroll on desktop */
-    overflow-x: hidden; /* keep sideways scroll off */
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 
@@ -88,7 +91,7 @@ body{
     0 8px 24px rgba(0,0,0,0.04);
 }
 
-/* ✅ Logo sizing now matches subpages */
+/* Logo */
 .brand{
   display: flex;
   justify-content: center;
@@ -97,22 +100,27 @@ body{
 }
 
 .brand img{
-  width: min(210px, 92vw); /* ✅ 50% smaller */
+  width: min(210px, 92vw);
   height: auto;
   display: block;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
 }
 
-/* ✅ NEW: Subpage-style nav inside homepage header (doesn't affect guest-check nav) */
+/* =========================
+   ✅ NAV FIX (consistent height + spacing)
+========================= */
 .img-nav{
   margin: 0 auto 10px;
   width: min(var(--nav-max), 96vw);
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  padding: 5px 7px; /* ✅ new standard */
+  /* ✅ consistent spacing (no more space-between variability) */
+  justify-content: center;
+  gap: var(--nav-gap);
+
+  padding: 5px 7px;
 
   background: rgba(255,255,255,0.92);
   border: 1px solid rgba(0,0,0,0.18);
@@ -123,15 +131,22 @@ body{
 }
 
 .img-nav-item{
+  /* ✅ equal-width slots so spacing is uniform */
   flex: 1 1 0;
   min-width: 0;
+
+  /* ✅ same clickable height on desktop + mobile */
+  height: var(--nav-item-h);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   text-decoration: none;
 }
 
 .img-nav-item img{
+  /* ✅ icon height stays consistent */
   height: var(--nav-h);
   width: auto;
   max-width: 100%;
@@ -140,9 +155,12 @@ body{
   opacity: 0.95;
 }
 
-/* mobile tweak */
 @media (max-width: 480px){
-  :root{ --nav-h: 13px; }
+  :root{
+    --nav-h: 13px;     /* slightly smaller icon */
+    --nav-item-h: 30px; /* keep tap target same */
+    --nav-gap: 8px;     /* slightly tighter spacing */
+  }
 }
 
 /* =========================
@@ -152,38 +170,29 @@ body{
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 10px 0 10px; /* ✅ reduced padding to match index */
+  padding: 10px 0 10px;
   background: transparent;
 }
 
 .footer-card{
   position: relative;
-
-  /* Responsive, but based on 830x140 design */
   width: min(830px, 96vw);
-  aspect-ratio: 830 / 140; /* ✅ was 830/228 */
-
-  background: url("../img/newfoot.png") center / cover no-repeat; /* ✅ was footerbg.png */
-
-  /* optional soft shadow to match your aesthetic */
+  aspect-ratio: 830 / 140;
+  background: url("../img/newfoot.png") center / cover no-repeat;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.18));
 }
 
-/* Shared link styling */
 .footer-link{
   position: absolute;
-  top: 7.14%;                 /* ✅ was 4.39% (10px/140 now) */
+  top: 7.14%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-
-  /* ✅ scale link height with the footer-card height */
-  height: 20%;                /* ✅ was 7% (28px/140 now) */
-  max-height: 15px;           /* ✅ preserves desktop exactly */
+  height: 20%;
+  max-height: 15px;
 }
 
-/* image fills the link box, so it scales naturally */
 .footer-link img{
   height: 100%;
   width: auto;
@@ -196,21 +205,17 @@ body{
   filter: contrast(1.1);
 }
 
-/* Positioning based on your notes:
-   128px, 256px, 600px from left on an 830px wide footer */
-.footer-terms{ left: 15.42%; }  /* 128 / 830 */
-.footer-faqs{  left: 30.84%; }  /* 256 / 830 */
-.footer-about{ left: 72.29%; }  /* 600 / 830 */
+.footer-terms{ left: 15.42%; }
+.footer-faqs{  left: 30.84%; }
+.footer-about{ left: 72.29%; }
 
-/* Footer copy moved up + simplified */
 .footer-copy{
   position: absolute;
-  top: 68%;                   /* ✅ moved up for 140px footer */
+  top: 68%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   line-height: 1.2;
-
   color: rgba(0,0,0,0.62);
   width: 92%;
   max-width: 760px;
@@ -218,10 +223,9 @@ body{
 
 .footer-copy p{
   margin: 0;
-  font-size: 12px;            /* ✅ slightly smaller */
+  font-size: 12px;
 }
 
-/* Mobile text only */
 @media (max-width: 480px){
   .footer-link{ max-height: 8px; }
   .footer-copy p{ font-size: 11px; }
