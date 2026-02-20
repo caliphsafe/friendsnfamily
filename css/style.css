@@ -324,6 +324,6 @@ body{
 
 /* Mobile: shrink the link cap so it matches the bg text scale */
 @media (max-width: 480px){
-  .footer-link{ max-height: 11px; }
+  .footer-link{ max-height: 8px; }
   .footer-copy p{ font-size: 11px; }
 }
