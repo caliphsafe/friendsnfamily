@@ -25,7 +25,7 @@
   --nav-h: 14px; /* icon height target */
 
   /* ✅ NEW: consistent nav button height + spacing */
-  --nav-item-h: 30px; /* same tap target height on desktop + mobile */
+  --nav-item-h: 20px; /* same tap target height on desktop + mobile */
   --nav-gap: 10px;    /* consistent horizontal spacing */
 
   /* ✅ ADDED: Old-school box look */
