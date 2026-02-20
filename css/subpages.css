@@ -240,6 +240,16 @@ body{
   text-decoration: underline;
 }
 
+/* Music card: force single column so Spotify fills box */
+.music-card .contact-actions{
+  grid-template-columns: 1fr;
+}
+
+.music-card iframe{
+  width: 100% !important;
+  display: block;
+}
+
 .ico{
   width: 18px;
   height: 18px;
