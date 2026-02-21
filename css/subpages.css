@@ -433,6 +433,11 @@ body{
   align-items: start; /* ✅ FIX: prevents left "Our Story" from stretching to match right column height */
 }
 
+.grid > article.box p{
+  font-size: 15px;   /* try 15px or 16px */
+  line-height: 1.7;
+}
+
 @media (max-width: 900px){
   .grid{ grid-template-columns: 1fr; }
 }
