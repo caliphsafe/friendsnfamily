@@ -48,9 +48,6 @@ body{
 
 /* =========================
    HERO ROW (LEFT STACK + TOP 4)
-   ✅ FIX: make left column match Top 4 height on desktop
-   - Desktop: equal-height columns + contact fills leftover height
-   - Mobile: unchanged (stack)
 ========================= */
 .hero-row{
   display: grid;
@@ -66,24 +63,28 @@ body{
   grid-auto-rows: max-content;
 }
 
-/* ✅ Desktop-only flush behavior */
+/* ✅ Desktop-only: keep columns aligned, but DON'T force left to fill height */
 @media (min-width: 901px){
   .hero-row{
-    align-items: stretch;          /* ✅ equal column heights */
+    align-items: stretch;          /* keep right column behavior */
   }
 
+  /* 🔧 FIX: let left stack size to content (prevents tall empty space) */
   .hero-left{
-    grid-template-rows: auto 1fr;  /* ✅ contact fills remaining height */
-    grid-auto-rows: unset;         /* ✅ stop max-content forcing */
-    height: 100%;
+    grid-template-rows: auto;      /* natural height */
+    grid-auto-rows: max-content;   /* keep natural sizing */
+    height: auto;                  /* no 100% stretching */
     min-height: 0;
+    align-self: start;             /* top-align within stretched row */
   }
 
+  /* 🔧 FIX: stop contact from filling leftover height */
   .contact-card{
-    height: 100%;
+    height: auto;
     min-height: 0;
   }
 
+  /* keep as-is */
   .topfriends{
     height: 100%;
     min-height: 0;
@@ -194,11 +195,10 @@ body{
 
 /* =========================
    NEW CONTACT CARD (screenshot vibe)
-   ✅ FIX: allow card to grow but keep content top-aligned
 ========================= */
 .contact-card{
   padding: 0;
-  display: flex;              /* ✅ allows growth without awkward spacing */
+  display: flex;
   flex-direction: column;
   min-height: 0;
 }
@@ -217,8 +217,8 @@ body{
   grid-template-columns: 1fr 1fr;
   gap: 6px 18px;
   padding: 10px 12px 12px;
-  align-content: start;       /* ✅ keep items at the top */
-  flex: 1;                    /* ✅ fill remaining card height */
+  align-content: start;
+  flex: 1;
   min-height: 0;
 }
 
@@ -330,7 +330,7 @@ body{
   height: 165px;
 
   /* keep image from stretching */
-  object-fit: cover;      /* use contain if you prefer no cropping */
+  object-fit: cover;
   object-position: center;
   display: block;
 
@@ -351,9 +351,9 @@ body{
 @media (max-width: 520px){
   .friend-photo{
     width: 100%;
-    max-width: 165px;  /* prevents it getting bigger than desktop size */
+    max-width: 165px;
     aspect-ratio: 1 / 1;
-    height: auto;      /* lets aspect-ratio control the height */
+    height: auto;
   }
 }
 
