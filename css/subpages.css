@@ -328,8 +328,11 @@ body{
 .friend-photo{
   width: 165px;
   height: 165px;
-  object-fit: contain;
+
+  /* keep image from stretching */
+  object-fit: cover;      /* use contain if you prefer no cropping */
   object-position: center;
+  display: block;
 
   background:
     linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
@@ -337,11 +340,21 @@ body{
       45deg,
       rgba(0,0,0,0.06) 0px,
       rgba(0,0,0,0.06) 6px,
-      rgba(255,255255,0.0) 6px,
+      rgba(255,255,255,0.0) 6px,
       rgba(255,255,255,0.0) 12px
     );
 
   border: 1px solid rgba(0,0,0,0.18);
+}
+
+/* Mobile only: allow it to shrink to the card width */
+@media (max-width: 520px){
+  .friend-photo{
+    width: 100%;
+    max-width: 165px;  /* prevents it getting bigger than desktop size */
+    aspect-ratio: 1 / 1;
+    height: auto;      /* lets aspect-ratio control the height */
+  }
 }
 
 .friend-name{
