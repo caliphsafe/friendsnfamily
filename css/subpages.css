@@ -326,17 +326,21 @@ body{
 .friend:hover{ background: #f7f7ff; }
 
 .friend-photo{
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  width: 165px;
+  height: 165px;
+  object-fit: contain;
+  object-position: center;
+
   background:
     linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.00)),
     repeating-linear-gradient(
       45deg,
       rgba(0,0,0,0.06) 0px,
       rgba(0,0,0,0.06) 6px,
-      rgba(255,255,255,0.0) 6px,
+      rgba(255,255255,0.0) 6px,
       rgba(255,255,255,0.0) 12px
     );
+
   border: 1px solid rgba(0,0,0,0.18);
 }
 
