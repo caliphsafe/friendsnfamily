@@ -138,6 +138,10 @@ body{
   /* ✅ same clickable height on desktop + mobile */
   height: var(--nav-item-h);
 
+  /* ✅ FIX: prevent iOS flex min-content sizing from making one item taller */
+  min-height: 0;
+  overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
