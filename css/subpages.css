@@ -286,6 +286,46 @@ body{
 .ico.flag{ background: #ffe1e1; }
 .ico.flag::after{ content:"⚑"; position:absolute; inset:0; display:grid; place-items:center; font-size:14px; color:#b10000; }
 
+/* ================================
+   MySpace-style Music / Contact Box
+================================ */
+
+.music-card{
+  padding: 0;
+  border: 1px solid #7f9db9;
+  background: #f6f9fc;
+}
+
+/* Blue header bar */
+.music-card .contact-card-title{
+  background: linear-gradient(#8fb0d6, #5b86b8);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-bottom: 1px solid #4c6f99;
+  font-size: 14px;
+}
+
+/* Inner content */
+.music-card .contact-actions{
+  padding: 10px;
+  background: #f6f9fc;
+  color: #1f3a5f;
+}
+
+/* Spotify iframe fits box */
+.music-card iframe{
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* Optional subtle inset look */
+.music-card{
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,.6),
+    inset -1px -1px 0 rgba(0,0,0,.08);
+}
+
 /* =========================
    Top 4
 ========================= */
