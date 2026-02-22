@@ -146,8 +146,10 @@ body{
 }
 
 .img-nav-item img{
-  /* ✅ icon height stays consistent */
-  height: var(--nav-h);
+  /* ✅ FIX: constrain by max-height so extra PNG padding can’t make it look taller */
+  max-height: var(--nav-h);
+  height: auto;
+
   width: auto;
   max-width: 100%;
   object-fit: contain;
