@@ -23,16 +23,37 @@
       <p class="subcopy">online exclusives ❤️</p>
     </section>
 <br />
-    <!-- ✅ Square embed in a box -->
-    <section class="box shop-embed" aria-label="Shop embed">
-      <iframe
-        class="square-frame"
-        src="https://friends-and-fam-llc.square.site/"
-        title="Friends + Family Shop (Square)"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </section>
+<!-- ✅ Shop sub menu (toggles embed src) -->
+<section class="box shop-subnav" aria-label="Shop categories">
+  <nav class="shop-tabs">
+    <button class="shop-tab is-active" type="button"
+      data-src="https://friends-and-fam-llc.square.site/">
+      All
+    </button>
+
+    <button class="shop-tab" type="button"
+      data-src="PASTE_BENNY_ENZO_VENDOR_URL_HERE">
+      Benny Enzo
+    </button>
+
+    <button class="shop-tab" type="button"
+      data-src="PASTE_MIMIMARIE_VENDOR_URL_HERE">
+      01 mimimarie
+    </button>
+  </nav>
+</section>
+
+<!-- ✅ Embed in a box -->
+<section class="box shop-embed" aria-label="Shop embed">
+  <iframe
+    id="shopFrame"
+    class="square-frame"
+    src="https://friends-and-fam-llc.square.site/"
+    title="Friends + Family Shop (Square)"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</section>
 <br />
     <!-- ✅ Fallback button (if embed is blocked) -->
     <section class="box shop-fallback" aria-label="Shop link fallback">
