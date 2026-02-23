@@ -22,49 +22,58 @@
       <h1 class="page-title">SHOP</h1>
       <p class="subcopy">online exclusives ❤️</p>
     </section>
-<br />
-<!-- ✅ Shop sub menu (toggles embed src) -->
-<section class="box shop-subnav" aria-label="Shop categories">
-  <nav class="shop-tabs">
-    <button class="shop-tab is-active" type="button"
-      data-src="https://friends-and-fam-llc.square.site/">
-      All
-    </button>
-    
- <button class="shop-tab" type="button"
-      data-src="https://friends-and-fam-llc.square.site/shop/01-mimimarie/LFWT6GELYCL23VDEY3YTERV7?page=1&limit=30&sort_by=category_order&sort_order=asc">
-      01 mimimarie
-    </button>
-    
-    <button class="shop-tab" type="button"
-      data-src="https://friends-and-fam-llc.square.site/shop/an-afternoon-affair/E3UYTY6EOBVFLFAEB263DZD6?page=1&limit=30&sort_by=category_order&sort_order=asc">
-      An Afternoon Affair
-    </button>
-    
-    <button class="shop-tab" type="button"
-      data-src="https://friends-and-fam-llc.square.site/shop/ariana-thrifts/EDODRZGTTQ5TIGNH6YCOV2MM?page=1&limit=30&sort_by=category_order&sort_order=asc">
-      ariana thrifts
-    </button>
-        
-    <button class="shop-tab" type="button"
-      data-src="https://friends-and-fam-llc.square.site/shop/benny-enzo/GXOQ77QYUCDQ5XOXRQIVQFRH?page=1&limit=30&sort_by=category_order&sort_order=asc">
-      Benny Enzo
-    </button>
-  </nav>
-</section>
 
-<!-- ✅ Embed in a box -->
-<section class="box shop-embed" aria-label="Shop embed">
-  <iframe
-    id="shopFrame"
-    class="square-frame"
-    src="https://friends-and-fam-llc.square.site/"
-    title="Friends + Family Shop (Square)"
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-  ></iframe>
-</section>
-<br />
+    <br />
+
+    <!-- ✅ Shop dropdown (toggles embed src) -->
+    <section class="box shop-subnav" aria-label="Shop by vendor">
+      <div class="shop-subnav-title">Shop by Vendor</div>
+
+      <div class="shop-controls">
+        <label class="shop-label" for="vendorSelect">Choose a store:</label>
+
+        <div class="shop-select-row">
+          <select id="vendorSelect" class="shop-select">
+            <option value="https://friends-and-fam-llc.square.site/">All Stores</option>
+
+            <option value="https://friends-and-fam-llc.square.site/shop/01-mimimarie/LFWT6GELYCL23VDEY3YTERV7?page=1&limit=30&sort_by=category_order&sort_order=asc">
+              01 mimimarie
+            </option>
+
+            <option value="https://friends-and-fam-llc.square.site/shop/an-afternoon-affair/E3UYTY6EOBVFLFAEB263DZD6?page=1&limit=30&sort_by=category_order&sort_order=asc">
+              An Afternoon Affair
+            </option>
+
+            <option value="https://friends-and-fam-llc.square.site/shop/ariana-thrifts/EDODRZGTTQ5TIGNH6YCOV2MM?page=1&limit=30&sort_by=category_order&sort_order=asc">
+              Ariana Thrifts
+            </option>
+
+            <option value="https://friends-and-fam-llc.square.site/shop/benny-enzo/GXOQ77QYUCDQ5XOXRQIVQFRH?page=1&limit=30&sort_by=category_order&sort_order=asc">
+              Benny Enzo
+            </option>
+
+            <!-- ✅ add the remaining vendor URLs here (up to 19 total) -->
+          </select>
+
+          <button id="vendorGo" class="shop-go" type="button">GO</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Embed in a box -->
+    <section class="box shop-embed" aria-label="Shop embed">
+      <iframe
+        id="shopFrame"
+        class="square-frame"
+        src="https://friends-and-fam-llc.square.site/"
+        title="Friends + Family Shop (Square)"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </section>
+
+    <br />
+
     <!-- ✅ Fallback button (if embed is blocked) -->
     <section class="box shop-fallback" aria-label="Shop link fallback">
       <p style="margin:0 0 10px;">
@@ -81,6 +90,7 @@
   <div id="footer"></div>
 
   <script>
+    // ✅ Load shared header/footer partials (only once)
     fetch("partials/header.html")
       .then(res => res.text())
       .then(html => { document.getElementById("header").innerHTML = html; });
@@ -88,52 +98,37 @@
     fetch("partials/footer.html")
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
+
+    // ✅ Shop embed dropdown controller
+    (function(){
+      const frame = document.getElementById("shopFrame");
+      const sel = document.getElementById("vendorSelect");
+      const go = document.getElementById("vendorGo");
+
+      function setSrc(url){
+        if (!url || !frame) return;
+        frame.src = url;
+        // remember selection on refresh
+        location.hash = "shop=" + encodeURIComponent(url);
+      }
+
+      if (sel){
+        sel.addEventListener("change", () => setSrc(sel.value));
+      }
+      if (go && sel){
+        go.addEventListener("click", () => setSrc(sel.value));
+      }
+
+      // restore from hash
+      const m = location.hash.match(/shop=([^&]+)/);
+      if (m && m[1] && sel){
+        const url = decodeURIComponent(m[1]);
+        const opt = Array.from(sel.options).find(o => o.value === url);
+        if (opt) sel.value = url;
+        setSrc(url);
+      }
+    })();
   </script>
-<script>
-  // Header/footer partials (keep yours as-is)
-  fetch("partials/header.html")
-    .then(res => res.text())
-    .then(html => { document.getElementById("header").innerHTML = html; });
 
-  fetch("partials/footer.html")
-    .then(res => res.text())
-    .then(html => { document.getElementById("footer").innerHTML = html; });
-
-  // ✅ Shop embed toggler
-  (function(){
-    const frame = document.getElementById("shopFrame");
-    const tabs = document.querySelectorAll(".shop-tab");
-
-    function setActive(btn){
-      tabs.forEach(t => t.classList.remove("is-active"));
-      btn.classList.add("is-active");
-    }
-
-    function setSrc(url, btn){
-      if (!url || !frame) return;
-      frame.src = url;
-      if (btn) setActive(btn);
-
-      // ✅ optional: remember selection on refresh
-      // encode URL into hash
-      location.hash = "shop=" + encodeURIComponent(url);
-    }
-
-    // click handlers
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        setSrc(btn.dataset.src, btn);
-      });
-    });
-
-    // ✅ on load: if hash exists, restore it + highlight matching tab
-    const m = location.hash.match(/shop=([^&]+)/);
-    if (m && m[1]) {
-      const url = decodeURIComponent(m[1]);
-      const matchBtn = Array.from(tabs).find(b => b.dataset.src === url);
-      setSrc(url, matchBtn || tabs[0]);
-    }
-  })();
-</script>
 </body>
 </html>
