@@ -79,6 +79,51 @@
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
+<script>
+  // Header/footer partials (keep yours as-is)
+  fetch("partials/header.html")
+    .then(res => res.text())
+    .then(html => { document.getElementById("header").innerHTML = html; });
 
+  fetch("partials/footer.html")
+    .then(res => res.text())
+    .then(html => { document.getElementById("footer").innerHTML = html; });
+
+  // ✅ Shop embed toggler
+  (function(){
+    const frame = document.getElementById("shopFrame");
+    const tabs = document.querySelectorAll(".shop-tab");
+
+    function setActive(btn){
+      tabs.forEach(t => t.classList.remove("is-active"));
+      btn.classList.add("is-active");
+    }
+
+    function setSrc(url, btn){
+      if (!url || !frame) return;
+      frame.src = url;
+      if (btn) setActive(btn);
+
+      // ✅ optional: remember selection on refresh
+      // encode URL into hash
+      location.hash = "shop=" + encodeURIComponent(url);
+    }
+
+    // click handlers
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        setSrc(btn.dataset.src, btn);
+      });
+    });
+
+    // ✅ on load: if hash exists, restore it + highlight matching tab
+    const m = location.hash.match(/shop=([^&]+)/);
+    if (m && m[1]) {
+      const url = decodeURIComponent(m[1]);
+      const matchBtn = Array.from(tabs).find(b => b.dataset.src === url);
+      setSrc(url, matchBtn || tabs[0]);
+    }
+  })();
+</script>
 </body>
 </html>
