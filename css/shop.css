@@ -36,3 +36,47 @@
   text-transform: uppercase;
 }
 .btn-primary:hover{ filter: brightness(0.95); }
+
+.shop-subnav{
+  padding: 10px 12px;
+}
+
+.shop-tabs{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.shop-tab{
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.22);
+  border-right-color: rgba(0,0,0,0.35);
+  border-bottom-color: rgba(0,0,0,0.35);
+  background: rgba(255,255,255,0.92);
+  padding: 8px 10px;
+  font: 700 12px/1 Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.shop-tab.is-active{
+  background: #eef3ff;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.shop-embed{
+  padding: 0;
+  overflow: hidden;
+}
+
+.square-frame{
+  width: 100%;
+  height: min(78vh, 900px);
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 600px){
+  .square-frame{ height: 82vh; }
+}
