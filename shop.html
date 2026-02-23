@@ -33,7 +33,7 @@
         <label class="shop-label" for="vendorSelect">Choose a store:</label>
 
         <div class="shop-select-row">
-          <select id="vendorSelect" class="shop-select">
+  <select id="vendorSelect" class="shop-select classic-select">
             <option value="https://friends-and-fam-llc.square.site/">All Stores</option>
 
             <option value="https://friends-and-fam-llc.square.site/shop/01-mimimarie/LFWT6GELYCL23VDEY3YTERV7?page=1&limit=30&sort_by=category_order&sort_order=asc">
@@ -54,8 +54,6 @@
 
             <!-- ✅ add the remaining vendor URLs here (up to 19 total) -->
           </select>
-
-          <button id="vendorGo" class="shop-go" type="button">GO</button>
         </div>
       </div>
     </section>
@@ -114,9 +112,6 @@
 
       if (sel){
         sel.addEventListener("change", () => setSrc(sel.value));
-      }
-      if (go && sel){
-        go.addEventListener("click", () => setSrc(sel.value));
       }
 
       // restore from hash
