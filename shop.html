@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Shop</title>
+  <meta name="description" content="Shop Friends + Family via Square." />
+
+  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/global.css" />
+</head>
+
+<body class="subpage shop-page">
+
+  <!-- ✅ Global header injected here -->
+  <div id="header"></div>
+
+  <main class="wrap">
+
+    <section class="box page-head">
+      <h1 class="page-title">SHOP</h1>
+      <p class="subcopy">secure checkout handled by Square</p>
+    </section>
+
+    <!-- ✅ Square embed in a box -->
+    <section class="box shop-embed" aria-label="Shop embed">
+      <iframe
+        class="square-frame"
+        src="https://friends-and-fam-llc.square.site/"
+        title="Friends + Family Shop (Square)"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </section>
+
+    <!-- ✅ Fallback button (if embed is blocked) -->
+    <section class="box shop-fallback" aria-label="Shop link fallback">
+      <p style="margin:0 0 10px;">
+        If the shop doesn’t load here, Square is blocking embeds.
+      </p>
+      <a class="btn-primary" href="https://friends-and-fam-llc.square.site/" target="_blank" rel="noopener">
+        OPEN SHOP IN NEW TAB
+      </a>
+    </section>
+
+  </main>
+
+  <!-- ✅ Global footer injected here -->
+  <div id="footer"></div>
+
+  <script>
+    fetch("partials/header.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("header").innerHTML = html; });
+
+    fetch("partials/footer.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
+
+</body>
+</html>
