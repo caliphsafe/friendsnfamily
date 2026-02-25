@@ -20,7 +20,7 @@
   <main class="page">
     <section class="panels" aria-label="Homepage panels">
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
-        <div class="panel-inner thanks-wrap">
+        <div class="panel-inner thanks-wrap" id="thanksPanel">
           <img class="thanks-bg" src="img/stores_bg.png" alt="Thank you" />
 
           <div class="vendor-links" aria-label="Vendor links">
@@ -105,13 +105,12 @@
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
-  <!-- ✅ Load shared header/footer partials (same as subpages) -->
+  <!-- ✅ Load shared header/footer partials -->
   <script>
     fetch("partials/header.html")
       .then(res => res.text())
@@ -120,6 +119,41 @@
     fetch("partials/footer.html")
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
+
+  <!-- ✅ NEW: Sync overlay scale to the actual rendered THANK YOU image -->
+  <script>
+    (function(){
+      const DESIGN_W = 830;   // matches your artwork width
+      const BASE_ROW = 22;    // base row height in the design
+
+      function syncVendorOverlay(){
+        const panel = document.getElementById("thanksPanel");
+        if(!panel) return;
+
+        const w = panel.getBoundingClientRect().width;
+        if(!w) return;
+
+        const scale = w / DESIGN_W;
+
+        document.documentElement.style.setProperty("--vendor-scale-dyn", scale.toFixed(4));
+        document.documentElement.style.setProperty("--vendor-row-h-dyn", (BASE_ROW * scale).toFixed(2) + "px");
+      }
+
+      // initial + resize (debounced)
+      let t;
+      function onResize(){
+        clearTimeout(t);
+        t = setTimeout(syncVendorOverlay, 60);
+      }
+
+      window.addEventListener("load", syncVendorOverlay);
+      window.addEventListener("resize", onResize);
+
+      // Helps when fonts/images affect layout after initial paint
+      setTimeout(syncVendorOverlay, 120);
+      setTimeout(syncVendorOverlay, 300);
+    })();
   </script>
 
 </body>
