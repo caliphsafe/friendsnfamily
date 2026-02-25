@@ -1,22 +1,14 @@
 /* =========================================================
    Homepage-only styles
-   (global.css now owns: :root base vars, body, header/nav,
+   (global.css owns: :root base vars, body, header/nav,
    footer/newfoot positioning, and shared .box styles)
 ========================================================= */
 
-/* ✅ Homepage-specific override for vendor overlay sizing only */
+/* ✅ Dynamic scaling vars (set by JS) */
 :root{
-  /*
-    Key change:
-    Use panel-container height units so overlay scales WITH the image.
-    1cqh = 1% of the container’s height (the thank-you panel).
-  */
-
-  /* row height scales with the panel height */
-  --vendor-row-h: clamp(14px, 1.65cqh, 22px);
-
-  /* small vertical nudge that also scales with the panel */
-  --vendor-y-shift: 0.75cqh;
+  --design-w: 830;              /* your THANK YOU art width */
+  --vendor-scale-dyn: 1;        /* JS sets this based on rendered panel width */
+  --vendor-row-h-dyn: 22px;     /* JS sets this = 22px * scale */
 }
 
 /* ========== Layout (homepage) ========== */
@@ -71,8 +63,7 @@
 .thanks-bg{ width: 100%; height: auto; display: block; }
 
 /* ================================
-   VENDOR OVERLAY (HOMEPAGE)
-   ✅ Now scales with the panel itself
+   VENDOR OVERLAY (SCALES WITH BG)
 ================================== */
 .vendor-links{
   position: absolute;
@@ -87,13 +78,11 @@
   width: var(--vendor-width);
 
   display: grid;
-  grid-auto-rows: var(--vendor-row-h);
+  grid-auto-rows: var(--vendor-row-h-dyn);
   row-gap: 0;
 
   transform-origin: top left;
-
-  /* ✅ Key change: remove scale() so it stays locked to the image sizing */
-  transform: translateY(var(--vendor-y-shift));
+  transform: translateY(calc(var(--vendor-y-shift) * var(--vendor-scale-dyn))) scale(var(--vendor-scale-dyn));
 
   pointer-events: auto;
 }
@@ -108,7 +97,7 @@
 }
 
 .vendor-row img{
-  height: 90%;
+  height: 100%;                 /* ✅ fills row height (so it scales with BG) */
   width: auto;
   max-width: 100%;
   object-fit: contain;
@@ -120,14 +109,8 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* Mobile vendor overlay tuning (keeps your existing behavior) */
+/* Mobile vendor overlay tuning (keeps your positioning changes) */
 @media (max-width: 768px){
-  :root{
-    /* still based on the panel container, not viewport */
-    --vendor-row-h: clamp(12px, 1.45cqh, 18px);
-    --vendor-y-shift: 0cqh;
-  }
-
   .vendor-list{
     top: 10.2%;
     left: 18.6%;
