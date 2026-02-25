@@ -1,67 +1,20 @@
-/* =========================================================
-   Homepage-only styles
-   (global.css owns: :root base vars, body, header/nav, footer,
-   and shared .box styles)
-========================================================= */
-
-/* ========== Layout (homepage) ========== */
-.page{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.panels{
-  width: min(calc(1800px * var(--ui-scale)), 96vw);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: var(--gap);
-  padding: 8px 0 10px;
-}
-
-@media (max-width: 1100px){
-  .panels{
-    flex-direction: column;
-    align-items: center;
-    width: 96vw;
-    gap: calc(26px * var(--ui-scale));
-  }
-}
-
-.panel{
-  display: flex;
-  justify-content: center;
-}
-
-/* ✅ IMPORTANT: remove container-type (it caused the mobile collapse) */
-.panel-inner{
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.12));
-  aspect-ratio: 830 / 1329;
-  width: min(var(--panel-w), 96vw);
-  height: auto;
-
-  /* ✅ this gets overwritten by JS with the real rendered width */
-  --panel-w-px: 660px;
-}
-
-/* Desktop fit-to-window */
-@media (min-width: 1101px){
-  .panel-inner{
-    height: calc(100vh - 140px - var(--footer-h));
-    width: auto;
-    max-width: min(var(--panel-w), 48vw);
-  }
-}
-
 /* ========== Thank you panel ========== */
-.thanks-wrap{ position: relative; width: 100%; }
-.thanks-bg{ width: 100%; height: auto; display: block; }
+.thanks-wrap{
+  position: relative;
+  width: 100%;
+
+  /* ✅ key: let children size off THIS container */
+  container-type: inline-size;
+}
+
+.thanks-bg{
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /* ================================
-   VENDOR OVERLAY (HOMEPAGE)
-   ✅ Scales with the SAME size as the background image
+   VENDOR OVERLAY (LOCKED TO SHEET)
 ================================== */
 .vendor-links{
   position: absolute;
@@ -77,11 +30,11 @@
 
   display: grid;
 
-  /* ✅ key: row height scales from the real rendered panel width */
-  grid-auto-rows: clamp(18px, calc(var(--panel-w-px) * 0.0215), 22px);
+  /* ✅ row height scales with the THANK YOU image size */
+  grid-auto-rows: clamp(14px, 2.2cqw, 22px);
   row-gap: 0;
 
-  /* ✅ remove independent scaling (this was causing mismatch) */
+  /* ✅ IMPORTANT: remove transform scaling so it can't drift */
   transform: none;
 
   pointer-events: auto;
@@ -89,7 +42,7 @@
 
 .vendor-row{
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   width: 100%;
   text-decoration: none;
   border-radius: 10px;
@@ -97,6 +50,7 @@
 }
 
 .vendor-row img{
+  /* ✅ make the image fill the row height reliably */
   height: 100%;
   width: auto;
   max-width: 100%;
@@ -109,14 +63,14 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* Mobile vendor overlay tuning (keep your existing positioning tweaks) */
+/* ✅ Mobile: bump row sizing up so the links aren't tiny */
 @media (max-width: 768px){
   .vendor-list{
     top: 10.2%;
     left: 18.6%;
     width: 72%;
 
-    /* slightly tighter on small screens */
-    grid-auto-rows: clamp(14px, calc(var(--panel-w-px) * 0.039), 18px);
+    /* bigger on mobile */
+    grid-auto-rows: clamp(16px, 3.2cqw, 24px);
   }
 }
