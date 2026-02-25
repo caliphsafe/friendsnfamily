@@ -4,6 +4,7 @@
    footer/newfoot positioning, and shared .box styles)
 ========================================================= */
 
+/* ====== Layout (homepage) ====== */
 .page{
   width: 100%;
   display: flex;
@@ -41,6 +42,7 @@
   height: auto;
 }
 
+/* Desktop fit-to-window */
 @media (min-width: 1101px){
   .panel-inner{
     height: calc(100vh - 140px - var(--footer-h));
@@ -49,10 +51,13 @@
   }
 }
 
-/* ========== Thank you panel ========== */
+/* ====== Thank you panel ====== */
 .thanks-wrap{
   position: relative;
   width: 100%;
+
+  /* ✅ JS will set this per-resize. Start with safe default. */
+  --sheetScale: 1;
 }
 
 .thanks-bg{
@@ -62,9 +67,10 @@
 }
 
 /* ================================
-   VENDOR OVERLAY (SAFE + RESPONSIVE)
-   ✅ Works on all browsers (fallback)
-   ✅ Uses cqw scaling ONLY when supported
+   VENDOR OVERLAY (SCALES WITH SHEET)
+   ✅ No transform scaling
+   ✅ No container units (mobile-safe)
+   ✅ Row height scales off actual rendered sheet width
 ================================== */
 .vendor-links{
   position: absolute;
@@ -81,11 +87,13 @@
   display: grid;
   row-gap: 0;
 
-  /* ✅ FALLBACK that prevents “disappearing” on mobile */
-  grid-auto-rows: 20px;
-
-  /* ✅ IMPORTANT: do not use transform scaling */
-  transform: none;
+  /* ✅ Base row height (designed at 830px wide sheet) */
+  /* scales exactly with sheet width via --sheetScale */
+  grid-auto-rows: clamp(
+    14px,
+    calc(22px * var(--sheetScale)),
+    28px
+  );
 
   pointer-events: auto;
 }
@@ -100,8 +108,6 @@
 }
 
 .vendor-row img{
-  /* ✅ do NOT rely on height:100% (can collapse if row is auto)
-     instead fill sensibly */
   height: 90%;
   width: auto;
   max-width: 100%;
@@ -114,29 +120,11 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ✅ If the browser supports container units, use them */
-@supports (width: 1cqw){
-  .thanks-wrap{ container-type: inline-size; }
-
-  .vendor-list{
-    grid-auto-rows: clamp(14px, 2.2cqw, 22px);
-  }
-
-  @media (max-width: 768px){
-    .vendor-list{
-      grid-auto-rows: clamp(16px, 3.2cqw, 24px);
-    }
-  }
-}
-
-/* Mobile tuning (your existing positioning behavior) */
+/* Mobile positioning you already tuned */
 @media (max-width: 768px){
   .vendor-list{
     top: 10.2%;
     left: 18.6%;
     width: 72%;
-
-    /* ✅ mobile fallback size so links aren't tiny */
-    grid-auto-rows: 24px;
   }
 }
