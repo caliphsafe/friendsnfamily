@@ -4,17 +4,19 @@
    footer/newfoot positioning, and shared .box styles)
 ========================================================= */
 
-/* ✅ Homepage-specific override for vendor scaling only */
+/* ✅ Homepage-specific override for vendor overlay sizing only */
 :root{
-  /* keep your homepage vendor scale behavior */
-  --vendor-scale: calc(var(--ui-scale) * 1.30);
+  /*
+    Key change:
+    Use panel-container height units so overlay scales WITH the image.
+    1cqh = 1% of the container’s height (the thank-you panel).
+  */
 
-  /* keep your homepage row height scaling behavior */
-  --vendor-row-h: clamp(
-    calc(18px * var(--ui-scale)),
-    calc(1.7vw * var(--ui-scale)),
-    calc(22px * var(--ui-scale))
-  );
+  /* row height scales with the panel height */
+  --vendor-row-h: clamp(14px, 1.65cqh, 22px);
+
+  /* small vertical nudge that also scales with the panel */
+  --vendor-y-shift: 0.75cqh;
 }
 
 /* ========== Layout (homepage) ========== */
@@ -70,6 +72,7 @@
 
 /* ================================
    VENDOR OVERLAY (HOMEPAGE)
+   ✅ Now scales with the panel itself
 ================================== */
 .vendor-links{
   position: absolute;
@@ -88,7 +91,9 @@
   row-gap: 0;
 
   transform-origin: top left;
-  transform: translateY(var(--vendor-y-shift)) scale(var(--vendor-scale));
+
+  /* ✅ Key change: remove scale() so it stays locked to the image sizing */
+  transform: translateY(var(--vendor-y-shift));
 
   pointer-events: auto;
 }
@@ -118,9 +123,9 @@
 /* Mobile vendor overlay tuning (keeps your existing behavior) */
 @media (max-width: 768px){
   :root{
-    --vendor-scale: 1.60;
-    --vendor-y-shift: 0px;
-    --vendor-row-h: clamp(14px, 4.2vw, 18px);
+    /* still based on the panel container, not viewport */
+    --vendor-row-h: clamp(12px, 1.45cqh, 18px);
+    --vendor-y-shift: 0cqh;
   }
 
   .vendor-list{
