@@ -6,22 +6,26 @@
   <title>Friends + Family</title>
   <meta name="description" content="Friends + Family online thrift store. Shop by vendor, explore events, and more." />
 
+  <!-- ✅ Global shared styles -->
   <link rel="stylesheet" href="css/global.css" />
+  <!-- ✅ Homepage-only styles -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
+  <!-- ✅ Global header injected here -->
   <div id="header"></div>
 
   <main class="page">
     <section class="panels" aria-label="Homepage panels">
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
-        <div class="panel-inner thanks-wrap">
-          <img class="thanks-bg" src="img/stores_bg.png" alt="Thank you" />
+        <div class="panel-inner thanks-wrap" id="thanksWrap">
+          <img class="thanks-bg" id="thanksBg" src="img/stores_bg.png" alt="Thank you" />
 
           <div class="vendor-links" aria-label="Vendor links">
             <div class="vendor-list">
+              <!-- (your vendor rows unchanged) -->
               <a class="vendor-row" href="https://friendsandfam.net/shop.html#shop=https%3A%2F%2Ffriends-and-fam-llc.square.site%2Fshop%2F01-mimimarie%2FLFWT6GELYCL23VDEY3YTERV7%3Fpage%3D1%26limit%3D30%26sort_by%3Dcategory_order%26sort_order%3Dasc" aria-label="Mimimarie">
                 <img src="img/mimi.png" alt="Mimimarie">
               </a>
@@ -104,6 +108,7 @@
     </section>
   </main>
 
+  <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
   <script>
@@ -115,30 +120,33 @@
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
 
-    // ✅ KEY FIX: keep vendor overlay scaling locked to the actual THANK YOU sheet size
+    /* ✅ FIX: make vendor links scale exactly with the rendered sheet width */
     (function(){
-      const el = () => document.querySelector(".panel-inner.thanks-wrap");
+      const wrap = document.getElementById("thanksWrap");
+      const bg = document.getElementById("thanksBg");
+      if(!wrap || !bg) return;
 
-      function sync(){
-        const p = el();
-        if(!p) return;
-        p.style.setProperty("--panel-w-px", p.clientWidth + "px");
+      function setScale(){
+        // measure the actual rendered width of the sheet image
+        const w = bg.getBoundingClientRect().width || wrap.getBoundingClientRect().width;
+        if(!w) return;
+
+        // your design sheet is 830px wide
+        const scale = w / 830;
+
+        // set CSS var on the container so the overlay grid scales with it
+        wrap.style.setProperty("--sheetScale", scale.toFixed(4));
       }
 
-      // run immediately + after images/layout settle
-      sync();
-      window.addEventListener("resize", () => {
-        clearTimeout(window.__syncPanelTO);
-        window.__syncPanelTO = setTimeout(sync, 60);
-      });
+      // run now + after image load + on resize/orientation change
+      window.addEventListener("resize", () => requestAnimationFrame(setScale));
+      window.addEventListener("orientationchange", () => requestAnimationFrame(setScale));
+      bg.addEventListener("load", setScale);
 
-      // helps iOS after address bar / viewport settles
-      window.addEventListener("orientationchange", () => {
-        setTimeout(sync, 120);
-      });
-
-      // one more pass after load
-      window.addEventListener("load", () => setTimeout(sync, 80));
+      // initial
+      setScale();
+      // one more after layout settles
+      setTimeout(setScale, 60);
     })();
   </script>
 
