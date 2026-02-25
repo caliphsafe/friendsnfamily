@@ -6,15 +6,12 @@
   <title>Friends + Family</title>
   <meta name="description" content="Friends + Family online thrift store. Shop by vendor, explore events, and more." />
 
-  <!-- ✅ Global shared styles (header/footer/boxes/footer bg + positioning) -->
   <link rel="stylesheet" href="css/global.css" />
-  <!-- ✅ Homepage-only styles (vendor overlay + homepage layout only) -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-  <!-- ✅ Global header injected here -->
   <div id="header"></div>
 
   <main class="page">
@@ -105,13 +102,10 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
-  <!-- ✅ Load shared header/footer partials (same as subpages) -->
   <script>
     fetch("partials/header.html")
       .then(res => res.text())
@@ -120,6 +114,32 @@
     fetch("partials/footer.html")
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
+
+    // ✅ KEY FIX: keep vendor overlay scaling locked to the actual THANK YOU sheet size
+    (function(){
+      const el = () => document.querySelector(".panel-inner.thanks-wrap");
+
+      function sync(){
+        const p = el();
+        if(!p) return;
+        p.style.setProperty("--panel-w-px", p.clientWidth + "px");
+      }
+
+      // run immediately + after images/layout settle
+      sync();
+      window.addEventListener("resize", () => {
+        clearTimeout(window.__syncPanelTO);
+        window.__syncPanelTO = setTimeout(sync, 60);
+      });
+
+      // helps iOS after address bar / viewport settles
+      window.addEventListener("orientationchange", () => {
+        setTimeout(sync, 120);
+      });
+
+      // one more pass after load
+      window.addEventListener("load", () => setTimeout(sync, 80));
+    })();
   </script>
 
 </body>
