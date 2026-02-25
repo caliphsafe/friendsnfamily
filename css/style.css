@@ -4,17 +4,6 @@
    footer/newfoot positioning, and shared .box styles)
 ========================================================= */
 
-/* ✅ Homepage-specific override for vendor overlay positioning only
-   (we DO NOT use transform scaling anymore — overlay is locked to the sheet size) */
-:root{
-  /* keep your positioning dials (these should already exist in global.css too) */
-  /* leaving these here is harmless; they can override if you tweak homepage only */
-  /* --vendor-left: 20.12%;
-  --vendor-top: 10.12%;
-  --vendor-width: 65%; */
-}
-
-/* ========== Layout (homepage) ========== */
 .page{
   width: 100%;
   display: flex;
@@ -52,7 +41,6 @@
   height: auto;
 }
 
-/* Desktop fit-to-window */
 @media (min-width: 1101px){
   .panel-inner{
     height: calc(100vh - 140px - var(--footer-h));
@@ -65,10 +53,6 @@
 .thanks-wrap{
   position: relative;
   width: 100%;
-
-  /* ✅ KEY: make the THANK YOU sheet the sizing source
-     so overlay scales exactly with it (including browser zoom) */
-  container-type: inline-size;
 }
 
 .thanks-bg{
@@ -78,9 +62,9 @@
 }
 
 /* ================================
-   VENDOR OVERLAY (LOCKED TO SHEET)
-   - No transform scale
-   - Row sizes use container units (cqw)
+   VENDOR OVERLAY (SAFE + RESPONSIVE)
+   ✅ Works on all browsers (fallback)
+   ✅ Uses cqw scaling ONLY when supported
 ================================== */
 .vendor-links{
   position: absolute;
@@ -97,11 +81,12 @@
   display: grid;
   row-gap: 0;
 
-  /* ✅ Row height scales with THANK YOU sheet size */
-  grid-auto-rows: clamp(14px, 2.2cqw, 22px);
+  /* ✅ FALLBACK that prevents “disappearing” on mobile */
+  grid-auto-rows: 20px;
 
-  /* ✅ IMPORTANT: kill any previous transform scaling */
+  /* ✅ IMPORTANT: do not use transform scaling */
   transform: none;
+
   pointer-events: auto;
 }
 
@@ -115,8 +100,9 @@
 }
 
 .vendor-row img{
-  /* ✅ Fill the row height so image always matches background scale */
-  height: 100%;
+  /* ✅ do NOT rely on height:100% (can collapse if row is auto)
+     instead fill sensibly */
+  height: 90%;
   width: auto;
   max-width: 100%;
   object-fit: contain;
@@ -128,14 +114,29 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 
-/* ✅ Mobile tuning (bigger rows so links aren't tiny) */
+/* ✅ If the browser supports container units, use them */
+@supports (width: 1cqw){
+  .thanks-wrap{ container-type: inline-size; }
+
+  .vendor-list{
+    grid-auto-rows: clamp(14px, 2.2cqw, 22px);
+  }
+
+  @media (max-width: 768px){
+    .vendor-list{
+      grid-auto-rows: clamp(16px, 3.2cqw, 24px);
+    }
+  }
+}
+
+/* Mobile tuning (your existing positioning behavior) */
 @media (max-width: 768px){
   .vendor-list{
     top: 10.2%;
     left: 18.6%;
     width: 72%;
 
-    /* bigger on mobile */
-    grid-auto-rows: clamp(16px, 3.2cqw, 24px);
+    /* ✅ mobile fallback size so links aren't tiny */
+    grid-auto-rows: 24px;
   }
 }
