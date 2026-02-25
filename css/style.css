@@ -78,7 +78,7 @@
   display: grid;
 
   /* ✅ key: row height scales from the real rendered panel width */
-  grid-auto-rows: clamp(14px, calc(var(--panel-w-px) * 0.0215), 22px);
+  grid-auto-rows: clamp(18px, calc(var(--panel-w-px) * 0.0215), 22px);
   row-gap: 0;
 
   /* ✅ remove independent scaling (this was causing mismatch) */
