@@ -87,7 +87,7 @@
   row-gap: 0;
 
   /* ✅ KEY FIX: no clamp max. Always scales with the sheet. */
-  grid-auto-rows: calc(44px * var(--sheetScale));
+  grid-auto-rows: calc(74px * var(--sheetScale));
 
   pointer-events: auto;
 }
