@@ -160,26 +160,36 @@
   }
 
   function productCard(p){
-    const img = p.imageUrl
-      ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
-      : `<div class="ph" aria-hidden="true"></div>`;
+  const img = p.imageUrl
+    ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
+    : `<div class="ph" aria-hidden="true"></div>`;
 
-    const price = p.priceText || "";
-    const vid = p.defaultVariationId;
+  const price = p.priceText || "";
+  const vid = p.defaultVariationId;
 
-    return `
-      <article class="prod" data-vid="${vid || ""}">
+  // ✅ link to item page
+  const url = `product.html?id=${encodeURIComponent(p.id)}${vendorSelect.value ? `&vendor=${encodeURIComponent(vendorSelect.value)}` : ""}`;
+
+  return `
+    <article class="prod" data-vid="${vid || ""}">
+      <a class="prod-link" href="${url}" aria-label="View ${p.name}">
         <div class="prod-img">${img}</div>
-        <div class="prod-meta">
+      </a>
+
+      <div class="prod-meta">
+        <a class="prod-link" href="${url}">
           <div class="prod-name">${p.name}</div>
-          <div class="prod-price">${price}</div>
-          <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
-            ${vid ? "Add to cart" : "Unavailable"}
-          </button>
-        </div>
-      </article>
-    `;
-  }
+        </a>
+
+        <div class="prod-price">${price}</div>
+
+        <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
+          ${vid ? "Add to cart" : "Unavailable"}
+        </button>
+      </div>
+    </article>
+  `;
+}
 
   async function loadVendors(){
     const data = await apiGet("/api/vendors");
