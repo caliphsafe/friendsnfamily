@@ -30,9 +30,29 @@
       <div class="shop-subnav-row">
         <label class="shop-label" for="vendorSelect">Vendor:</label>
 
+        <!-- ✅ MANUAL VENDOR LIST (no /api/vendors dependency) -->
         <select id="vendorSelect" class="shop-select classic-select" aria-label="Select vendor">
           <option value="">All Stores</option>
-          <!-- populated by /api/vendors -->
+
+          <option value="LFWT6GELYCL23VDEY3YTERV7">01 Mimimarie🌀</option>
+          <option value="E3UYTY6EOBVFLFAEB263DZD6">An Afternoon Affair</option>
+          <option value="EDODRZGTTQ5TIGNH6YCOV2MM">Ariana Thrifts</option>
+          <option value="GXOQ77QYUCDQ5XOXRQIVQFRH">BENNY ENZ0❗️</option>
+          <option value="4N74PQ4TBKQTHG2YDWZHD4D5">Bohde</option>
+          <option value="6F5WHH5FJ2FAS4QOX7XMLLGA">CAPO</option>
+          <option value="YLAE2MTU3SU4MRSLKUCN7NYW">ELANDA</option>
+          <option value="YMPJEBO4G5FKCCW2Z62SAJIG">Female Hysteria</option>
+          <option value="SDAXRCTTTSBONODN7IYFFRJG">Follow the Thread</option>
+          <option value="2ZOUNZWHTFABY3XNEKGZNLIE">Ghostwriter</option>
+          <option value="MMJIMSHO4M4XD6UVKPJIXCQ2">High Society</option>
+          <option value="63LS37BKUP4H5B4JUDSPW74U">Kickoutsoul</option>
+          <option value="3FPOFHGP7JNKGURXF5ICX2ZE">Lady of Lizard</option>
+          <option value="5I5QKHWQZ47K4EBDR2DGSD34">LoveGrove</option>
+          <option value="6WFEGT5JWWLNMLNL43757HO3">Maia🩷</option>
+          <option value="MOOOT4SNHFKXKSA3XFARAOUC">Meera☘️</option>
+          <option value="SJSM5WA7JLDCRSCZOGKGAW2U">RUA</option>
+          <option value="I22VCEFCQ3W526B7VSBC5TVC">StrawbKiwi</option>
+          <option value="Y7WMQIMANKR3L6MM6CM5GXSQ">Turbine</option>
         </select>
 
         <button id="checkoutBtn" class="btn-primary" type="button">
@@ -110,7 +130,6 @@
       const r = await fetch(url, opts);
       const text = await r.text();
 
-      // try parse JSON; if it fails, we surface useful info
       let data = null;
       try { data = JSON.parse(text); } catch(e) {}
 
@@ -122,7 +141,6 @@
       }
 
       if (!data){
-        // ok status but not JSON is still unexpected
         throw new Error("API returned a non-JSON response.");
       }
 
@@ -161,21 +179,6 @@
           </div>
         </article>
       `;
-    }
-
-    async function loadVendors(){
-      // if /api/vendors is erroring, we’ll show the real message in the UI
-      const data = await apiGet("/api/vendors");
-
-      // support either {vendors:[...]} or {items:[...]} etc safely
-      const vendors = data.vendors || [];
-
-      vendors.forEach(v => {
-        const opt = document.createElement("option");
-        opt.value = v.id;
-        opt.textContent = v.name;
-        vendorSelect.appendChild(opt);
-      });
     }
 
     async function loadItems(categoryId){
@@ -235,17 +238,10 @@
 
     (async function init(){
       try{
-        setStatus("Loading vendors…");
-        await loadVendors();
-
-        // initial load (All)
-        await loadItems("");
+        // ✅ no vendor API call anymore
+        await loadItems(""); // All stores
       } catch(e){
-        // ✅ show the real reason (including HTML error snippets)
-        setStatus(
-          "Shop failed to load: " + e.message +
-          " — try opening /api/vendors in a new tab to see the server error."
-        );
+        setStatus("Shop failed to load: " + e.message);
       }
     })();
   })();
