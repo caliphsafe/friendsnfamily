@@ -30,7 +30,7 @@
       <div class="shop-subnav-row">
         <label class="shop-label" for="vendorSelect">Vendor:</label>
 
-        <!-- ✅ MANUAL VENDOR LIST (no /api/vendors dependency) -->
+        <!-- ✅ MANUAL VENDOR LIST -->
         <select id="vendorSelect" class="shop-select classic-select" aria-label="Select vendor">
           <option value="">All Stores</option>
 
@@ -55,9 +55,10 @@
           <option value="Y7WMQIMANKR3L6MM6CM5GXSQ">Turbine</option>
         </select>
 
-        <button id="checkoutBtn" class="btn-primary" type="button">
-          Checkout (<span id="cartCount">0</span>)
-        </button>
+        <!-- ✅ Cart button goes to cart page -->
+        <a id="cartBtn" class="btn-primary shop-cartbtn" href="cart.html">
+          Cart (<span id="cartCount">0</span>)
+        </a>
       </div>
     </section>
 
@@ -68,6 +69,34 @@
       <div id="shopStatus" class="shop-status">Loading shop…</div>
       <div id="productGrid" class="product-grid" hidden></div>
     </section>
+
+    <!-- ✅ Item modal (opens on top; user stays on shop page) -->
+    <div id="itemModal" class="item-modal" hidden>
+      <div class="item-modal-backdrop" data-close></div>
+
+      <div class="item-modal-card box" role="dialog" aria-modal="true" aria-label="Item details">
+        <div class="item-modal-head">
+          <div id="modalName" class="item-name"></div>
+          <button class="item-modal-x" type="button" data-close aria-label="Close">×</button>
+        </div>
+
+        <div class="item-grid" style="padding:10px;">
+          <div class="item-media">
+            <div class="prod-img" id="modalImgWrap"></div>
+          </div>
+
+          <div>
+            <div id="modalPrice" class="item-price"></div>
+            <div id="modalDesc" class="item-desc"></div>
+
+            <div class="item-controls">
+              <button id="modalAdd" class="btn-primary" type="button">Add to Cart</button>
+              <a class="item-back" href="cart.html">Go to Cart</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <br />
 
@@ -87,7 +116,6 @@
   <div id="footer"></div>
 
   <script>
-    // ✅ Load shared header/footer partials (only once)
     fetch("partials/header.html")
       .then(res => res.text())
       .then(html => { document.getElementById("header").innerHTML = html; });
@@ -97,203 +125,234 @@
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
 
-<script>
-(function(){
-  // same-origin API (recommended)
-  const API_BASE = "";
+  <script>
+  (function(){
+    const API_BASE = "";
 
-  const vendorSelect = document.getElementById("vendorSelect");
-  const statusEl = document.getElementById("shopStatus");
-  const grid = document.getElementById("productGrid");
-  const cartCount = document.getElementById("cartCount");
-  const checkoutBtn = document.getElementById("checkoutBtn");
+    const vendorSelect = document.getElementById("vendorSelect");
+    const statusEl = document.getElementById("shopStatus");
+    const grid = document.getElementById("productGrid");
+    const cartCountEl = document.getElementById("cartCount");
 
-  const cart = new Map(); // variationId -> { variationId, name, quantity }
+    // modal refs
+    const modal = document.getElementById("itemModal");
+    const modalName = document.getElementById("modalName");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalImgWrap = document.getElementById("modalImgWrap");
+    const modalAdd = document.getElementById("modalAdd");
 
-  function setStatus(msg){
-    statusEl.textContent = msg;
-    statusEl.hidden = false;
-    grid.hidden = true;
-  }
-  function showGrid(){
-    statusEl.hidden = true;
-    grid.hidden = false;
-  }
-  function updateCartCount(){
-    let n = 0;
-    cart.forEach(v => n += v.quantity);
-    cartCount.textContent = String(n);
-  }
+    let lastItems = [];          // cache of currently loaded items
+    let activeItem = null;       // item currently shown in modal
 
-  // ✅ SAFER: handle APIs that return HTML error pages
-  async function safeJsonFetch(url, opts){
-    const r = await fetch(url, opts);
-    const text = await r.text();
-
-    let data = null;
-    try { data = JSON.parse(text); } catch(e) {}
-
-    if (!r.ok){
-      const msg =
-        (data && (data.error || data.message)) ||
-        (text ? text.slice(0, 140).replace(/\s+/g, " ") : "Request failed");
-      throw new Error(msg);
+    function setStatus(msg){
+      statusEl.textContent = msg;
+      statusEl.hidden = false;
+      grid.hidden = true;
+    }
+    function showGrid(){
+      statusEl.hidden = true;
+      grid.hidden = false;
     }
 
-    if (!data){
-      throw new Error("API returned a non-JSON response.");
+    // ✅ localStorage cart (persists across pages)
+    function getCart(){
+      try { return JSON.parse(localStorage.getItem("ff_cart") || "{}"); }
+      catch { return {}; }
     }
-
-    return data;
-  }
-
-  async function apiGet(path){
-    return safeJsonFetch(API_BASE + path);
-  }
-
-  async function apiPost(path, body){
-    return safeJsonFetch(API_BASE + path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-  }
-
-  function productCard(p){
-  const imgInner = p.imageUrl
-    ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
-    : `<div class="ph" aria-hidden="true"></div>`;
-
-  const price = p.priceText || "";
-  const vid = p.defaultVariationId;
-
-  // ✅ link to item page
-  const href = `item.html?itemId=${encodeURIComponent(p.itemId)}${
-    vendorSelect?.value ? `&vendor=${encodeURIComponent(vendorSelect.value)}` : ""
-  }`;
-
-  return `
-    <article class="prod" data-vid="${vid || ""}">
-      <a class="prod-link" href="${href}" style="text-decoration:none; color:inherit;">
-        <div class="prod-img">${imgInner}</div>
-        <div class="prod-meta">
-          <div class="prod-name">${p.name}</div>
-          <div class="prod-price">${price}</div>
-        </div>
-      </a>
-
-      <div class="prod-meta" style="padding-top:0;">
-        <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
-          ${vid ? "Add to cart" : "Unavailable"}
-        </button>
-      </div>
-    </article>
-  `;
-}
-
-  async function loadVendors(){
-    const data = await apiGet("/api/vendors");
-    const vendors = data.vendors || [];
-
-    vendors.forEach(v => {
-      const opt = document.createElement("option");
-      opt.value = v.id;        // ✅ IMPORTANT: this must be the categoryId
-      opt.textContent = v.name;
-      vendorSelect.appendChild(opt);
-    });
-  }
-
-  async function loadItems(categoryId){
-    setStatus("Loading items…");
-
-    const q = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : "";
-    const data = await apiGet("/api/items" + q);
-    const items = data.items || [];
-
-    grid.innerHTML = items.map(productCard).join("");
-    showGrid();
-
-    // add-to-cart handlers
-    grid.querySelectorAll(".prod-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const card = btn.closest(".prod");
-        const variationId = card?.dataset?.vid;
-        const name = card.querySelector(".prod-name")?.textContent?.trim() || "Item";
-        if(!variationId) return;
-
-        const existing = cart.get(variationId);
-        if (existing) existing.quantity += 1;
-        else cart.set(variationId, { variationId, name, quantity: 1 });
-
-        updateCartCount();
-        btn.textContent = "Added ✓";
-        setTimeout(() => btn.textContent = "Add to cart", 700);
-      });
-    });
-  }
-
-  vendorSelect.addEventListener("change", () => {
-    const id = vendorSelect.value || "";
-    // keep URL in sync so refresh/share keeps same vendor
-    const u = new URL(location.href);
-    if (id) u.searchParams.set("vendor", id);
-    else u.searchParams.delete("vendor");
-    history.replaceState({}, "", u.toString());
-
-    loadItems(id);
-  });
-
-  checkoutBtn.addEventListener("click", async () => {
-    if (cart.size === 0) return alert("Your cart is empty.");
-
-    try {
-      checkoutBtn.disabled = true;
-      checkoutBtn.textContent = "Opening checkout…";
-
-      const lineItems = Array.from(cart.values()).map(x => ({
-        variationId: x.variationId,
-        quantity: x.quantity
-      }));
-
-      const { url } = await apiPost("/api/checkout", { lineItems });
-      window.open(url, "_blank", "noopener");
-    } catch (e) {
-      alert("Checkout failed: " + e.message);
-    } finally {
-      checkoutBtn.disabled = false;
-      checkoutBtn.innerHTML = `Checkout (<span id="cartCount">${cartCount.textContent}</span>)`;
+    function setCart(cart){
+      localStorage.setItem("ff_cart", JSON.stringify(cart));
     }
-  });
-
-  (async function init(){
-    try{
-      // ✅ READ vendor from URL
-      const vendorFromUrl = new URLSearchParams(location.search).get("vendor") || "";
-
-      setStatus("Loading vendors…");
-      await loadVendors();
-
-      // ✅ If vendorFromUrl exists but isn't in the dropdown yet, add it (prevents mismatch)
-      if (vendorFromUrl && !Array.from(vendorSelect.options).some(o => o.value === vendorFromUrl)){
-        const opt = document.createElement("option");
-        opt.value = vendorFromUrl;
-        opt.textContent = "Selected Vendor";
-        vendorSelect.appendChild(opt);
+    function addToCart(variationId, snapshot){
+      const cart = getCart();
+      if (!cart[variationId]){
+        cart[variationId] = { qty: 0, ...snapshot };
       }
-
-      // ✅ Set dropdown + load correct items
-      vendorSelect.value = vendorFromUrl;
-      await loadItems(vendorFromUrl);
-
-    } catch(e){
-      setStatus(
-        "Shop failed to load: " + e.message +
-        " — try opening /api/vendors in a new tab to see the server error."
-      );
+      cart[variationId].qty += 1;
+      setCart(cart);
+      updateCartCount();
     }
+    function updateCartCount(){
+      const cart = getCart();
+      const n = Object.values(cart).reduce((sum, x) => sum + (x.qty || 0), 0);
+      cartCountEl.textContent = String(n);
+    }
+
+    // ✅ SAFER: handle APIs that return HTML error pages
+    async function safeJsonFetch(url, opts){
+      const r = await fetch(url, opts);
+      const text = await r.text();
+      let data = null;
+      try { data = JSON.parse(text); } catch(e) {}
+
+      if (!r.ok){
+        const msg =
+          (data && (data.error || data.message)) ||
+          (text ? text.slice(0, 140).replace(/\s+/g, " ") : "Request failed");
+        throw new Error(msg);
+      }
+      if (!data) throw new Error("API returned a non-JSON response.");
+      return data;
+    }
+    async function apiGet(path){
+      return safeJsonFetch(API_BASE + path);
+    }
+
+    function productCard(p){
+      const imgInner = p.imageUrl
+        ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
+        : `<div class="ph" aria-hidden="true"></div>`;
+
+      const price = p.priceText || "";
+      const vid = p.defaultVariationId;
+
+      return `
+        <article class="prod" data-itemid="${p.itemId}" data-vid="${vid || ""}">
+          <button class="prod-link prod-view" type="button" data-view="${p.itemId}">
+            <div class="prod-img">${imgInner}</div>
+            <div class="prod-meta">
+              <div class="prod-name">${p.name}</div>
+              <div class="prod-price">${price}</div>
+            </div>
+          </button>
+
+          <div class="prod-meta" style="padding-top:0;">
+            <button class="prod-btn" type="button" data-add="${vid || ""}" ${vid ? "" : "disabled"}>
+              ${vid ? "Add to cart" : "Unavailable"}
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    async function loadItems(categoryId){
+      setStatus("Loading items…");
+      const q = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : "";
+      const data = await apiGet("/api/items" + q);
+      const items = data.items || [];
+      lastItems = items;
+
+      grid.innerHTML = items.map(productCard).join("");
+      showGrid();
+
+      // open modal on view
+      grid.querySelectorAll("[data-view]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-view");
+          openItem(id);
+        });
+      });
+
+      // add-to-cart from grid
+      grid.querySelectorAll("[data-add]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const variationId = btn.getAttribute("data-add");
+          if (!variationId) return;
+
+          const card = btn.closest(".prod");
+          const itemId = card?.getAttribute("data-itemid") || "";
+          const item = lastItems.find(x => x.itemId === itemId);
+
+          const snapshot = {
+            itemId: item?.itemId || itemId,
+            name: item?.name || "Item",
+            priceText: item?.priceText || "",
+            imageUrl: item?.imageUrl || ""
+          };
+
+          addToCart(variationId, snapshot);
+          btn.textContent = "Added ✓";
+          setTimeout(() => btn.textContent = "Add to cart", 700);
+        });
+      });
+    }
+
+    // ✅ modal controls
+    function openItem(itemId){
+      const item = lastItems.find(x => x.itemId === itemId);
+      if (!item) return;
+
+      activeItem = item;
+
+      modalName.textContent = item.name || "Item";
+      modalPrice.textContent = item.priceText || "";
+      modalDesc.textContent = item.description || "";
+      modalImgWrap.innerHTML = item.imageUrl
+        ? `<img src="${item.imageUrl}" alt="${item.name}" loading="lazy">`
+        : `<div class="ph" aria-hidden="true"></div>`;
+
+      modal.hidden = false;
+
+      // keep URL hash for share/back (optional)
+      const u = new URL(location.href);
+      u.searchParams.set("item", itemId);
+      history.replaceState({}, "", u.toString());
+    }
+
+    function closeModal(){
+      modal.hidden = true;
+      activeItem = null;
+
+      // remove item param
+      const u = new URL(location.href);
+      u.searchParams.delete("item");
+      history.replaceState({}, "", u.toString());
+    }
+
+    // close handlers
+    modal.addEventListener("click", (e) => {
+      if (e.target && e.target.hasAttribute("data-close")) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (!modal.hidden && e.key === "Escape") closeModal();
+    });
+
+    modalAdd.addEventListener("click", () => {
+      if (!activeItem?.defaultVariationId) return;
+
+      const snapshot = {
+        itemId: activeItem.itemId,
+        name: activeItem.name || "Item",
+        priceText: activeItem.priceText || "",
+        imageUrl: activeItem.imageUrl || ""
+      };
+
+      addToCart(activeItem.defaultVariationId, snapshot);
+      modalAdd.textContent = "Added ✓";
+      setTimeout(() => modalAdd.textContent = "Add to Cart", 700);
+    });
+
+    vendorSelect.addEventListener("change", () => {
+      const id = vendorSelect.value || "";
+      const u = new URL(location.href);
+      if (id) u.searchParams.set("vendor", id);
+      else u.searchParams.delete("vendor");
+      history.replaceState({}, "", u.toString());
+      loadItems(id);
+    });
+
+    (async function init(){
+      try{
+        updateCartCount();
+
+        const params = new URLSearchParams(location.search);
+        const vendorFromUrl = params.get("vendor") || "";
+        const itemFromUrl = params.get("item") || "";
+
+        vendorSelect.value = vendorFromUrl;
+        await loadItems(vendorFromUrl);
+
+        // if direct-linked to an item, open it after items load
+        if (itemFromUrl){
+          openItem(itemFromUrl);
+        }
+
+      } catch(e){
+        setStatus("Shop failed to load: " + e.message);
+      }
+    })();
   })();
-})();
-</script>
+  </script>
 
 </body>
 </html>
