@@ -309,3 +309,12 @@
   opacity:.6;
   cursor:not-allowed;
 }
+
+.prod-link{
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.prod-link:hover .prod-name{
+  text-decoration: underline;
+}
