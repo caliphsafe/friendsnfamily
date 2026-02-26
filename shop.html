@@ -160,7 +160,7 @@
   }
 
   function productCard(p){
-  const img = p.imageUrl
+  const imgInner = p.imageUrl
     ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
     : `<div class="ph" aria-hidden="true"></div>`;
 
@@ -168,21 +168,21 @@
   const vid = p.defaultVariationId;
 
   // ✅ link to item page
-  const url = `product.html?id=${encodeURIComponent(p.id)}${vendorSelect.value ? `&vendor=${encodeURIComponent(vendorSelect.value)}` : ""}`;
+  const href = `item.html?itemId=${encodeURIComponent(p.itemId)}${
+    vendorSelect?.value ? `&vendor=${encodeURIComponent(vendorSelect.value)}` : ""
+  }`;
 
   return `
     <article class="prod" data-vid="${vid || ""}">
-      <a class="prod-link" href="${url}" aria-label="View ${p.name}">
-        <div class="prod-img">${img}</div>
+      <a class="prod-link" href="${href}" style="text-decoration:none; color:inherit;">
+        <div class="prod-img">${imgInner}</div>
+        <div class="prod-meta">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-price">${price}</div>
+        </div>
       </a>
 
-      <div class="prod-meta">
-        <a class="prod-link" href="${url}">
-          <div class="prod-name">${p.name}</div>
-        </a>
-
-        <div class="prod-price">${price}</div>
-
+      <div class="prod-meta" style="padding-top:0;">
         <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
           ${vid ? "Add to cart" : "Unavailable"}
         </button>
