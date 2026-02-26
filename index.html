@@ -21,7 +21,7 @@
     <section class="panels" aria-label="Homepage panels">
       <div class="panel thanks" aria-label="Thank you panel with vendor links">
         <div class="panel-inner thanks-wrap" id="thanksWrap">
-          <img class="thanks-bg" id="thanksBg" src="img/stores_bg.png" alt="Thank you" />
+  <img class="thanks-bg" id="thanksBg" src="img/stores_bg.png" alt="Thank you" />
 
           <div class="vendor-links" aria-label="Vendor links">
             <div class="vendor-list">
@@ -111,44 +111,40 @@
   <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
-  <script>
-    fetch("partials/header.html")
-      .then(res => res.text())
-      .then(html => { document.getElementById("header").innerHTML = html; });
+<script>
+  fetch("partials/header.html")
+    .then(res => res.text())
+    .then(html => { document.getElementById("header").innerHTML = html; });
 
-    fetch("partials/footer.html")
-      .then(res => res.text())
-      .then(html => { document.getElementById("footer").innerHTML = html; });
+  fetch("partials/footer.html")
+    .then(res => res.text())
+    .then(html => { document.getElementById("footer").innerHTML = html; });
 
-    /* ✅ FIX: make vendor links scale exactly with the rendered sheet width */
-    (function(){
-      const wrap = document.getElementById("thanksWrap");
-      const bg = document.getElementById("thanksBg");
-      if(!wrap || !bg) return;
+  /* ✅ FIX: make vendor links scale exactly with the rendered sheet width */
+  (function(){
+    const wrap = document.getElementById("thanksWrap");
+    const bg = document.getElementById("thanksBg");
+    if(!wrap || !bg) return;
 
-      function setScale(){
-        // measure the actual rendered width of the sheet image
-        const w = bg.getBoundingClientRect().width || wrap.getBoundingClientRect().width;
-        if(!w) return;
+    function setScale(){
+      const w = bg.getBoundingClientRect().width || wrap.getBoundingClientRect().width;
+      if(!w) return;
 
-        // your design sheet is 830px wide
-        const scale = w / 830;
+      // your design sheet is 830px wide
+      const scale = w / 830;
 
-        // set CSS var on the container so the overlay grid scales with it
-        wrap.style.setProperty("--sheetScale", scale.toFixed(4));
-      }
+      // set CSS var on the container so the overlay grid scales with it
+      wrap.style.setProperty("--sheetScale", scale.toFixed(4));
+    }
 
-      // run now + after image load + on resize/orientation change
-      window.addEventListener("resize", () => requestAnimationFrame(setScale));
-      window.addEventListener("orientationchange", () => requestAnimationFrame(setScale));
-      bg.addEventListener("load", setScale);
+    window.addEventListener("resize", () => requestAnimationFrame(setScale));
+    window.addEventListener("orientationchange", () => requestAnimationFrame(setScale));
+    bg.addEventListener("load", setScale);
 
-      // initial
-      setScale();
-      // one more after layout settles
-      setTimeout(setScale, 60);
-    })();
-  </script>
+    setScale();
+    setTimeout(setScale, 60);
+  })();
+</script>
 
 </body>
 </html>
