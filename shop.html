@@ -25,22 +25,19 @@
 
     <br />
 
-    <!-- ✅ Vendor dropdown + checkout (MySpace style box) -->
+    <!-- ✅ Vendor dropdown (MySpace style box) -->
     <section class="box shop-subnav" aria-label="Shop vendors">
-      <div class="shop-subnav-title">Shop by Vendor</div>
+      <div class="shop-subnav-row">
+        <label class="shop-label" for="vendorSelect">Vendor:</label>
 
-      <div class="shop-controls">
-        <label class="shop-label" for="vendorSelect">Choose a store:</label>
+        <select id="vendorSelect" class="shop-select classic-select" aria-label="Select vendor">
+          <option value="">All Stores</option>
+          <!-- populated by /api/vendors -->
+        </select>
 
-        <div class="shop-subnav-row">
-          <select id="vendorSelect" class="shop-select classic-select" aria-label="Select vendor">
-            <option value="">All Stores</option>
-          </select>
-
-          <button id="checkoutBtn" class="btn-primary" type="button">
-            Checkout (<span id="cartCount">0</span>)
-          </button>
-        </div>
+        <button id="checkoutBtn" class="btn-primary" type="button">
+          Checkout (<span id="cartCount">0</span>)
+        </button>
       </div>
     </section>
 
@@ -57,7 +54,7 @@
     <!-- ✅ Fallback button -->
     <section class="box shop-fallback" aria-label="Shop link fallback">
       <p style="margin:0 0 10px;">
-        If the shop doesn’t load here, open the Square shop directly.
+        If the shop doesn’t load here, open it directly:
       </p>
       <a class="btn-primary" href="https://friends-and-fam-llc.square.site/" target="_blank" rel="noopener">
         OPEN SHOP IN NEW TAB
@@ -69,8 +66,8 @@
   <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
-  <!-- ✅ Load shared header/footer partials (only once) -->
   <script>
+    // ✅ Load shared header/footer partials (only once)
     fetch("partials/header.html")
       .then(res => res.text())
       .then(html => { document.getElementById("header").innerHTML = html; });
@@ -80,12 +77,10 @@
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
 
-  <!-- ✅ Shop logic (vendors -> items -> checkout) -->
   <script>
   (function(){
-    // If your API is on the same Vercel project, leave "".
-    // If not, set it to your deployed Vercel domain.
-    const API_BASE = ""; // e.g. "https://your-project.vercel.app"
+    // same-origin API (recommended)
+    const API_BASE = "";
 
     const vendorSelect = document.getElementById("vendorSelect");
     const statusEl = document.getElementById("shopStatus");
@@ -110,22 +105,40 @@
       cartCount.textContent = String(n);
     }
 
-    async function apiGet(path){
-      const r = await fetch(API_BASE + path, { credentials: "same-origin" });
-      const j = await r.json();
-      if(!r.ok) throw new Error(j.error || "Request failed");
-      return j;
+    // ✅ SAFER: handle APIs that return HTML error pages
+    async function safeJsonFetch(url, opts){
+      const r = await fetch(url, opts);
+      const text = await r.text();
+
+      // try parse JSON; if it fails, we surface useful info
+      let data = null;
+      try { data = JSON.parse(text); } catch(e) {}
+
+      if (!r.ok){
+        const msg =
+          (data && (data.error || data.message)) ||
+          (text ? text.slice(0, 140).replace(/\s+/g, " ") : "Request failed");
+        throw new Error(msg);
+      }
+
+      if (!data){
+        // ok status but not JSON is still unexpected
+        throw new Error("API returned a non-JSON response.");
+      }
+
+      return data;
     }
+
+    async function apiGet(path){
+      return safeJsonFetch(API_BASE + path);
+    }
+
     async function apiPost(path, body){
-      const r = await fetch(API_BASE + path, {
+      return safeJsonFetch(API_BASE + path, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
         body: JSON.stringify(body),
       });
-      const j = await r.json();
-      if(!r.ok) throw new Error(j.error || "Request failed");
-      return j;
     }
 
     function productCard(p){
@@ -151,13 +164,16 @@
     }
 
     async function loadVendors(){
+      // if /api/vendors is erroring, we’ll show the real message in the UI
       const data = await apiGet("/api/vendors");
 
+      // support either {vendors:[...]} or {items:[...]} etc safely
       const vendors = data.vendors || [];
+
       vendors.forEach(v => {
         const opt = document.createElement("option");
-        opt.value = v.id;          // ✅ categoryId
-        opt.textContent = v.name;  // ✅ label
+        opt.value = v.id;
+        opt.textContent = v.name;
         vendorSelect.appendChild(opt);
       });
     }
@@ -167,13 +183,12 @@
 
       const q = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : "";
       const data = await apiGet("/api/items" + q);
-
       const items = data.items || [];
 
       grid.innerHTML = items.map(productCard).join("");
       showGrid();
 
-      // click handlers
+      // add-to-cart handlers
       grid.querySelectorAll(".prod-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           const card = btn.closest(".prod");
@@ -186,10 +201,8 @@
           else cart.set(variationId, { variationId, name, quantity: 1 });
 
           updateCartCount();
-
-          const prev = btn.textContent;
           btn.textContent = "Added ✓";
-          setTimeout(() => btn.textContent = prev, 700);
+          setTimeout(() => btn.textContent = "Add to cart", 700);
         });
       });
     }
@@ -213,7 +226,7 @@
         const { url } = await apiPost("/api/checkout", { lineItems });
         window.open(url, "_blank", "noopener");
       } catch (e) {
-        alert(e.message);
+        alert("Checkout failed: " + e.message);
       } finally {
         checkoutBtn.disabled = false;
         checkoutBtn.innerHTML = `Checkout (<span id="cartCount">${cartCount.textContent}</span>)`;
@@ -224,9 +237,15 @@
       try{
         setStatus("Loading vendors…");
         await loadVendors();
-        await loadItems(""); // All stores
+
+        // initial load (All)
+        await loadItems("");
       } catch(e){
-        setStatus("Shop failed to load: " + e.message);
+        // ✅ show the real reason (including HTML error snippets)
+        setStatus(
+          "Shop failed to load: " + e.message +
+          " — try opening /api/vendors in a new tab to see the server error."
+        );
       }
     })();
   })();
