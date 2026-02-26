@@ -1,87 +1,75 @@
 // /api/vendors.js
-import fetch from "node-fetch";
-
-function norm(s = "") {
-  return String(s)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, " "); // collapse multiple spaces
-}
-
-function parseAllowlist(raw = "") {
-  return raw
-    .split(",")
-    .map((x) => x.trim())
-    .filter(Boolean);
-}
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   try {
     const accessToken = process.env.SQUARE_ACCESS_TOKEN;
-    const env = process.env.SQUARE_ENV || "production";
-    const allowlistRaw = process.env.VENDOR_CATEGORY_ALLOWLIST || "";
+    const squareEnv = (process.env.SQUARE_ENV || "production").toLowerCase(); // "sandbox" or "production"
 
     if (!accessToken) {
-      return res.status(500).json({ error: "Missing SQUARE_ACCESS_TOKEN" });
+      return res.status(500).json({ error: "Missing env var: SQUARE_ACCESS_TOKEN" });
     }
 
-    const allowlist = parseAllowlist(allowlistRaw);
-    const allowset = new Set(allowlist.map(norm));
+    const base =
+      squareEnv === "sandbox"
+        ? "https://connect.squareupsandbox.com"
+        : "https://connect.squareup.com";
 
-    // ✅ IMPORTANT: Square Catalog API endpoint is the same; env is tied to token (sandbox vs prod)
-    const url = "https://connect.squareup.com/v2/catalog/list?types=CATEGORY";
+    // Pull all CATEGORY objects (handles pagination cursor)
+    let cursor = null;
+    const categories = [];
 
-    const r = await fetch(url, {
-      headers: {
-        "Square-Version": "2025-01-23",
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
+    do {
+      const url = new URL(base + "/v2/catalog/list");
+      url.searchParams.set("types", "CATEGORY");
+      if (cursor) url.searchParams.set("cursor", cursor);
 
-    const data = await r.json();
-    if (!r.ok) {
-      return res.status(r.status).json({ error: "Square error", details: data });
-    }
+      const r = await fetch(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          "Square-Version": "2024-12-18", // safe recent version string
+        },
+      });
 
-    const categories = (data.objects || [])
-      .map((o) => ({
-        id: o.id,
-        name: o.category_data?.name || "",
-        _n: norm(o.category_data?.name || ""),
-      }))
-      .filter((c) => c.name);
+      const text = await r.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = null; }
 
-    // ✅ Only those that match allowlist
+      if (!r.ok) {
+        return res.status(r.status).json({
+          error: "Square API error (list categories)",
+          status: r.status,
+          details: data || text?.slice(0, 300),
+        });
+      }
+
+      const objs = data?.objects || [];
+      for (const obj of objs) {
+        const name = obj?.category_data?.name || "";
+        categories.push({ id: obj.id, name });
+      }
+
+      cursor = data?.cursor || null;
+    } while (cursor);
+
+    // ✅ If you only want "vendor categories", filter here.
+    // Option A (recommended): only categories with a prefix like "VENDOR: "
+    // const vendors = categories.filter(c => c.name.toUpperCase().startsWith("VENDOR: "))
+    //   .map(c => ({ id: c.id, name: c.name.replace(/^VENDOR:\s*/i, "") }));
+
+    // Option B: return all categories for now (no accidental exclusions)
     const vendors = categories
-      .filter((c) => allowset.has(c._n))
-      .map(({ id, name }) => ({ id, name }))
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .filter(c => c.name) // remove blanks
+      .sort((a,b) => a.name.localeCompare(b.name));
 
-    // ✅ Debug: which allowlist entries didn’t match any category
-    const categoryNameSet = new Set(categories.map((c) => c._n));
-    const missingFromSquare = allowlist
-      .filter((name) => !categoryNameSet.has(norm(name)))
-      .sort((a, b) => a.localeCompare(b));
+    res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
+    return res.status(200).json({ vendors });
 
-    // ✅ Debug: which categories exist but are not in allowlist (helps confirm you’re filtering correctly)
-    const notInAllowlist = categories
-      .filter((c) => !allowset.has(c._n))
-      .map((c) => c.name)
-      .sort((a, b) => a.localeCompare(b));
-
-    return res.status(200).json({
-      env,
-      allowlistCount: allowlist.length,
-      categoryCount: categories.length,
-      vendorCount: vendors.length,
-      vendors,
-      debug: {
-        missingFromSquare, // <-- this will show the 2 names that don't match
-        sampleNotInAllowlist: notInAllowlist.slice(0, 25),
-      },
+  } catch (err) {
+    // This is what prevents FUNCTION_INVOCATION_FAILED from being “mysterious”
+    return res.status(500).json({
+      error: "Server function crashed",
+      message: err?.message || String(err),
+      stack: err?.stack || null,
     });
-  } catch (e) {
-    return res.status(500).json({ error: "Server error", details: String(e) });
   }
-}
+};
