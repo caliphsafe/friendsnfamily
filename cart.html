@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Cart</title>
+  <meta name="description" content="Your cart." />
 
+  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/subpages.css" />
+  <link rel="stylesheet" href="css/global.css" />
+</head>
+
+<body class="subpage cart-page">
+
+  <div id="header"></div>
+
+  <main class="wrap">
+
+    <section class="box page-head">
+      <h1 class="page-title">CART</h1>
+      <p class="subcopy">review your picks ❤️</p>
+    </section>
+
+    <br />
+
+    <section class="box shop-products" aria-label="Cart items">
+      <div id="cartEmpty" class="shop-status" hidden>Your cart is empty.</div>
+      <div id="cartGrid" class="product-grid" hidden></div>
+    </section>
+
+    <br />
+
+    <section class="box shop-subnav" aria-label="Cart actions">
+      <div class="shop-subnav-row" style="justify-content:space-between;">
+        <a class="item-back" href="shop.html">← Back to Shop</a>
+        <button id="checkoutBtn" class="btn-primary shop-cartbtn" type="button">
+          Checkout
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("partials/header.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("header").innerHTML = html; });
+
+    fetch("partials/footer.html")
+      .then(res => res.text())
+      .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
+
+  <script>
+  (function(){
+    const API_BASE = "";
+
+    const emptyEl = document.getElementById("cartEmpty");
+    const grid = document.getElementById("cartGrid");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
+    function getCart(){
+      try { return JSON.parse(localStorage.getItem("ff_cart") || "{}"); }
+      catch { return {}; }
+    }
+    function setCart(cart){
+      localStorage.setItem("ff_cart", JSON.stringify(cart));
+    }
+
+    async function safeJsonFetch(url, opts){
+      const r = await fetch(url, opts);
+      const text = await r.text();
+      let data = null;
+      try { data = JSON.parse(text); } catch(e) {}
+      if (!r.ok){
+        const msg =
+          (data && (data.error || data.message)) ||
+          (text ? text.slice(0, 140).replace(/\s+/g, " ") : "Request failed");
+        throw new Error(msg);
+      }
+      if (!data) throw new Error("API returned a non-JSON response.");
+      return data;
+    }
+
+    async function apiPost(path, body){
+      return safeJsonFetch(API_BASE + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    }
+
+    function render(){
+      const cart = getCart();
+      const entries = Object.entries(cart);
+
+      if (!entries.length){
+        emptyEl.hidden = false;
+        grid.hidden = true;
+        return;
+      }
+
+      emptyEl.hidden = true;
+      grid.hidden = false;
+
+      grid.innerHTML = entries.map(([variationId, x]) => {
+        const img = x.imageUrl
+          ? `<img src="${x.imageUrl}" alt="${x.name}" loading="lazy">`
+          : `<div class="ph"></div>`;
+
+        return `
+          <article class="prod" data-vid="${variationId}">
+            <div class="prod-img">${img}</div>
+
+            <div class="prod-meta">
+              <div class="prod-name">${x.name || "Item"}</div>
+              <div class="prod-price">${x.priceText || ""}</div>
+
+              <div class="item-controls">
+                <button class="prod-btn" type="button" data-dec>-</button>
+                <div style="font-weight:800;">Qty: <span data-qty>${x.qty || 1}</span></div>
+                <button class="prod-btn" type="button" data-inc>+</button>
+                <button class="prod-btn" type="button" data-remove style="background:#ffe1e1;">Remove</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      // handlers
+      grid.querySelectorAll(".prod").forEach(card => {
+        const vid = card.getAttribute("data-vid");
+        card.querySelector("[data-inc]").addEventListener("click", () => {
+          const cart = getCart();
+          cart[vid].qty += 1;
+          setCart(cart);
+          render();
+        });
+        card.querySelector("[data-dec]").addEventListener("click", () => {
+          const cart = getCart();
+          cart[vid].qty -= 1;
+          if (cart[vid].qty <= 0) delete cart[vid];
+          setCart(cart);
+          render();
+        });
+        card.querySelector("[data-remove]").addEventListener("click", () => {
+          const cart = getCart();
+          delete cart[vid];
+          setCart(cart);
+          render();
+        });
+      });
+    }
+
+    checkoutBtn.addEventListener("click", async () => {
+      const cart = getCart();
+      const lineItems = Object.entries(cart).map(([variationId, x]) => ({
+        variationId,
+        quantity: x.qty
+      }));
+
+      if (!lineItems.length) return alert("Your cart is empty.");
+
+      try{
+        checkoutBtn.disabled = true;
+        checkoutBtn.textContent = "Opening checkout…";
+
+        const { url } = await apiPost("/api/checkout", { lineItems });
+        window.open(url, "_blank", "noopener");
+
+      } catch(e){
+        alert("Checkout failed: " + e.message);
+      } finally {
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = "Checkout";
+      }
+    });
+
+    render();
+  })();
+  </script>
+</body>
+</html>
