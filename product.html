@@ -1,1 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Item</title>
+  <meta name="description" content="Shop item details." />
 
+  <link rel="stylesheet" href="css/subpages.css" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/product.css" />
+</head>
+
+<body class="subpage product-page">
+
+  <div id="header"></div>
+
+  <main class="wrap">
+    <section class="box page-head">
+      <h1 class="page-title" id="itemTitle">ITEM</h1>
+      <p class="subcopy" id="itemSub">loading…</p>
+    </section>
+
+    <br />
+
+    <section class="box product-card" aria-label="Product details">
+      <div class="product-layout">
+        <div class="product-media" id="media"></div>
+
+        <div class="product-info">
+          <div class="product-price" id="price"></div>
+          <div class="product-desc" id="desc"></div>
+
+          <div class="product-actions">
+            <button class="btn-primary" id="addBtn" type="button" disabled>Add to cart</button>
+            <button class="btn-primary" id="checkoutBtn" type="button" disabled>
+              Checkout (<span id="cartCount">0</span>)
+            </button>
+          </div>
+
+          <div class="product-back">
+            <a id="backLink" href="shop.html">← Back to shop</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-status" id="status">Loading item…</div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("partials/header.html")
+      .then(r => r.text())
+      .then(html => { document.getElementById("header").innerHTML = html; });
+
+    fetch("partials/footer.html")
+      .then(r => r.text())
+      .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
+
+  <script>
+  (function(){
+    const API_BASE = "";
+
+    const qs = new URLSearchParams(location.search);
+    const itemId = qs.get("id");
+    const vendor = qs.get("vendor");
+
+    const statusEl = document.getElementById("status");
+    const titleEl = document.getElementById("itemTitle");
+    const subEl = document.getElementById("itemSub");
+    const mediaEl = document.getElementById("media");
+    const priceEl = document.getElementById("price");
+    const descEl = document.getElementById("desc");
+    const addBtn = document.getElementById("addBtn");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const cartCount = document.getElementById("cartCount");
+    const backLink = document.getElementById("backLink");
+
+    // back link keeps vendor context
+    backLink.href = vendor ? `shop.html?vendor=${encodeURIComponent(vendor)}` : "shop.html";
+
+    const cart = new Map(); // variationId -> { variationId, quantity }
+
+    function setStatus(msg){
+      statusEl.textContent = msg;
+      statusEl.style.display = "block";
+    }
+    function clearStatus(){
+      statusEl.style.display = "none";
+    }
+    function updateCartCount(){
+      let n = 0;
+      cart.forEach(v => n += v.quantity);
+      cartCount.textContent = String(n);
+      checkoutBtn.disabled = (n === 0);
+    }
+
+    async function safeJsonFetch(url, opts){
+      const r = await fetch(url, opts);
+      const text = await r.text();
+      let data = null;
+      try { data = JSON.parse(text); } catch(e) {}
+      if (!r.ok){
+        const msg =
+          (data && (data.error || data.message)) ||
+          (text ? text.slice(0, 160).replace(/\s+/g, " ") : "Request failed");
+        throw new Error(msg);
+      }
+      if (!data) throw new Error("API returned non-JSON response.");
+      return data;
+    }
+
+    async function apiGet(path){ return safeJsonFetch(API_BASE + path); }
+    async function apiPost(path, body){
+      return safeJsonFetch(API_BASE + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    }
+
+    function renderMedia(images){
+      if (!images || images.length === 0){
+        mediaEl.innerHTML = `<div class="ph big"></div>`;
+        return;
+      }
+
+      // simple gallery: first image big + thumbs
+      const main = images[0];
+      const thumbs = images.slice(0, 6).map((u, i) =>
+        `<button class="thumb" type="button" data-i="${i}">
+          <img src="${u}" alt="Thumbnail ${i+1}" loading="lazy">
+        </button>`
+      ).join("");
+
+      mediaEl.innerHTML = `
+        <div class="main-img">
+          <img id="mainImg" src="${main}" alt="Item image" loading="lazy">
+        </div>
+        ${images.length > 1 ? `<div class="thumbs">${thumbs}</div>` : ``}
+      `;
+
+      const mainImg = document.getElementById("mainImg");
+      mediaEl.querySelectorAll(".thumb").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.dataset.i || 0);
+          mainImg.src = images[i];
+        });
+      });
+    }
+
+    async function loadItem(){
+      if (!itemId){
+        setStatus("Missing item id.");
+        return;
+      }
+
+      setStatus("Loading item…");
+
+      // ✅ OPTION A (best): if you create /api/item?id=...
+      // const data = await apiGet(`/api/item?id=${encodeURIComponent(itemId)}`);
+
+      // ✅ OPTION B (no new API): fetch from /api/items and find it
+      // (works immediately, but slower)
+      const data = await apiGet(`/api/items`);
+      const items = data.items || [];
+      const item = items.find(x => x.id === itemId);
+
+      if (!item){
+        setStatus("Item not found.");
+        return;
+      }
+
+      titleEl.textContent = item.name || "ITEM";
+      subEl.textContent = vendor ? "vendor view" : "shop item";
+      priceEl.textContent = item.priceText || "";
+      descEl.textContent = item.description || "";
+      renderMedia(item.imageUrls || (item.imageUrl ? [item.imageUrl] : []));
+
+      // enable add-to-cart if variation exists
+      const vid = item.defaultVariationId;
+      if (vid){
+        addBtn.disabled = false;
+        addBtn.addEventListener("click", () => {
+          const existing = cart.get(vid);
+          if (existing) existing.quantity += 1;
+          else cart.set(vid, { variationId: vid, quantity: 1 });
+
+          updateCartCount();
+          addBtn.textContent = "Added ✓";
+          setTimeout(() => addBtn.textContent = "Add to cart", 700);
+        });
+      } else {
+        addBtn.disabled = true;
+        addBtn.textContent = "Unavailable";
+      }
+
+      checkoutBtn.disabled = true;
+      checkoutBtn.addEventListener("click", async () => {
+        if (cart.size === 0) return;
+
+        try{
+          checkoutBtn.disabled = true;
+          checkoutBtn.textContent = "Opening checkout…";
+
+          const lineItems = Array.from(cart.values()).map(x => ({
+            variationId: x.variationId,
+            quantity: x.quantity
+          }));
+
+          const { url } = await apiPost("/api/checkout", { lineItems });
+          window.open(url, "_blank", "noopener");
+        } catch(e){
+          alert("Checkout failed: " + e.message);
+        } finally {
+          checkoutBtn.innerHTML = `Checkout (<span id="cartCount">${cartCount.textContent}</span>)`;
+          updateCartCount();
+        }
+      });
+
+      clearStatus();
+    }
+
+    loadItem().catch(e => setStatus("Shop failed to load: " + e.message));
+  })();
+  </script>
+
+</body>
+</html>
