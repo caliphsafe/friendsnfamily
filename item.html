@@ -1,1 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Friends + Family — Item</title>
 
+  <link rel="stylesheet" href="css/subpages.css" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+</head>
+
+<body class="subpage item-page">
+
+  <div id="header"></div>
+
+  <main class="wrap">
+
+    <section class="box page-head">
+      <h1 class="page-title" id="itemTitle">ITEM</h1>
+      <p class="subcopy" id="itemPrice"></p>
+    </section>
+
+    <br />
+
+    <section class="box" aria-label="Item detail">
+      <div id="itemStatus" class="shop-status">Loading item…</div>
+
+      <div id="itemWrap" hidden>
+        <div style="display:grid; grid-template-columns: 220px 1fr; gap:14px; align-items:start;">
+          <div>
+            <div class="prod-img" style="border:1px solid rgba(0,0,0,0.22); background:#fff;">
+              <img id="itemImg" alt="" style="width:100%; height:auto; display:block;" />
+            </div>
+          </div>
+
+          <div>
+            <div class="prod-name" id="itemName" style="font-size:16px; font-weight:800; margin-bottom:6px;"></div>
+            <div class="prod-price" id="itemPrice2" style="margin-bottom:10px;"></div>
+
+            <div style="font-size:13px; color:rgba(0,0,0,0.78); line-height:1.6; margin-bottom:12px;" id="itemDesc"></div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <label for="varSelect" style="font-weight:700; font-size:13px;">Option:</label>
+              <select id="varSelect" class="shop-select classic-select" style="max-width:360px;"></select>
+
+              <button id="buyBtn" class="btn-primary" type="button">Checkout this item</button>
+              <a class="btn-primary" id="backBtn" href="shop.html" style="text-decoration:none;">Back to shop</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    fetch("partials/header.html")
+      .then(r => r.text())
+      .then(html => { document.getElementById("header").innerHTML = html; });
+
+    fetch("partials/footer.html")
+      .then(r => r.text())
+      .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
+
+  <script>
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const itemId = params.get("itemId");
+      const vendor = params.get("vendor"); // optional (so back button returns to vendor)
+      const API_BASE = "";
+
+      const statusEl = document.getElementById("itemStatus");
+      const wrap = document.getElementById("itemWrap");
+
+      const titleTop = document.getElementById("itemTitle");
+      const priceTop = document.getElementById("itemPrice");
+
+      const img = document.getElementById("itemImg");
+      const name = document.getElementById("itemName");
+      const price = document.getElementById("itemPrice2");
+      const desc = document.getElementById("itemDesc");
+
+      const varSelect = document.getElementById("varSelect");
+      const buyBtn = document.getElementById("buyBtn");
+      const backBtn = document.getElementById("backBtn");
+
+      if (vendor) backBtn.href = "shop.html?vendor=" + encodeURIComponent(vendor);
+
+      function setStatus(msg){
+        statusEl.textContent = msg;
+        statusEl.hidden = false;
+        wrap.hidden = true;
+      }
+      function show(){
+        statusEl.hidden = true;
+        wrap.hidden = false;
+      }
+
+      async function safeJsonFetch(url, opts){
+        const r = await fetch(url, opts);
+        const text = await r.text();
+        let data = null;
+        try { data = JSON.parse(text); } catch(e) {}
+
+        if (!r.ok){
+          const msg =
+            (data && (data.error || data.message)) ||
+            (text ? text.slice(0, 140).replace(/\s+/g, " ") : "Request failed");
+          throw new Error(msg);
+        }
+        if (!data) throw new Error("API returned a non-JSON response.");
+        return data;
+      }
+
+      async function apiGet(path){
+        return safeJsonFetch(API_BASE + path);
+      }
+      async function apiPost(path, body){
+        return safeJsonFetch(API_BASE + path, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      }
+
+      function currentVariationId(){
+        return varSelect.value || "";
+      }
+
+      buyBtn.addEventListener("click", async () => {
+        const variationId = currentVariationId();
+        if (!variationId) return alert("Please choose an option.");
+
+        try{
+          buyBtn.disabled = true;
+          buyBtn.textContent = "Opening checkout…";
+
+          const { url } = await apiPost("/api/checkout", {
+            lineItems: [{ variationId, quantity: 1 }]
+          });
+
+          window.open(url, "_blank", "noopener");
+        }catch(e){
+          alert("Checkout failed: " + e.message);
+        }finally{
+          buyBtn.disabled = false;
+          buyBtn.textContent = "Checkout this item";
+        }
+      });
+
+      (async function init(){
+        if (!itemId){
+          setStatus("Missing itemId in the URL.");
+          return;
+        }
+
+        try{
+          setStatus("Loading item…");
+          const data = await apiGet("/api/item?itemId=" + encodeURIComponent(itemId));
+          const item = data.item;
+
+          titleTop.textContent = "ITEM";
+          priceTop.textContent = item.priceText || "";
+
+          name.textContent = item.name || "Item";
+          price.textContent = item.priceText || "";
+          desc.textContent = item.description || "";
+
+          if (item.imageUrl){
+            img.src = item.imageUrl;
+            img.alt = item.name || "Item";
+            img.style.display = "block";
+          }else{
+            img.removeAttribute("src");
+            img.alt = "";
+            img.style.display = "none";
+          }
+
+          // fill variations
+          varSelect.innerHTML = "";
+          (item.variations || []).forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v.variationId;
+            opt.textContent = `${v.name}${v.priceText ? " — " + v.priceText : ""}`;
+            varSelect.appendChild(opt);
+          });
+
+          // default selection
+          if (item.defaultVariationId){
+            varSelect.value = item.defaultVariationId;
+          }
+
+          show();
+        }catch(e){
+          setStatus("Item failed to load: " + e.message);
+        }
+      })();
+    })();
+  </script>
+
+</body>
+</html>
