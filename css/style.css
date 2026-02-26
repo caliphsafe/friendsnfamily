@@ -87,8 +87,8 @@
   display: grid;
   row-gap: 0;
 
-  /* ✅ Base row height (designed at 830px wide sheet) */
-  /* scales exactly with sheet width via --sheetScale */
+  /* ✅ Base row height (designed at 830px wide sheet)
+     scales exactly with sheet width via --sheetScale */
   grid-auto-rows: clamp(
     14px,
     calc(22px * var(--sheetScale)),
