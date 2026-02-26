@@ -25,266 +25,39 @@
 
     <br />
 
-    <!-- ✅ Shop dropdown (toggles embed src) -->
-    <section class="box shop-subnav" aria-label="Shop by vendor">
+    <!-- ✅ Vendor dropdown + checkout (MySpace style box) -->
+    <section class="box shop-subnav" aria-label="Shop vendors">
       <div class="shop-subnav-title">Shop by Vendor</div>
 
       <div class="shop-controls">
         <label class="shop-label" for="vendorSelect">Choose a store:</label>
 
-        <div class="shop-select-row">
-  <select id="vendorSelect" class="shop-select classic-select">
-            <option value="https://friends-and-fam-llc.square.site/">All Stores</option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/01-mimimarie/LFWT6GELYCL23VDEY3YTERV7?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              01 Mimimarie🌀
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/an-afternoon-affair/E3UYTY6EOBVFLFAEB263DZD6?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              An Afternoon Affair
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/ariana-thrifts/EDODRZGTTQ5TIGNH6YCOV2MM?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Ariana Thrifts
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/benny-enzo/GXOQ77QYUCDQ5XOXRQIVQFRH?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              BENNY ENZ0❗️
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/bohde/4N74PQ4TBKQTHG2YDWZHD4D5?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Bohde
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/capo/6F5WHH5FJ2FAS4QOX7XMLLGA?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              CAPO
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/elanda/YLAE2MTU3SU4MRSLKUCN7NYW?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              ELANDA
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/female-hysteria/YMPJEBO4G5FKCCW2Z62SAJIG?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Female Hysteria
-            </option>
-            <option value="https://friends-and-fam-llc.square.site/shop/follow-the-thread/SDAXRCTTTSBONODN7IYFFRJG?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Follow the thread
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/ghostwriter/2ZOUNZWHTFABY3XNEKGZNLIE?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Ghostwriter
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/high-society/MMJIMSHO4M4XD6UVKPJIXCQ2?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              High Society
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/kickoutsoul/63LS37BKUP4H5B4JUDSPW74U?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Kickoutsoul
-            </option>
-            <option value="https://friends-and-fam-llc.square.site/shop/lady-of-lizard/3FPOFHGP7JNKGURXF5ICX2ZE?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Lady of Lizard
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/lovegrove/5I5QKHWQZ47K4EBDR2DGSD34?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              LoveGrove
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/maia/6WFEGT5JWWLNMLNL43757HO3?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Maia🩷
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/meera/MOOOT4SNHFKXKSA3XFARAOUC?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              Meera☘️
-            </option>
-            <option value="https://friends-and-fam-llc.square.site/shop/rua/SJSM5WA7JLDCRSCZOGKGAW2U?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              RUA
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/strawbkiwi/I22VCEFCQ3W526B7VSBC5TVC?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              strawbkiwi
-            </option>
-
-            <option value="https://friends-and-fam-llc.square.site/shop/turbine/Y7WMQIMANKR3L6MM6CM5GXSQ?page=1&limit=30&sort_by=category_order&sort_order=asc">
-              turbine
-            </option>
-            <!-- ✅ add the remaining vendor URLs here (up to 19 total) -->
+        <div class="shop-subnav-row">
+          <select id="vendorSelect" class="shop-select classic-select" aria-label="Select vendor">
+            <option value="">All Stores</option>
           </select>
+
+          <button id="checkoutBtn" class="btn-primary" type="button">
+            Checkout (<span id="cartCount">0</span>)
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- ✅ Embed in a box -->
-    <!-- ✅ Vendor dropdown (MySpace style box) -->
-<section class="box shop-subnav" aria-label="Shop vendors">
-  <div class="shop-subnav-row">
-    <label class="shop-label" for="vendorSelect">Vendor:</label>
-
-    <select id="vendorSelect" class="shop-select" aria-label="Select vendor">
-      <option value="">All</option>
-    </select>
-
-    <button id="checkoutBtn" class="btn-primary" type="button">
-      Checkout (<span id="cartCount">0</span>)
-    </button>
-  </div>
-</section>
-
-<!-- ✅ Products in a box -->
-<section class="box shop-products" aria-label="Products">
-  <div id="shopStatus" class="shop-status">Loading shop…</div>
-  <div id="productGrid" class="product-grid" hidden></div>
-</section>
-
-<script>
-(function(){
-  // ✅ CHANGE THIS to your deployed Vercel domain if your site is not hosted on Vercel.
-  // If your site IS on the same Vercel project, you can keep it "" (same-origin).
-  const API_BASE = ""; // e.g. "https://your-project.vercel.app"
-
-  const vendorSelect = document.getElementById("vendorSelect");
-  const statusEl = document.getElementById("shopStatus");
-  const grid = document.getElementById("productGrid");
-  const cartCount = document.getElementById("cartCount");
-  const checkoutBtn = document.getElementById("checkoutBtn");
-
-  const cart = new Map(); // variationId -> { variationId, name, quantity }
-
-  function setStatus(msg){
-    statusEl.textContent = msg;
-    statusEl.hidden = false;
-    grid.hidden = true;
-  }
-  function showGrid(){
-    statusEl.hidden = true;
-    grid.hidden = false;
-  }
-  function updateCartCount(){
-    let n = 0;
-    cart.forEach(v => n += v.quantity);
-    cartCount.textContent = String(n);
-  }
-
-  async function apiGet(path){
-    const r = await fetch(API_BASE + path);
-    const j = await r.json();
-    if(!r.ok) throw new Error(j.error || "Request failed");
-    return j;
-  }
-  async function apiPost(path, body){
-    const r = await fetch(API_BASE + path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const j = await r.json();
-    if(!r.ok) throw new Error(j.error || "Request failed");
-    return j;
-  }
-
-  function productCard(p){
-    const img = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">` : `<div class="ph"></div>`;
-    const price = p.priceText || "";
-    const vid = p.defaultVariationId;
-
-    return `
-      <article class="prod" data-vid="${vid || ""}">
-        <div class="prod-img">${img}</div>
-        <div class="prod-meta">
-          <div class="prod-name">${p.name}</div>
-          <div class="prod-price">${price}</div>
-          <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
-            ${vid ? "Add to cart" : "Unavailable"}
-          </button>
-        </div>
-      </article>
-    `;
-  }
-
-  async function loadVendors(){
-    const { vendors } = await apiGet("/api/vendors");
-    // You can filter vendors here if Square has non-vendor categories.
-    vendors.forEach(v => {
-      const opt = document.createElement("option");
-      opt.value = v.id;
-      opt.textContent = v.name;
-      vendorSelect.appendChild(opt);
-    });
-  }
-
-  async function loadItems(categoryId){
-    setStatus("Loading items…");
-    const q = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : "";
-    const { items } = await apiGet("/api/items" + q);
-
-    grid.innerHTML = items.map(productCard).join("");
-    showGrid();
-
-    // button handlers
-    grid.querySelectorAll(".prod-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const card = btn.closest(".prod");
-        const variationId = card?.dataset?.vid;
-        const name = card.querySelector(".prod-name")?.textContent?.trim() || "Item";
-        if(!variationId) return;
-
-        const existing = cart.get(variationId);
-        if (existing) existing.quantity += 1;
-        else cart.set(variationId, { variationId, name, quantity: 1 });
-
-        updateCartCount();
-        btn.textContent = "Added ✓";
-        setTimeout(() => btn.textContent = "Add to cart", 700);
-      });
-    });
-  }
-
-  vendorSelect.addEventListener("change", () => {
-    loadItems(vendorSelect.value);
-  });
-
-  checkoutBtn.addEventListener("click", async () => {
-    if (cart.size === 0) return alert("Your cart is empty.");
-
-    try {
-      checkoutBtn.disabled = true;
-      checkoutBtn.textContent = "Opening checkout…";
-
-      const lineItems = Array.from(cart.values()).map(x => ({
-        variationId: x.variationId,
-        quantity: x.quantity
-      }));
-
-      const { url } = await apiPost("/api/checkout", { lineItems });
-      window.open(url, "_blank", "noopener");
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      checkoutBtn.disabled = false;
-      checkoutBtn.innerHTML = `Checkout (<span id="cartCount">${cartCount.textContent}</span>)`;
-    }
-  });
-
-  (async function init(){
-    try{
-      setStatus("Loading vendors…");
-      await loadVendors();
-
-      // load initial selection (All)
-      await loadItems("");
-
-    } catch(e){
-      setStatus("Shop failed to load: " + e.message);
-    }
-  })();
-})();
-</script>
     <br />
 
-    <!-- ✅ Fallback button (if embed is blocked) -->
+    <!-- ✅ Products in a box -->
+    <section class="box shop-products" aria-label="Products">
+      <div id="shopStatus" class="shop-status">Loading shop…</div>
+      <div id="productGrid" class="product-grid" hidden></div>
+    </section>
+
+    <br />
+
+    <!-- ✅ Fallback button -->
     <section class="box shop-fallback" aria-label="Shop link fallback">
       <p style="margin:0 0 10px;">
-        If the shop doesn’t load here, Square is blocking embeds.
+        If the shop doesn’t load here, open the Square shop directly.
       </p>
       <a class="btn-primary" href="https://friends-and-fam-llc.square.site/" target="_blank" rel="noopener">
         OPEN SHOP IN NEW TAB
@@ -296,8 +69,8 @@
   <!-- ✅ Global footer injected here -->
   <div id="footer"></div>
 
+  <!-- ✅ Load shared header/footer partials (only once) -->
   <script>
-    // ✅ Load shared header/footer partials (only once)
     fetch("partials/header.html")
       .then(res => res.text())
       .then(html => { document.getElementById("header").innerHTML = html; });
@@ -305,33 +78,158 @@
     fetch("partials/footer.html")
       .then(res => res.text())
       .then(html => { document.getElementById("footer").innerHTML = html; });
+  </script>
 
-    // ✅ Shop embed dropdown controller
-    (function(){
-      const frame = document.getElementById("shopFrame");
-      const sel = document.getElementById("vendorSelect");
-      const go = document.getElementById("vendorGo");
+  <!-- ✅ Shop logic (vendors -> items -> checkout) -->
+  <script>
+  (function(){
+    // If your API is on the same Vercel project, leave "".
+    // If not, set it to your deployed Vercel domain.
+    const API_BASE = ""; // e.g. "https://your-project.vercel.app"
 
-      function setSrc(url){
-        if (!url || !frame) return;
-        frame.src = url;
-        // remember selection on refresh
-        location.hash = "shop=" + encodeURIComponent(url);
+    const vendorSelect = document.getElementById("vendorSelect");
+    const statusEl = document.getElementById("shopStatus");
+    const grid = document.getElementById("productGrid");
+    const cartCount = document.getElementById("cartCount");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
+    const cart = new Map(); // variationId -> { variationId, name, quantity }
+
+    function setStatus(msg){
+      statusEl.textContent = msg;
+      statusEl.hidden = false;
+      grid.hidden = true;
+    }
+    function showGrid(){
+      statusEl.hidden = true;
+      grid.hidden = false;
+    }
+    function updateCartCount(){
+      let n = 0;
+      cart.forEach(v => n += v.quantity);
+      cartCount.textContent = String(n);
+    }
+
+    async function apiGet(path){
+      const r = await fetch(API_BASE + path, { credentials: "same-origin" });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || "Request failed");
+      return j;
+    }
+    async function apiPost(path, body){
+      const r = await fetch(API_BASE + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body),
+      });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.error || "Request failed");
+      return j;
+    }
+
+    function productCard(p){
+      const img = p.imageUrl
+        ? `<img src="${p.imageUrl}" alt="${p.name}" loading="lazy">`
+        : `<div class="ph" aria-hidden="true"></div>`;
+
+      const price = p.priceText || "";
+      const vid = p.defaultVariationId;
+
+      return `
+        <article class="prod" data-vid="${vid || ""}">
+          <div class="prod-img">${img}</div>
+          <div class="prod-meta">
+            <div class="prod-name">${p.name}</div>
+            <div class="prod-price">${price}</div>
+            <button class="prod-btn" type="button" ${vid ? "" : "disabled"}>
+              ${vid ? "Add to cart" : "Unavailable"}
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    async function loadVendors(){
+      const data = await apiGet("/api/vendors");
+
+      const vendors = data.vendors || [];
+      vendors.forEach(v => {
+        const opt = document.createElement("option");
+        opt.value = v.id;          // ✅ categoryId
+        opt.textContent = v.name;  // ✅ label
+        vendorSelect.appendChild(opt);
+      });
+    }
+
+    async function loadItems(categoryId){
+      setStatus("Loading items…");
+
+      const q = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : "";
+      const data = await apiGet("/api/items" + q);
+
+      const items = data.items || [];
+
+      grid.innerHTML = items.map(productCard).join("");
+      showGrid();
+
+      // click handlers
+      grid.querySelectorAll(".prod-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const card = btn.closest(".prod");
+          const variationId = card?.dataset?.vid;
+          const name = card.querySelector(".prod-name")?.textContent?.trim() || "Item";
+          if(!variationId) return;
+
+          const existing = cart.get(variationId);
+          if (existing) existing.quantity += 1;
+          else cart.set(variationId, { variationId, name, quantity: 1 });
+
+          updateCartCount();
+
+          const prev = btn.textContent;
+          btn.textContent = "Added ✓";
+          setTimeout(() => btn.textContent = prev, 700);
+        });
+      });
+    }
+
+    vendorSelect.addEventListener("change", () => {
+      loadItems(vendorSelect.value);
+    });
+
+    checkoutBtn.addEventListener("click", async () => {
+      if (cart.size === 0) return alert("Your cart is empty.");
+
+      try {
+        checkoutBtn.disabled = true;
+        checkoutBtn.textContent = "Opening checkout…";
+
+        const lineItems = Array.from(cart.values()).map(x => ({
+          variationId: x.variationId,
+          quantity: x.quantity
+        }));
+
+        const { url } = await apiPost("/api/checkout", { lineItems });
+        window.open(url, "_blank", "noopener");
+      } catch (e) {
+        alert(e.message);
+      } finally {
+        checkoutBtn.disabled = false;
+        checkoutBtn.innerHTML = `Checkout (<span id="cartCount">${cartCount.textContent}</span>)`;
       }
+    });
 
-      if (sel){
-        sel.addEventListener("change", () => setSrc(sel.value));
-      }
-
-      // restore from hash
-      const m = location.hash.match(/shop=([^&]+)/);
-      if (m && m[1] && sel){
-        const url = decodeURIComponent(m[1]);
-        const opt = Array.from(sel.options).find(o => o.value === url);
-        if (opt) sel.value = url;
-        setSrc(url);
+    (async function init(){
+      try{
+        setStatus("Loading vendors…");
+        await loadVendors();
+        await loadItems(""); // All stores
+      } catch(e){
+        setStatus("Shop failed to load: " + e.message);
       }
     })();
+  })();
   </script>
 
 </body>
