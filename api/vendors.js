@@ -1,113 +1,87 @@
 // /api/vendors.js
+import fetch from "node-fetch";
+
+function norm(s = "") {
+  return String(s)
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " "); // collapse multiple spaces
+}
+
+function parseAllowlist(raw = "") {
+  return raw
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
 export default async function handler(req, res) {
   try {
     const accessToken = process.env.SQUARE_ACCESS_TOKEN;
-    const env = (process.env.SQUARE_ENV || "production").toLowerCase();
+    const env = process.env.SQUARE_ENV || "production";
+    const allowlistRaw = process.env.VENDOR_CATEGORY_ALLOWLIST || "";
 
     if (!accessToken) {
       return res.status(500).json({ error: "Missing SQUARE_ACCESS_TOKEN" });
     }
 
-    const base =
-      env === "sandbox"
-        ? "https://connect.squareupsandbox.com"
-        : "https://connect.squareup.com";
+    const allowlist = parseAllowlist(allowlistRaw);
+    const allowset = new Set(allowlist.map(norm));
 
-    // Optional filters (use ONE or combine):
-    // 1) Parent category id approach (recommended)
-    const vendorParentId = (process.env.VENDOR_PARENT_CATEGORY_ID || "").trim();
+    // ✅ IMPORTANT: Square Catalog API endpoint is the same; env is tied to token (sandbox vs prod)
+    const url = "https://connect.squareup.com/v2/catalog/list?types=CATEGORY";
 
-    // 2) Name prefixes approach (comma-separated), e.g. "01,02,03,Vendor -"
-    const prefixes = (process.env.VENDOR_CATEGORY_PREFIXES || "")
-      .split(",")
-      .map(s => s.trim())
-      .filter(Boolean);
+    const r = await fetch(url, {
+      headers: {
+        "Square-Version": "2025-01-23",
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-    // 3) Allowlist approach (comma-separated exact category names)
-    const allowlist = (process.env.VENDOR_CATEGORY_ALLOWLIST || "")
-      .split(",")
-      .map(s => s.trim().toLowerCase())
-      .filter(Boolean);
-
-    // Common non-vendor categories to exclude by name (adjust if needed)
-    const EXCLUDE = new Set(
-      (process.env.VENDOR_CATEGORY_EXCLUDE || "all,featured,sale,new,clearance,gift card,gift cards")
-        .split(",")
-        .map(s => s.trim().toLowerCase())
-        .filter(Boolean)
-    );
-
-    // Fetch ALL CATEGORY objects (handle pagination)
-    let cursor = undefined;
-    const categories = [];
-
-    while (true) {
-      const url = new URL(`${base}/v2/catalog/list`);
-      url.searchParams.set("types", "CATEGORY");
-      if (cursor) url.searchParams.set("cursor", cursor);
-
-      const r = await fetch(url.toString(), {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-          "Square-Version": "2025-02-20",
-        },
-      });
-
-      const data = await r.json();
-      if (!r.ok) {
-        return res.status(r.status).json({ error: data?.errors || data });
-      }
-
-      const objs = Array.isArray(data.objects) ? data.objects : [];
-      for (const o of objs) {
-        const name = o?.category_data?.name?.trim();
-        if (!name) continue;
-
-        categories.push({
-          id: o.id,
-          name,
-          parentId: o?.category_data?.parent_category?.id || null,
-        });
-      }
-
-      cursor = data.cursor;
-      if (!cursor) break;
+    const data = await r.json();
+    if (!r.ok) {
+      return res.status(r.status).json({ error: "Square error", details: data });
     }
 
-    // Apply "vendor only" filter
-    const vendorCategories = categories.filter(c => {
-      const n = c.name.toLowerCase();
+    const categories = (data.objects || [])
+      .map((o) => ({
+        id: o.id,
+        name: o.category_data?.name || "",
+        _n: norm(o.category_data?.name || ""),
+      }))
+      .filter((c) => c.name);
 
-      // Always exclude known non-vendor names
-      if (EXCLUDE.has(n)) return false;
+    // ✅ Only those that match allowlist
+    const vendors = categories
+      .filter((c) => allowset.has(c._n))
+      .map(({ id, name }) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name));
 
-      // If parent id is configured: ONLY those under that parent
-      if (vendorParentId) {
-        return c.parentId === vendorParentId;
-      }
+    // ✅ Debug: which allowlist entries didn’t match any category
+    const categoryNameSet = new Set(categories.map((c) => c._n));
+    const missingFromSquare = allowlist
+      .filter((name) => !categoryNameSet.has(norm(name)))
+      .sort((a, b) => a.localeCompare(b));
 
-      // If allowlist configured: ONLY exact matches
-      if (allowlist.length) {
-        return allowlist.includes(n);
-      }
-
-      // If prefixes configured: match any prefix
-      if (prefixes.length) {
-        return prefixes.some(p => n.startsWith(p.toLowerCase()));
-      }
-
-      // Fallback (if you set none): return everything except excluded names
-      return true;
-    });
-
-    vendorCategories.sort((a, b) => a.name.localeCompare(b.name));
+    // ✅ Debug: which categories exist but are not in allowlist (helps confirm you’re filtering correctly)
+    const notInAllowlist = categories
+      .filter((c) => !allowset.has(c._n))
+      .map((c) => c.name)
+      .sort((a, b) => a.localeCompare(b));
 
     return res.status(200).json({
-      count: vendorCategories.length,
-      vendors: vendorCategories,
+      env,
+      allowlistCount: allowlist.length,
+      categoryCount: categories.length,
+      vendorCount: vendors.length,
+      vendors,
+      debug: {
+        missingFromSquare, // <-- this will show the 2 names that don't match
+        sampleNotInAllowlist: notInAllowlist.slice(0, 25),
+      },
     });
-  } catch (err) {
-    return res.status(500).json({ error: String(err) });
+  } catch (e) {
+    return res.status(500).json({ error: "Server error", details: String(e) });
   }
 }
