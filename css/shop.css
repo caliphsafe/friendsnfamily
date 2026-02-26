@@ -1,25 +1,11 @@
-/* SHOP embed box */
-.shop-embed{
-  padding: 0;
-  overflow: hidden;
-}
+/* =========================================================
+   SHOP STYLES (dropdown + product grid + item page)
+   Cleaned to remove duplicate blocks, same visual vibe.
+========================================================= */
 
-/* Full-size embedded site */
-.square-frame{
-  width: 100%;
-  height: min(78vh, 900px);
-  border: 0;
-  display: block;
-}
-
-/* Make it taller on mobile */
-@media (max-width: 600px){
-  .square-frame{
-    height: 82vh;
-  }
-}
-
-/* Simple button styling if you don’t already have one */
+/* =========================
+   Primary button
+========================= */
 .btn-primary{
   display: inline-flex;
   align-items: center;
@@ -37,122 +23,27 @@
 }
 .btn-primary:hover{ filter: brightness(0.95); }
 
-.shop-subnav{
-  padding: 10px 12px;
-}
-
-.shop-tabs{
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.shop-tab{
-  appearance: none;
-  border: 1px solid rgba(0,0,0,0.22);
-  border-right-color: rgba(0,0,0,0.35);
-  border-bottom-color: rgba(0,0,0,0.35);
-  background: rgba(255,255,255,0.92);
-  padding: 8px 10px;
-  font: 700 12px/1 Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-}
-
-.shop-tab.is-active{
-  background: #eef3ff;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
-}
-
+/* =========================
+   Square embed box (if you ever use it again)
+========================= */
 .shop-embed{
   padding: 0;
   overflow: hidden;
 }
-
 .square-frame{
   width: 100%;
   height: min(78vh, 900px);
   border: 0;
   display: block;
 }
-
-@media (max-width: 600px){
-  .square-frame{ height: 82vh; }
-}
-
-.shop-subnav{ padding: 0; }
-
-.shop-subnav-title{
-  padding: 6px 10px;
-  font-weight: 700;
-  background: #f0f0f0;
-  border-bottom: 1px solid rgba(0,0,0,0.14);
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 12px;
-}
-
-.shop-controls{ padding: 10px 12px 12px; }
-
-.shop-label{
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: rgba(0,0,0,0.75);
-}
-
-.shop-select-row{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.shop-select{
-  width: 100%;
-  height: 34px;
-  padding: 4px 8px;
-  font: 700 13px/1 Arial, Helvetica, sans-serif;
-
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.35);
-  border-right-color: rgba(0,0,0,0.55);
-  border-bottom-color: rgba(0,0,0,0.55);
-  border-radius: 0;                /* boxy */
-  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.9);
-}
-
-.shop-go{
-  height: 34px;
-  padding: 0 14px;
-  font: 700 12px/1 Arial, Helvetica, sans-serif;
-  letter-spacing: 0.08em;
-
-  background: #e9e9e9;
-  border: 1px solid rgba(0,0,0,0.35);
-  border-right-color: rgba(0,0,0,0.55);
-  border-bottom-color: rgba(0,0,0,0.55);
-  border-radius: 0;
-  cursor: pointer;
-}
-
-.shop-go:active{
-  transform: translate(1px,1px);
-}
-
-.shop-embed{ padding: 0; overflow: hidden; }
-.square-frame{ width: 100%; height: min(78vh, 900px); border: 0; display: block; }
-
 @media (max-width: 600px){
   .square-frame{ height: 82vh; }
 }
 
 /* =========================
-   Classic MySpace-style dropdown
+   Vendor dropdown (MySpace/classic)
 ========================= */
+.shop-subnav{ padding: 0; }
 
 .shop-subnav-title{
   font-weight: 700;
@@ -161,6 +52,9 @@
   background: #5b86b8;
   color: #fff;
   border-bottom: 1px solid #7f9db9;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .shop-controls{
@@ -168,33 +62,32 @@
   background: #f2f2f2;
 }
 
+.shop-subnav-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
 .shop-label{
   display:block;
-  font-size:12px;
-  margin-bottom:6px;
+  font-weight:700;
+  font-size:13px;
   color:#333;
 }
 
-.shop-select-row{
-  display:flex;
-}
-
+/* “classic” select styling */
 .classic-select{
   width:100%;
   padding:6px 8px;
-
   font-family: Arial, Helvetica, sans-serif;
   font-size:13px;
-
   background:#fff;
-
   border:1px solid #7f9db9;
   border-radius:0;
-
   box-shadow:
     inset 1px 1px 0 #ffffff,
     inset -1px -1px 0 #9aaec2;
-
   appearance:none;
   -webkit-appearance:none;
 
@@ -208,46 +101,30 @@
   background-repeat:no-repeat;
 }
 
-/* mobile spacing */
 @media(max-width:520px){
-  .classic-select{
-    font-size:14px;
-  }
+  .classic-select{ font-size:14px; }
 }
 
-.shop-subnav-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.shop-label{
-  font-weight:700;
-  font-size:13px;
-}
-
+/* Use this when you want the select to not exceed the row */
 .shop-select{
   font: inherit;
-  padding: 6px 8px;
-  border: 1px solid rgba(0,0,0,0.25);
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.14);
-  border-radius: 2px;
-  background: #fff;
   max-width: 100%;
 }
 
+/* Status text */
 .shop-status{
   font-size: 13px;
   color: rgba(0,0,0,0.7);
 }
 
+/* =========================
+   Product grid + cards
+========================= */
 .product-grid{
   display:grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
-
 @media (max-width: 900px){
   .product-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -261,6 +138,15 @@
   border-bottom-color: rgba(0,0,0,0.35);
   background:#fff;
   padding:10px;
+}
+
+.prod-link{
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.prod-link:hover .prod-name{
+  text-decoration: underline;
 }
 
 .prod-img{
@@ -310,11 +196,94 @@
   cursor:not-allowed;
 }
 
-.prod-link{
-  color: inherit;
+/* =========================
+   ITEM PAGE (item.html)
+   MySpace-style boxy + clean layout
+========================= */
+
+/* wrapper used in item.html */
+.item-card{
+  padding: 10px;
+}
+
+/* top layout: image + details */
+.item-grid{
+  display:grid;
+  grid-template-columns: 240px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 680px){
+  .item-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* image box matches MySpace table vibes */
+.item-media{
+  border: 1px solid rgba(0,0,0,0.22);
+  border-right-color: rgba(0,0,0,0.35);
+  border-bottom-color: rgba(0,0,0,0.35);
+  background: #fff;
+  padding: 6px;
+}
+
+.item-media .prod-img{
+  border-color: rgba(0,0,0,0.22);
+}
+
+/* item title/price */
+.item-name{
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+.item-price{
+  font-size: 14px;
+  color: rgba(0,0,0,0.75);
+  margin: 0 0 10px;
+}
+.item-desc{
+  font-size: 13px;
+  color: rgba(0,0,0,0.78);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+/* controls row */
+.item-controls{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+
+.item-controls label{
+  font-weight:700;
+  font-size: 13px;
+}
+
+/* keep buttons from being insanely wide on desktop */
+.item-controls .btn-primary{
+  width: auto;
+  padding: 10px 12px;
+  letter-spacing: 0.06em;
+}
+
+.item-back{
+  width: auto;
+  padding: 10px 12px;
+  background: #e9e9e9;
+  color: #000;
+  border: 1px solid rgba(0,0,0,0.35);
+  border-right-color: rgba(0,0,0,0.55);
+  border-bottom-color: rgba(0,0,0,0.55);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.14);
   text-decoration: none;
-  display: block;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
-.prod-link:hover .prod-name{
-  text-decoration: underline;
-}
+
+.item-back:hover{ filter: brightness(0.98); }
