@@ -56,7 +56,7 @@
   position: relative;
   width: 100%;
 
-  /* ✅ JS will set this per-resize. Start with safe default. */
+  /* ✅ JS sets this per-resize */
   --sheetScale: 1;
 }
 
@@ -69,8 +69,7 @@
 /* ================================
    VENDOR OVERLAY (SCALES WITH SHEET)
    ✅ No transform scaling
-   ✅ No container units (mobile-safe)
-   ✅ Row height scales off actual rendered sheet width
+   ✅ No caps (so it never "freezes")
 ================================== */
 .vendor-links{
   position: absolute;
@@ -87,13 +86,8 @@
   display: grid;
   row-gap: 0;
 
-  /* ✅ Base row height (designed at 830px wide sheet)
-     scales exactly with sheet width via --sheetScale */
-  grid-auto-rows: clamp(
-    14px,
-    calc(22px * var(--sheetScale)),
-    28px
-  );
+  /* ✅ KEY FIX: no clamp max. Always scales with the sheet. */
+  grid-auto-rows: calc(22px * var(--sheetScale));
 
   pointer-events: auto;
 }
@@ -108,7 +102,8 @@
 }
 
 .vendor-row img{
-  height: 90%;
+  /* ✅ KEY FIX: fill the row height so it stays “locked” to the sheet size */
+  height: 100%;
   width: auto;
   max-width: 100%;
   object-fit: contain;
