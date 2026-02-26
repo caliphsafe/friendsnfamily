@@ -125,9 +125,12 @@
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
 
- <script>
+<script>
   (function(){
     const API_BASE = "";
+
+    /* ✅ Shop All category (only show these items by default) */
+    const SHOP_ALL_ID = "XQBO5JP5PC3AL7NIMSJZSSXZ";
 
     const vendorSelect = document.getElementById("vendorSelect");
     const statusEl = document.getElementById("shopStatus");
@@ -283,7 +286,7 @@
 
       modal.hidden = false;
 
-      // keep URL hash for share/back (optional)
+      // keep URL param for share/back (optional)
       const u = new URL(location.href);
       u.searchParams.set("item", itemId);
       history.replaceState({}, "", u.toString());
@@ -323,10 +326,14 @@
     });
 
     vendorSelect.addEventListener("change", () => {
-      const id = vendorSelect.value || "";
+      const id = vendorSelect.value || SHOP_ALL_ID;
+
       const u = new URL(location.href);
-      if (id) u.searchParams.set("vendor", id);
-      else u.searchParams.delete("vendor");
+
+      // ✅ clean URL when on Shop All
+      if (id === SHOP_ALL_ID) u.searchParams.delete("vendor");
+      else u.searchParams.set("vendor", id);
+
       history.replaceState({}, "", u.toString());
       loadItems(id);
     });
@@ -336,9 +343,12 @@
         updateCartCount();
 
         const params = new URLSearchParams(location.search);
-        const vendorFromUrl = params.get("vendor") || "";
+
+        // ✅ DEFAULT to Shop All category if no vendor param
+        const vendorFromUrl = params.get("vendor") || SHOP_ALL_ID;
         const itemFromUrl = params.get("item") || "";
 
+        // ✅ set dropdown + load items
         vendorSelect.value = vendorFromUrl;
         await loadItems(vendorFromUrl);
 
@@ -352,7 +362,7 @@
       }
     })();
   })();
-  </script>
+</script>
 
 </body>
 </html>
