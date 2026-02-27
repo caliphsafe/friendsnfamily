@@ -62,6 +62,9 @@
     const grid = document.getElementById("cartGrid");
     const checkoutBtn = document.getElementById("checkoutBtn");
 
+    // live stock map: variationId -> qty
+    let stockByVid = {};
+
     function getCart(){
       try { return JSON.parse(localStorage.getItem("ff_cart") || "{}"); }
       catch { return {}; }
@@ -85,12 +88,36 @@
       return data;
     }
 
+    async function apiGet(path){
+      return safeJsonFetch(API_BASE + path);
+    }
+
     async function apiPost(path, body){
       return safeJsonFetch(API_BASE + path, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+    }
+
+    function clamp(n, min, max){
+      n = Number(n);
+      if (!Number.isFinite(n)) n = min;
+      return Math.max(min, Math.min(max, n));
+    }
+
+    async function refreshStockForCart(){
+      const cart = getCart();
+      const vids = Object.keys(cart);
+      if (!vids.length){
+        stockByVid = {};
+        return;
+      }
+
+      // ✅ batch stock lookup
+      const qs = encodeURIComponent(vids.join(","));
+      const data = await apiGet(`/api/stock?ids=${qs}`);
+      stockByVid = data.stock || {};
     }
 
     function render(){
@@ -108,8 +135,27 @@
 
       grid.innerHTML = entries.map(([variationId, x]) => {
         const img = x.imageUrl
-          ? `<img src="${x.imageUrl}" alt="${x.name}" loading="lazy">`
+          ? `<img src="${x.imageUrl}" alt="${x.name || "Item"}" loading="lazy">`
           : `<div class="ph"></div>`;
+
+        const maxQty = Number.isFinite(Number(stockByVid[variationId]))
+          ? Number(stockByVid[variationId])
+          : null; // null means "unknown" (don’t clamp yet)
+
+        // qty defaults to 1
+        const qty = clamp(x.qty || 1, 1, maxQty ?? 9999);
+
+        // show stock label
+        const stockLabel = (maxQty === null)
+          ? ``
+          : `<div style="font-size:12px; color:rgba(0,0,0,0.65);">In stock: <b>${maxQty}</b></div>`;
+
+        // determine button states
+        const incDisabled = (maxQty !== null && qty >= maxQty) ? "disabled" : "";
+        const decDisabled = (qty <= 1) ? "disabled" : "";
+
+        // if stock is 0, mark sold out and disable inc/checkout later
+        const soldOut = (maxQty !== null && maxQty <= 0);
 
         return `
           <article class="prod" data-vid="${variationId}">
@@ -118,11 +164,13 @@
             <div class="prod-meta">
               <div class="prod-name">${x.name || "Item"}</div>
               <div class="prod-price">${x.priceText || ""}</div>
+              ${stockLabel}
+              ${soldOut ? `<div style="font-size:12px; font-weight:800; color:#b10000;">Sold out</div>` : ``}
 
               <div class="item-controls">
-                <button class="prod-btn" type="button" data-dec>-</button>
-                <div style="font-weight:800;">Qty: <span data-qty>${x.qty || 1}</span></div>
-                <button class="prod-btn" type="button" data-inc>+</button>
+                <button class="prod-btn" type="button" data-dec ${decDisabled}>-</button>
+                <div style="font-weight:800;">Qty: <span data-qty>${qty}</span></div>
+                <button class="prod-btn" type="button" data-inc ${incDisabled}>+</button>
                 <button class="prod-btn" type="button" data-remove style="background:#ffe1e1;">Remove</button>
               </div>
             </div>
@@ -133,19 +181,32 @@
       // handlers
       grid.querySelectorAll(".prod").forEach(card => {
         const vid = card.getAttribute("data-vid");
+
         card.querySelector("[data-inc]").addEventListener("click", () => {
           const cart = getCart();
-          cart[vid].qty += 1;
+          if (!cart[vid]) return;
+
+          const maxQty = Number.isFinite(Number(stockByVid[vid])) ? Number(stockByVid[vid]) : null;
+          const nextQty = (cart[vid].qty || 1) + 1;
+
+          // ✅ clamp to stock if known
+          cart[vid].qty = clamp(nextQty, 1, maxQty ?? 9999);
+
           setCart(cart);
           render();
         });
+
         card.querySelector("[data-dec]").addEventListener("click", () => {
           const cart = getCart();
-          cart[vid].qty -= 1;
+          if (!cart[vid]) return;
+
+          cart[vid].qty = (cart[vid].qty || 1) - 1;
           if (cart[vid].qty <= 0) delete cart[vid];
+
           setCart(cart);
           render();
         });
+
         card.querySelector("[data-remove]").addEventListener("click", () => {
           const cart = getCart();
           delete cart[vid];
@@ -157,10 +218,20 @@
 
     checkoutBtn.addEventListener("click", async () => {
       const cart = getCart();
-      const lineItems = Object.entries(cart).map(([variationId, x]) => ({
-        variationId,
-        quantity: x.qty
-      }));
+
+      // ✅ prevent checkout if any item is sold out (stock 0)
+      const soldOut = Object.keys(cart).some(vid => {
+        const maxQty = Number.isFinite(Number(stockByVid[vid])) ? Number(stockByVid[vid]) : null;
+        return maxQty !== null && maxQty <= 0;
+      });
+      if (soldOut) return alert("One or more items are sold out. Please remove them from your cart.");
+
+      // ✅ clamp quantities one last time before checkout
+      const lineItems = Object.entries(cart).map(([variationId, x]) => {
+        const maxQty = Number.isFinite(Number(stockByVid[variationId])) ? Number(stockByVid[variationId]) : null;
+        const qty = clamp(x.qty || 1, 1, maxQty ?? 9999);
+        return { variationId, quantity: qty };
+      }).filter(li => li.quantity > 0);
 
       if (!lineItems.length) return alert("Your cart is empty.");
 
@@ -179,7 +250,38 @@
       }
     });
 
-    render();
+    // init
+    (async function init(){
+      try{
+        await refreshStockForCart();
+
+        // ✅ auto-fix any cart qty that exceeds stock
+        const cart = getCart();
+        let changed = false;
+        Object.keys(cart).forEach(vid => {
+          const maxQty = Number.isFinite(Number(stockByVid[vid])) ? Number(stockByVid[vid]) : null;
+          if (maxQty === null) return;
+
+          const current = cart[vid]?.qty || 1;
+          const next = clamp(current, 1, Math.max(0, maxQty));
+
+          // if stock is 0, keep it (so user can see “sold out”) OR remove it if you prefer:
+          // if (maxQty <= 0) { delete cart[vid]; changed = true; return; }
+
+          if (next !== current){
+            cart[vid].qty = next;
+            changed = true;
+          }
+        });
+        if (changed) setCart(cart);
+
+        render();
+      } catch(e){
+        // If stock API fails, still render cart (just without clamping)
+        stockByVid = {};
+        render();
+      }
+    })();
   })();
   </script>
 </body>
