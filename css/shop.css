@@ -254,7 +254,7 @@
 .item-back:hover{ filter: brightness(0.98); }
 
 /* =========================
-   Modal overlay (MySpace style)
+   Modal overlay (MySpace style) — UPDATED (taller on desktop)
 ========================= */
 .item-modal{
   position: fixed;
@@ -269,54 +269,67 @@
   background: rgba(0,0,0,0.45);
 }
 
-/* Taller modal on desktop */
+/* ✅ Bigger + taller modal on desktop */
 .item-modal-card{
   position: relative;
-  width: min(980px, 92vw);
-  margin: 3vh auto;          /* less top/bottom margin */
-  max-height: 94vh;          /* taller */
-  overflow: auto;
+  width: min(1100px, 94vw);
+  height: 92vh;            /* ✅ fills more of screen */
+  margin: 2vh auto;        /* ✅ less floating */
+  overflow: hidden;        /* ✅ header stays, body scrolls */
   padding: 0;
+
+  display: flex;           /* ✅ allow body to stretch */
+  flex-direction: column;
 }
-/* Give the image stage more presence on desktop */
-@media (min-width: 901px){
-  #modalImgWrap .img-stage{
-    aspect-ratio: 4 / 5;     /* taller than 1:1 */
-  }
-}
+
+/* header stays fixed at top of the modal */
 .item-modal-head{
   display:flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   background: #f0f0f0;
   border-bottom: 1px solid rgba(0,0,0,0.14);
   font-weight: 800;
 }
 
+/* close button */
 .item-modal-x{
   border: 1px solid rgba(0,0,0,0.35);
   border-right-color: rgba(0,0,0,0.55);
   border-bottom-color: rgba(0,0,0,0.55);
   background:#fff;
   box-shadow: 2px 2px 0 rgba(0,0,0,0.14);
-  width: 28px;
-  height: 28px;
+  width: 34px;            /* slightly bigger */
+  height: 34px;
   cursor:pointer;
   font-weight:900;
   line-height: 1;
 }
 
-/* modal grid layout */
-.item-grid{
+/* ✅ modal body area stretches + scrolls */
+.item-modal-card .item-grid{
+  flex: 1;                          /* ✅ fills remaining height */
+  overflow: auto;                   /* ✅ scroll only inside body */
   display:grid;
-  grid-template-columns: 240px 1fr;
-  gap: 14px;
+  grid-template-columns: 420px 1fr; /* ✅ bigger image column */
+  gap: 22px;
   align-items: start;
+  padding: 18px;
 }
+
 @media (max-width: 680px){
-  .item-grid{ grid-template-columns: 1fr; }
+  .item-modal-card{
+    height: 94vh;
+    margin: 2vh auto;
+    width: 94vw;
+  }
+
+  .item-modal-card .item-grid{
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
 }
 
 /* media box around carousel */
@@ -325,7 +338,14 @@
   border-right-color: rgba(0,0,0,0.35);
   border-bottom-color: rgba(0,0,0,0.35);
   background: #fff;
-  padding: 6px;
+  padding: 10px; /* ✅ a bit more breathing room */
+}
+
+/* ✅ Make the modal image feel taller (not a small square) */
+@media (min-width: 900px){
+  .item-modal-card .prod-img{
+    aspect-ratio: 4 / 5; /* ✅ taller fashion ratio */
+  }
 }
 
 /* =========================
