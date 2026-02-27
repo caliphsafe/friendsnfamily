@@ -1,3 +1,4 @@
+// api/item.js
 import { cors, requireEnv, squareFetch } from "./_square.js";
 
 function moneyToText(m) {
@@ -46,8 +47,6 @@ export default async function handler(req, res) {
         token: env.token,
         method: "POST",
         body: { catalog_object_ids: variationIds },
-        // Optional strict location:
-        // body: { catalog_object_ids: variationIds, location_ids: [process.env.SQUARE_LOCATION_ID] }
       });
 
       (invOut.counts || []).forEach(c => {
@@ -57,20 +56,23 @@ export default async function handler(req, res) {
       });
     }
 
-    const variations = (item.variations || []).map(v => {
-      const vd = v.item_variation_data || {};
-      const qty = invByVarId[v.id] ?? 0;
-      const sellable = vd.sellable !== false;
+    const variations = (item.variations || [])
+      .map(v => {
+        const vd = v.item_variation_data || {};
+        const qty = invByVarId[v.id] ?? 0;
+        const sellable = vd.sellable !== false;
 
-      return {
-        variationId: v.id,
-        name: vd.name || "Default",
-        priceMoney: vd.price_money || null,
-        priceText: moneyToText(vd.price_money),
-        inventoryQty: qty,
-        available: !!sellable && qty > 0,
-      };
-    }).filter(v => v.available);
+        return {
+          variationId: v.id,
+          name: vd.name || "Default",
+          priceMoney: vd.price_money || null,
+          priceText: moneyToText(vd.price_money),
+          inventoryQty: qty,
+          availableQty: qty,
+          available: !!sellable && qty > 0,
+        };
+      })
+      .filter(v => v.available);
 
     // If nothing available, treat as sold out
     if (!variations.length) {
@@ -79,12 +81,16 @@ export default async function handler(req, res) {
 
     const defaultVar = variations.find(v => v.priceMoney) || variations[0];
 
-    // 4) Resolve first image URL (from related objects if present)
-    let imageUrl = "";
+    // 4) Resolve image URLs (ALL images)
     const relImages = related.filter(o => o.type === "IMAGE");
     const imageById = {};
     relImages.forEach(img => { imageById[img.id] = img.image_data?.url || ""; });
-    if (imageIds[0]) imageUrl = imageById[imageIds[0]] || "";
+
+    const imageUrls = (imageIds || [])
+      .map(id => imageById[id] || "")
+      .filter(Boolean);
+
+    const imageUrl = imageUrls[0] || "";
 
     return res.status(200).json({
       item: {
@@ -92,10 +98,12 @@ export default async function handler(req, res) {
         name: item.name,
         description: item.description || "",
         imageUrl,
+        imageUrls,
         variations,
         defaultVariationId: defaultVar.variationId,
         priceText: defaultVar.priceText,
         priceMoney: defaultVar.priceMoney,
+        defaultAvailableQty: defaultVar.availableQty ?? 0
       }
     });
   } catch (e) {
