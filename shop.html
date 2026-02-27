@@ -82,7 +82,13 @@
 
         <div class="item-grid" style="padding:10px;">
           <div class="item-media">
-            <div class="prod-img" id="modalImgWrap"></div>
+            <!-- ✅ CAROUSEL WRAP -->
+            <div id="modalImgWrap" class="modal-media">
+              <button class="img-nav prev" type="button" data-prev aria-label="Previous image">‹</button>
+              <div class="img-stage" id="imgStage"></div>
+              <button class="img-nav next" type="button" data-next aria-label="Next image">›</button>
+              <div class="img-dots" id="imgDots" aria-label="Image dots"></div>
+            </div>
           </div>
 
           <div>
@@ -125,7 +131,7 @@
       .then(html => { document.getElementById("footer").innerHTML = html; });
   </script>
 
-<script>
+  <script>
   (function(){
     const API_BASE = "";
 
@@ -142,11 +148,18 @@
     const modalName = document.getElementById("modalName");
     const modalPrice = document.getElementById("modalPrice");
     const modalDesc = document.getElementById("modalDesc");
-    const modalImgWrap = document.getElementById("modalImgWrap");
     const modalAdd = document.getElementById("modalAdd");
+
+    // carousel refs
+    const imgStage = document.getElementById("imgStage");
+    const imgDots = document.getElementById("imgDots");
+    const prevBtn = modal.querySelector("[data-prev]");
+    const nextBtn = modal.querySelector("[data-next]");
 
     let lastItems = [];          // cache of currently loaded items
     let activeItem = null;       // item currently shown in modal
+    let activeUrls = [];         // current carousel images
+    let activeIdx = 0;
 
     function setStatus(msg){
       statusEl.textContent = msg;
@@ -260,7 +273,9 @@
             itemId: item?.itemId || itemId,
             name: item?.name || "Item",
             priceText: item?.priceText || "",
-            imageUrl: item?.imageUrl || ""
+            imageUrl: item?.imageUrl || "",
+            imageUrls: item?.imageUrls || (item?.imageUrl ? [item.imageUrl] : []),
+            availableQty: item?.defaultAvailableQty ?? 0
           };
 
           addToCart(variationId, snapshot);
@@ -270,6 +285,45 @@
       });
     }
 
+    /* ===== Modal carousel helpers ===== */
+    function renderCarousel(){
+      // stage
+      imgStage.innerHTML = activeUrls.length
+        ? `<img src="${activeUrls[activeIdx]}" alt="${(activeItem?.name || "Item")}" loading="lazy">`
+        : `<div class="ph" aria-hidden="true"></div>`;
+
+      // arrows
+      const showArrows = activeUrls.length > 1;
+      prevBtn.style.display = showArrows ? "" : "none";
+      nextBtn.style.display = showArrows ? "" : "none";
+
+      // dots
+      if (activeUrls.length > 1){
+        imgDots.innerHTML = activeUrls.map((_, i) => {
+          const on = i === activeIdx ? "on" : "";
+          return `<button type="button" class="dot ${on}" data-dot="${i}" aria-label="Image ${i+1}"></button>`;
+        }).join("");
+
+        imgDots.querySelectorAll("[data-dot]").forEach(b => {
+          b.addEventListener("click", () => {
+            activeIdx = Number(b.getAttribute("data-dot")) || 0;
+            renderCarousel();
+          });
+        });
+      } else {
+        imgDots.innerHTML = "";
+      }
+    }
+
+    function goCarousel(n){
+      if (activeUrls.length < 2) return;
+      activeIdx = (n + activeUrls.length) % activeUrls.length;
+      renderCarousel();
+    }
+
+    prevBtn.addEventListener("click", () => goCarousel(activeIdx - 1));
+    nextBtn.addEventListener("click", () => goCarousel(activeIdx + 1));
+
     // ✅ modal controls
     function openItem(itemId){
       const item = lastItems.find(x => x.itemId === itemId);
@@ -277,12 +331,19 @@
 
       activeItem = item;
 
+      // ✅ name/price/desc
       modalName.textContent = item.name || "Item";
       modalPrice.textContent = item.priceText || "";
       modalDesc.textContent = item.description || "";
-      modalImgWrap.innerHTML = item.imageUrl
-        ? `<img src="${item.imageUrl}" alt="${item.name}" loading="lazy">`
-        : `<div class="ph" aria-hidden="true"></div>`;
+
+      // ✅ multi-image support (prefers imageUrls, falls back to imageUrl)
+      const urls = Array.isArray(item.imageUrls) && item.imageUrls.length
+        ? item.imageUrls
+        : (item.imageUrl ? [item.imageUrl] : []);
+
+      activeUrls = urls;
+      activeIdx = 0;
+      renderCarousel();
 
       modal.hidden = false;
 
@@ -295,6 +356,8 @@
     function closeModal(){
       modal.hidden = true;
       activeItem = null;
+      activeUrls = [];
+      activeIdx = 0;
 
       // remove item param
       const u = new URL(location.href);
@@ -308,6 +371,8 @@
     });
     document.addEventListener("keydown", (e) => {
       if (!modal.hidden && e.key === "Escape") closeModal();
+      if (!modal.hidden && e.key === "ArrowLeft") goCarousel(activeIdx - 1);
+      if (!modal.hidden && e.key === "ArrowRight") goCarousel(activeIdx + 1);
     });
 
     modalAdd.addEventListener("click", () => {
@@ -317,7 +382,9 @@
         itemId: activeItem.itemId,
         name: activeItem.name || "Item",
         priceText: activeItem.priceText || "",
-        imageUrl: activeItem.imageUrl || ""
+        imageUrl: activeItem.imageUrl || "",
+        imageUrls: activeItem.imageUrls || (activeItem.imageUrl ? [activeItem.imageUrl] : []),
+        availableQty: activeItem.defaultAvailableQty ?? 0
       };
 
       addToCart(activeItem.defaultVariationId, snapshot);
@@ -362,7 +429,7 @@
       }
     })();
   })();
-</script>
+  </script>
 
 </body>
 </html>
