@@ -269,11 +269,12 @@
   background: rgba(0,0,0,0.45);
 }
 
+/* Taller modal on desktop */
 .item-modal-card{
   position: relative;
-  width: min(920px, 92vw);
-  margin: 6vh auto;
-  max-height: 88vh;
+  width: min(980px, 92vw);
+  margin: 3vh auto;          /* less top/bottom margin */
+  max-height: 94vh;          /* taller */
   overflow: auto;
   padding: 0;
 }
