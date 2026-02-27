@@ -240,7 +240,7 @@
         checkoutBtn.textContent = "Opening checkout…";
 
         const { url } = await apiPost("/api/checkout", { lineItems });
-        window.open(url, "_blank", "noopener");
+        window.location.href = url;
 
       } catch(e){
         alert("Checkout failed: " + e.message);
