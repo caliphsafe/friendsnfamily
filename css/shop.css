@@ -274,11 +274,16 @@
   position: relative;
   width: min(980px, 92vw);
   margin: 3vh auto;          /* less top/bottom margin */
-  max-height: 194vh;          /* taller */
+  max-height: 94vh;          /* taller */
   overflow: auto;
   padding: 0;
 }
-
+/* Give the image stage more presence on desktop */
+@media (min-width: 901px){
+  #modalImgWrap .img-stage{
+    aspect-ratio: 4 / 5;     /* taller than 1:1 */
+  }
+}
 .item-modal-head{
   display:flex;
   justify-content: space-between;
