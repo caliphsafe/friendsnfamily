@@ -93,7 +93,7 @@ export default async function handler(req, res) {
         line_items: squareLineItems,
       },
       checkout_options: {
-        ask_for_shipping_address: false,
+        ask_for_shipping_address: true,
         // redirect_url: "https://friendsandfam.net/shop.html?paid=1"
       },
     };
