@@ -55,11 +55,9 @@ export default async function handler(req, res) {
           name: vd?.name || "Default",
           priceMoney: vd?.price_money || null,
           priceText: moneyToText(vd?.price_money),
-          // NOTE: sellable=false definitely not for sale, but sellable=true can still be sold out.
           sellable: vd?.sellable !== false,
-          // we’ll fill inventoryQty + availableQty after we call Inventory API
           inventoryQty: null,
-          availableQty: null, // ✅ ADDED (populated later)
+          availableQty: null,
         };
       });
 
@@ -101,8 +99,7 @@ export default async function handler(req, res) {
         method: "POST",
         body: {
           catalog_object_ids: varIds,
-          // ✅ no location_ids => sums returned counts across ALL locations in response
-          // (Square returns counts per location; we sum them below)
+          // no location_ids => Square returns counts per location; we sum them below
         },
       });
 
@@ -113,7 +110,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 4) Attach image + compute availability based on inventory
+    // 4) Attach images + compute availability
     const finalItems = mapped
       .map(p => {
         const variationsWithQty = (p.variations || []).map(v => {
@@ -122,33 +119,37 @@ export default async function handler(req, res) {
           return {
             ...v,
             inventoryQty: qty,
-            availableQty: qty,          // ✅ ADDED (same as inventoryQty)
-            // available only if sellable and has inventory
+            availableQty: qty,
             available: !!v.sellable && qty > 0,
           };
         });
 
-        // Keep only available variations
         const availableVars = variationsWithQty.filter(v => v.available);
 
-        // Choose default variation as first available with a price (fallback first available)
         const defaultVar =
           availableVars.find(v => v.priceMoney) ||
           availableVars[0] ||
           null;
 
+        // ✅ NEW: imageUrls (all)
+        const imageUrls = (p.imageIds || [])
+          .map(id => imagesById[id] || "")
+          .filter(Boolean);
+
         return {
           itemId: p.itemId,
           name: p.name,
           description: p.description,
+
           imageIds: p.imageIds,
-          imageUrl: p.imageIds[0] ? (imagesById[p.imageIds[0]] || "") : "",
+          imageUrls,
+          imageUrl: imageUrls[0] || "",
+
           variations: availableVars,
           defaultVariationId: defaultVar?.variationId || null,
           priceText: defaultVar?.priceText || "",
           priceMoney: defaultVar?.priceMoney || null,
 
-          // ✅ Optional convenience for UI
           defaultAvailableQty: defaultVar?.availableQty ?? 0,
         };
       })
