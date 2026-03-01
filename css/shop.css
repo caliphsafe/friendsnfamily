@@ -126,7 +126,13 @@
   .product-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 520px){
-  .product-grid{ grid-template-columns: 1fr; }
+  .product-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .prod{ padding: 8px; }
+  .prod-name{ font-size: 12px; }
+  .prod-price{ font-size: 12px; }
 }
 
 .prod{
