@@ -102,10 +102,27 @@
   letter-spacing: 0.06em;
 }
 
-/* keep select from crushing on small screens */
-.shop-subnav-row .classic-select{
-  min-width: min(520px, 90vw);
-  flex: 1 1 320px;
+/* =========================
+   Mobile: Vendor + Cart inline
+========================= */
+@media (max-width: 680px){
+
+  .shop-subnav-row{
+    flex-wrap: nowrap;        /* keep them on one line */
+    align-items: center;
+  }
+
+  .shop-subnav-row .classic-select{
+    flex: 1 1 auto;           /* allow shrinking */
+    min-width: 0;             /* IMPORTANT: allow flex shrink */
+    width: auto;              /* no full width */
+  }
+
+  .shop-cartbtn{
+    flex: 0 0 auto;           /* don't stretch */
+    width: auto;
+    white-space: nowrap;      /* keep CART (2) on one line */
+  }
 }
 
 /* Status text */
