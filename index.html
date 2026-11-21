@@ -3,148 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Friends + Family</title>
-  <meta name="description" content="Friends + Family online thrift store. Shop by vendor, explore events, and more." />
-
-  <!-- ✅ Global shared styles -->
+  <title>Friends + Family — Coming Soon</title>
+  <meta name="description" content="Friends + Family. Coming soon." />
   <link rel="stylesheet" href="css/global.css" />
-  <!-- ✅ Homepage-only styles -->
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-
-<body>
-
-  <!-- ✅ Global header injected here -->
-  <div id="header"></div>
-
-  <main class="page">
-    <section class="panels" aria-label="Homepage panels">
-      <div class="panel thanks" aria-label="Thank you panel with vendor links">
-        <div class="panel-inner thanks-wrap" id="thanksWrap">
-  <img class="thanks-bg" id="thanksBg" src="img/stores_bg.png" alt="Thank you" />
-
-          <div class="vendor-links" aria-label="Vendor links">
-            <div class="vendor-list">
-              <!-- (your vendor rows unchanged) -->
-              <a class="vendor-row" href="shop.html?vendor=OXNJJ7QYZZR35MTSB6SS4XGS" aria-label="01 Mimimarie">
-  <img src="img/mimi.png" alt="01 Mimimarie">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=EC4XOHBF2T5JXGBPJT5BX2N5" aria-label="An Afternoon Affair">
-  <img src="img/afternoon.png" alt="An Afternoon Affair">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=3BFANMYLNWRLST5APC6FSQIO" aria-label="Ariana Thrifts">
-  <img src="img/ariana.png" alt="Ariana Thrifts">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=2PNU6MFXSNBNKY3R4TGKIJTU" aria-label="Benny Enzo">
-  <img src="img/benny.png" alt="Benny Enzo">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=UF5O54VFUT6NY2RIXS57QASA" aria-label="Bohde">
-  <img src="img/bonde.png" alt="Bohde">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=SYIZNM2GBQSMDRY2N4UQC62F" aria-label="Capo">
-  <img src="img/capo.png" alt="Capo">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=YLAE2MTU3SU4MRSLKUCN7NYW" aria-label="Elanda">
-  <img src="img/elanda.png" alt="Elanda">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=5HLLMOD75OS6KQ4WQR5KOYEJ" aria-label="Female Hysteria">
-  <img src="img/hysteria.png" alt="Female Hysteria">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=Z54RFAKIA3JK5LM35D7C5CMC" aria-label="Follow the Thread">
-  <img src="img/follow.png" alt="Follow the Thread">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=KLGFQ4HME3QEDMMFPX6MQEVI" aria-label="Ghostwriter">
-  <img src="img/ghost.png" alt="Ghostwriter">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=7W4TT3TK53D66X2EAIQTLABI" aria-label="High Society">
-  <img src="img/society.png" alt="High Society">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=ORX3HSHPVCGMMR2IUHGDKEI4" aria-label="Kickoutsoul">
-  <img src="img/kick.png" alt="Kickoutsoul">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=VQUDNWWQPM44TWF43M3KLVCU" aria-label="Lady of Lizard">
-  <img src="img/lizard.png" alt="Lady of Lizard">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=R24L2PXO4YMM4U3RZ7BKYSA2" aria-label="LoveGrove">
-  <img src="img/grove.png" alt="LoveGrove">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=EFJLYMEOBFJH5RXW3OFMMVDI" aria-label="Maia">
-  <img src="img/maia.png" alt="Maia">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=JMXAT2WBXDI3RQIA6BJUFDQ6" aria-label="Meera">
-  <img src="img/meera.png" alt="Meera">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=UOOPGRVMHO46H3G3G3JTN65R" aria-label="RUA">
-  <img src="img/rua.png" alt="RUA">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=QBLTDOGEEW3WFTIM5OBEJAEY" aria-label="StrawbKiwi">
-  <img src="img/strawbkiwi.png" alt="StrawbKiwi">
-</a>
-
-<a class="vendor-row" href="shop.html?vendor=CUGATFVIFNMR36VF5QHAMOLM" aria-label="Turbine">
-  <img src="img/turbine.png" alt="Turbine">
-</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ✅ Global footer injected here -->
-  <div id="footer"></div>
-
-<script>
-  fetch("partials/header.html")
-    .then(res => res.text())
-    .then(html => { document.getElementById("header").innerHTML = html; });
-
-  fetch("partials/footer.html")
-    .then(res => res.text())
-    .then(html => { document.getElementById("footer").innerHTML = html; });
-
-  /* ✅ FIX: make vendor links scale exactly with the rendered sheet width */
-  (function(){
-    const wrap = document.getElementById("thanksWrap");
-    const bg = document.getElementById("thanksBg");
-    if(!wrap || !bg) return;
-
-    function setScale(){
-      const w = bg.getBoundingClientRect().width || wrap.getBoundingClientRect().width;
-      if(!w) return;
-
-      // your design sheet is 830px wide
-      const scale = w / 830;
-
-      // set CSS var on the container so the overlay grid scales with it
-      wrap.style.setProperty("--sheetScale", scale.toFixed(4));
+  <style>
+    .coming-soon {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 32px 24px;
+      text-align: center;
     }
 
-    window.addEventListener("resize", () => requestAnimationFrame(setScale));
-    window.addEventListener("orientationchange", () => requestAnimationFrame(setScale));
-    bg.addEventListener("load", setScale);
+    .coming-soon img {
+      display: block;
+      width: min(420px, 100%);
+      height: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+    }
 
-    setScale();
-    setTimeout(setScale, 60);
-  })();
-</script>
-
+    .coming-soon h1 {
+      margin: 0;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <!-- Temporary homepage. The original is preserved unchanged in home.html. -->
+  <main class="coming-soon">
+    <img src="img/fnf.png" alt="friends + family" />
+    <h1>Coming Soon</h1>
+  </main>
 </body>
 </html>
